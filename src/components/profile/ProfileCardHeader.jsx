@@ -1,11 +1,9 @@
 import {Image, Heading, HStack, VStack} from "@chakra-ui/react";
-
-import {DEFAULT_USER_PHOTO} from "../../constants/defaults.js";
-
 import {useColorModeValue} from "../ui/color-mode.jsx";
 
 const ProfileCardHeader = ({user}) => {
-    const photoLink = user.photo ? user.photo : DEFAULT_USER_PHOTO;
+    const defaultPhoto = useColorModeValue("/images/no-photo-light.svg", "/images/no-photo-dark.svg");
+    const photoLink = user.photo ? user.photo : defaultPhoto;
     return (
         <HStack>
             <Image

@@ -84,6 +84,14 @@ const customConfig = defineConfig({
             },
           },
         },
+        assets: {
+          defaultUserPhoto: {
+            value: {
+              base: "/images/no-photo-light.svg",
+              _dark: "/images/no-photo-dark.svg",
+            },
+          },
+        },
       },
       shadows: {
         soft: {

@@ -2,10 +2,11 @@ import {Heading, HStack, Text, VStack} from "@chakra-ui/react";
 
 import ProfileSectionCard from "./ProfileSectionCard.jsx";
 import ProfilePhoto from "./ProfilePhoto.jsx";
-import {DEFAULT_USER_PHOTO} from "../../constants/defaults.js";
+import {useColorModeValue} from "../ui/color-mode.jsx";
 
 const ProfileCommon = ({user}) => {
-    const photoLink = user.photo ? user.photo : DEFAULT_USER_PHOTO;
+    const defaultPhoto = useColorModeValue("/images/no-photo-light.svg", "/images/no-photo-dark.svg");
+    const photoLink = user.photo ? user.photo : defaultPhoto;
     return (
         <ProfileSectionCard flex="2">
             <VStack align={'left'} gap={6}>

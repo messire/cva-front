@@ -2,10 +2,7 @@ import {Container, Heading, VStack, Input, Button, Box} from "@chakra-ui/react";
 import {useState} from "react";
 
 import {useUserStore} from "../stores/users.store.js";
-
-import {useColorModeValue} from "../components/ui/color-mode.jsx";
 import {toaster} from "../components/ui/toaster.jsx";
-import {DEFAULT_USER_PHOTO} from "../constants/defaults.js";
 
 const CreateUserPage = () => {
     const [newUser, setNewUser] = useState({

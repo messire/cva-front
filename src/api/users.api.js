@@ -1,6 +1,7 @@
 import {apiFetch} from "../utils/apiFetch.js";
 
-const BASE_URL = "/api/users";
+const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "";
+const BASE_URL = `${API_BASE}/api/users`;
 
 export async function fetchUsers() {
     return apiFetch(BASE_URL, {method: "GET"});

@@ -50,7 +50,7 @@ npm run build
 Los ajustes se gestionan a través de variables de entorno en el archivo `.env`.
 
 Parámetros principales:
-- `VITE_PROXY_TARGET`: URL del servicio backend (por defecto `http://localhost:8080`). Se utiliza para el proxy de solicitudes `/api` durante el desarrollo.
+- `VITE_API_BASE_URL`: URL del servicio backend (por defecto `http://localhost:8080`). Se utiliza para el proxy de solicitudes `/api` durante el desarrollo.
 
 ---
 

@@ -2,7 +2,7 @@ import {Box, Container} from '@chakra-ui/react'
 import {Route, Routes, Navigate} from 'react-router-dom'
 
 import ProfilesCatalogPage from "./pages/ProfilesCatalogPage.jsx";
-import CreateUserPage from "./pages/CreateUserPage.jsx";
+// import CreateUserPage from "./pages/CreateUserPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import Navbar from "./components/layout/Navbar.jsx";
 import {Toaster} from "./components/ui/toaster.jsx";
