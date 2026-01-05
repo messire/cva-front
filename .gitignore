@@ -84,6 +84,7 @@ nunit-*.xml
 _ReSharper*/
 *.[Rr]e[Ss]harper
 *.DotSettings.user
+Folder.DotSettings.user
 *.sln.DotSettings
 *.ncrunch*
 *.resharper*

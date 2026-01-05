@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="No photo">
+  <defs>
+    <!-- Neon glow -->
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feColorMatrix in="blur" type="matrix"
+        values="
+          0 0 0 0 0.55
+          0 0 0 0 0.85
+          0 0 0 0 1.00
+          0 0 0 0.9 0" result="glowColor"/>
+      <feMerge>
+        <feMergeNode in="glowColor"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Soft inner glass -->
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.03"/>
+    </linearGradient>
+
+    <!-- Background gradient (subtle) -->
+    <radialGradient id="bg" cx="35%" cy="30%" r="80%">
+      <stop offset="0" stop-color="#0b1220"/>
+      <stop offset="1" stop-color="#070a12"/>
+    </radialGradient>
+
+    <!-- Ground shadow -->
+    <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="10" result="b"/>
+      <feColorMatrix in="b" type="matrix"
+        values="
+          0 0 0 0 0
+          0 0 0 0 0
+          0 0 0 0 0
+          0 0 0 0.55 0"/>
+      <feOffset dy="18"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background (optional, можно убрать если фон задаёшь CSS-ом) -->
+  <rect width="512" height="512" fill="url(#bg)"/>
+
+  <!-- Ground glow/shadow -->
+  <ellipse cx="256" cy="400" rx="150" ry="40" fill="#6fe7ff" opacity="0.15" filter="url(#shadow)"/>
+
+  <!-- Card -->
+  <g filter="url(#glow)">
+    <!-- Outer neon -->
+    <rect x="96" y="88" width="320" height="320" rx="44"
+          fill="none" stroke="#9feaff" stroke-width="10" stroke-opacity="0.9"/>
+
+    <!-- Inner glass panel -->
+    <rect x="106" y="98" width="300" height="300" rx="38"
+          fill="url(#glass)" stroke="#bff2ff" stroke-opacity="0.15" stroke-width="2"/>
+
+    <!-- User icon -->
+    <g fill="none" stroke="#d8f7ff" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" opacity="0.9">
+      <!-- head -->
+      <circle cx="256" cy="208" r="54"/>
+      <!-- shoulders -->
+      <path d="M160 352c18-54 58-86 96-86s78 32 96 86"/>
+    </g>
+  </g>
+</svg>
