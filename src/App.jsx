@@ -5,15 +5,16 @@ import ProfilesCatalogPage from "./pages/ProfilesCatalogPage.jsx";
 // import CreateUserPage from "./pages/CreateUserPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import Navbar from "./components/layout/Navbar.jsx";
-import {Toaster} from "./components/ui/toaster.jsx";
+import {Toaster} from "./ui/toaster.jsx";
 import AppBackground from "./components/layout/AppBackground.jsx";
 import Footbar from "./components/layout/Footbar.jsx";
+import ScrollToTopButton from "./components/ui/ScrollToTopButton.jsx";
 
 function App() {
     return (
         <Box
             minH="100vh"
-            minW="320px"
+            minW="md"
             display="flex"
             flexDirection="column"
             position="relative"
@@ -21,10 +22,10 @@ function App() {
         >
             <AppBackground/>
             <Container
-                maxW={{base: "container.md", lg: "container.lg", xl: "container.xl", "2xl": "container.2xl"}}
+                maxW="full"
                 mx="auto"
-                my={{ base: 4, md: 10 }}
-                px={{ base: 3, md: 6 }}
+                my={{base: 4, md: 10}}
+                px={{base: 2, md: 6}}
                 position="relative"
                 zIndex={1}
             >
@@ -33,23 +34,25 @@ function App() {
                     border="1px solid"
                     borderColor="border.subtle"
                     borderRadius="24px"
-                    overflow="hidden"
+                    overflowX="visible"
+                    overflowY="hidden"
                     boxShadow="0 18px 60px rgba(0,0,0,0.22)"
                     display="flex"
                     flexDirection="column"
                 >
-                    <Navbar />
-                    <Box px={{ base: 4, md: 8 }} py={{ base: 6, md: 8 }} flex="1">
+                    <Navbar/>
+                    <Box px={{base: 3, md: 8}} py={{base: 6, md: 8}} flex="1">
                         <Routes>
-                            <Route path="/" element={<ProfilesCatalogPage />} />
-                            <Route path="/u/:id" element={<ProfilePage />} />
+                            <Route path="/" element={<ProfilesCatalogPage/>}/>
+                            <Route path="/u/:id" element={<ProfilePage/>}/>
                             {/*<Route path="/create" element={<CreateUserPage />} />*/}
-                            <Route path="*" element={<Navigate to="/" replace />} />
+                            <Route path="*" element={<Navigate to="/" replace/>}/>
                         </Routes>
                     </Box>
-                    <Footbar />
+                    <Footbar/>
                 </Box>
             </Container>
+            <ScrollToTopButton/>
             <Toaster/>
         </Box>
     );

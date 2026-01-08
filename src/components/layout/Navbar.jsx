@@ -1,9 +1,11 @@
 import {Box, Button, Flex, HStack, Text, ClientOnly} from "@chakra-ui/react";
 import {Link} from "react-router-dom";
 
-import {useColorMode} from "../ui/color-mode.jsx";
+import {useColorMode} from "../../ui/color-mode.jsx";
 
-import {FaMoon, FaRegFileAlt, FaSun} from "react-icons/fa";
+import SiteIcon from "../../assets/siteIcon.svg?react";
+
+import { Icons } from "../../ui/icons";
 
 const Navbar = () => {
     const {colorMode, toggleColorMode} = useColorMode();
@@ -32,8 +34,9 @@ const Navbar = () => {
                         alignItems="center"
                         justifyContent="center"
                         boxShadow="0 4px 12px rgba(79, 70, 229, 0.3)"
+                        color="white"
                     >
-                        <FaRegFileAlt size={22} color="white"/>
+                        <SiteIcon width={36} height={36} />
                     </Box>
                     <Text
                         fontWeight="700"
@@ -63,8 +66,8 @@ const Navbar = () => {
                     onClick={toggleColorMode}
                     borderRadius="full"
                 >
-                    <ClientOnly fallback={<FaSun/>}>
-                        {colorMode === 'light' ? <FaMoon/> : <FaSun/>}
+                    <ClientOnly fallback={<Icons.Sun/>}>
+                        {colorMode === 'light' ? <Icons.Moon/> : <Icons.Sun/>}
                     </ClientOnly>
                 </Button>
             </HStack>

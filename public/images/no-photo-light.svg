@@ -1,53 +1,48 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="No photo">
   <defs>
-    <!-- Soft shadow -->
-    <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%">
-      <feGaussianBlur stdDeviation="12"/>
-      <feOffset dy="14"/>
-      <feColorMatrix type="matrix"
+    <!-- Neon glow for light theme -->
+    <filter id="glow-light" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feColorMatrix in="blur" type="matrix"
                      values="
-          0 0 0 0 0
-          0 0 0 0 0
-          0 0 0 0 0
-          0 0 0 0.18 0"/>
+          0 0 0 0 0.2
+          0 0 0 0 0.6
+          0 0 0 0 1.0
+          0 0 0 0.9 0" result="glowColor"/>
+      <feMerge>
+        <feMergeNode in="glowColor"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
     </filter>
 
-    <!-- Glass gradient -->
-    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85"/>
-      <stop offset="100%" stop-color="#f1f6fb" stop-opacity="0.85"/>
+    <!-- Glass effect -->
+    <linearGradient id="glass-light" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.10"/>
     </linearGradient>
 
-    <!-- Border gradient -->
-    <linearGradient id="border" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#d7e3f3"/>
-      <stop offset="100%" stop-color="#c3d4ea"/>
-    </linearGradient>
-
-    <!-- Icon color -->
-    <linearGradient id="icon" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#9bb4d4"/>
-      <stop offset="100%" stop-color="#7e9bbf"/>
-    </linearGradient>
+    <!-- Light background (less blue to emphasize neon) -->
+    <radialGradient id="bg-light" cx="50%" cy="50%" r="80%">
+      <stop offset="0" stop-color="#fafcff"/>
+      <stop offset="1" stop-color="#f0f4fa"/>
+    </radialGradient>
   </defs>
 
-  <!-- Card -->
-  <g filter="url(#shadow)">
-    <rect x="96" y="88" width="320" height="320" rx="44"
-          fill="url(#glass)"
-          stroke="url(#border)"
-          stroke-width="2"/>
-  </g>
+  <!-- Background -->
+  <rect width="512" height="512" fill="url(#bg-light)"/>
 
-  <!-- User icon -->
-  <g fill="none"
-     stroke="url(#icon)"
-     stroke-width="16"
-     stroke-linecap="round"
-     stroke-linejoin="round">
-    <!-- head -->
-    <circle cx="256" cy="214" r="52"/>
-    <!-- shoulders -->
-    <path d="M168 352c18-52 56-84 88-84s70 32 88 84"/>
+  <!-- Card -->
+  <g filter="url(#glow-light)">
+    <!-- Inner glass panel -->
+    <circle cx="256" cy="256" r="256"
+            fill="url(#glass-light)" stroke="#a8e1ff" stroke-opacity="0.4" stroke-width="2"/>
+
+    <!-- User icon -->
+    <g fill="none" stroke="#0088cc" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" opacity="0.9">
+      <!-- head -->
+      <circle cx="256" cy="208" r="54"/>
+      <!-- shoulders -->
+      <path d="M160 352c18-54 58-86 96-86s78 32 96 86"/>
+    </g>
   </g>
 </svg>
