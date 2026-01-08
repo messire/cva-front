@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" style="--folder-color-primary: #4f6df5; --folder-color-secondary: #3a56d6; --bg-color: #f5f7ff; --text-color-dark: #1a1a1a; --text-color-light: #ffffff;">
+    <style>
+        /* Автоматическое определение темы через media-query */
+        @media (prefers-color-scheme: dark) {
+        svg {
+        --bg-color: #1a1d2e;
+        --folder-color-primary: #6366f1;
+        --folder-color-secondary: #4f46e5;
+        --text-color-dark: #f8fafc;
+        }
+        }
+
+        /* Классы для ручного переключения через JS/CSS */
+        .theme-light {
+        --bg-color: #f5f7ff;
+        --folder-color-primary: #4f6df5;
+        --folder-color-secondary: #3a56d6;
+        --text-color-dark: #1a1a1a;
+        }
+
+        .theme-dark {
+        --bg-color: #1a1d2e;
+        --folder-color-primary: #6366f1;
+        --folder-color-secondary: #4f46e5;
+        --text-color-dark: #f8fafc;
+        }
+    </style>
+
+    <!-- Градиент для папки -->
+    <defs>
+        <linearGradient id="adaptiveGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="var(--folder-color-primary)"/>
+            <stop offset="100%" stop-color="var(--folder-color-secondary)"/>
+        </linearGradient>
+    </defs>
+
+    <!-- Основная часть папки -->
+    <rect x="40" y="60" width="120" height="90" fill="url(#adaptiveGrad)" rx="10"/>
+
+    <!-- Язычок папки -->
+    <rect x="40" y="45" width="80" height="20" fill="url(#adaptiveGrad)" rx="5"/>
+
+    <!-- Текст -->
+    <text x="100" y="115" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="var(--text-color-light)" text-anchor="middle" dominant-baseline="middle">PROJECT</text>
+</svg>

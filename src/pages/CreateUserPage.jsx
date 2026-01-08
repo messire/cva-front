@@ -2,7 +2,8 @@ import {Container, Heading, VStack, Input, Button, Box} from "@chakra-ui/react";
 import {useState} from "react";
 
 import {useUserStore} from "../stores/users.store.js";
-import {toaster} from "../components/ui/toaster.jsx";
+
+import {toaster} from "../ui/toaster.jsx";
 
 const CreateUserPage = () => {
     const [newUser, setNewUser] = useState({

@@ -1,47 +1,46 @@
 import {Box, GridItem, HStack, SimpleGrid, Spinner, Text, VStack} from "@chakra-ui/react";
 import {useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 
-import {useUserStore} from "../stores/users.store.js";
+import {useCatalogStore} from "../stores/catalog.store.js";
 
-import ProfileCommon from "../components/profile/ProfileCommon.jsx";
+import ProfileInfo from "../components/profile/ProfileInfo.jsx";
 import ProfileContacts from "../components/profile/ProfileContacts.jsx";
-import ProfileSkills from "../components/profile/ProfileSkills.jsx";
 import ProfileWork from "../components/profile/ProfileWork.jsx";
-import ProfilePortfolio from "../components/profile/ProfileProtfolio.jsx";
+import ProfilePortfolio from "../components/profile/ProfileProjects.jsx";
 
 const ProfilePage = () => {
     const {id} = useParams();
 
-    const fetchUser = useUserStore((state) => state.fetchUser);
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const profiles = useCatalogStore((s) => s.profiles);
+    const fetchProfiles = useCatalogStore((s) => s.fetchProfiles);
+
+    const profile = useCatalogStore((s) => (id ? s.profileDetails?.[id] : null));
+    const fetchProfileDetails = useCatalogStore((s) => s.fetchProfileDetails);
 
     useEffect(() => {
-        const loadUser = async () => {
-            setLoading(true);
-            const result = await fetchUser(id);
-            if (result.success) {
-                setUser(result.data);
-            }
-            setLoading(false);
-        };
-        loadUser();
-    }, [id, fetchUser]);
+        if (!id) {
+            return;
+        }
 
-    if (loading) {
-        return (
-            <VStack py={10}>
-                <Spinner size="xl"/>
-                <Text>Loading profile...</Text>
-            </VStack>
-        );
+        if (profiles.length === 0) {
+            void fetchProfiles();
+        }
+
+        if (!profile) {
+            void fetchProfileDetails(id);
+        }
+    }, [id, profiles.length, profile, fetchProfiles, fetchProfileDetails]);
+
+    if (!id) {
+        return null;
     }
 
-    if (!user) {
+    if (!profile) {
         return (
             <VStack py={10}>
-                <Text fontSize="xl" color="red.500">User not found</Text>
+                <Spinner size="lg"/>
+                <Text>Loading profile…</Text>
             </VStack>
         );
     }
@@ -51,51 +50,35 @@ const ProfilePage = () => {
             maxW="container.lg"
             w="full"
             mx="auto"
-            gap={6}
+            gap={2}
             align="stretch"
             p={{base: 4, md: 8, xl: 10}}
         >
-            <HStack
-                w="full"
-                gap={6}
-                overflowX="auto"
-                pb={2}
-                py={2}
-            >
-                <Box as="a" href="#profile" fontWeight="600" color="text.secondary" _hover={{color: "text.brand"}}>
-                    Profile
-                </Box>
-                <Box as="a" href="#skills" fontWeight="600" color="text.secondary" _hover={{color: "text.brand"}}>
-                    Skills
-                </Box>
-                <Box as="a" href="#work" fontWeight="600" color="text.secondary" _hover={{color: "text.brand"}}>
-                    Work experience
-                </Box>
-                <Box as="a" href="#portfolio" fontWeight="600" color="text.secondary" _hover={{color: "text.brand"}}>
-                    Portfolio
-                </Box>
+            <HStack w="full" gap={6} overflowX="auto" py={2}>
+                <Box as="a" href="#profile">Profile</Box>
+                <Box as="a" href="#skills">Skills</Box>
+                <Box as="a" href="#work">Work experience</Box>
+                <Box as="a" href="#portfolio">Portfolio</Box>
             </HStack>
 
-            <SimpleGrid columns={{ base: 1, md: 3 }} gap="18px" w="full">
-                <GridItem colSpan={{ base: 1, md: 2 }}>
-                    <ProfileCommon user={user}/>
+            <SimpleGrid columns={{base: 1, md: 3}} gap="18px" w="full">
+                <GridItem colSpan={{base: 1, md: 2}}>
+                    <ProfileInfo profile={profile}/>
                 </GridItem>
-                <GridItem colSpan={{ base: 1, md: 1 }}>
-                    <ProfileContacts user={user}/>
+                <GridItem colSpan={{base: 1, md: 1}}>
+                    <ProfileContacts profile={profile}/>
                 </GridItem>
             </SimpleGrid>
 
-            <Box id="skills" mt={4}>
-                <ProfileSkills user={user}/>
-            </Box>
             <Box id="work" mt={4}>
-                <ProfileWork user={user}/>
+                <ProfileWork profile={profile}/>
             </Box>
+
             <Box id="portfolio" mt={4}>
-                <ProfilePortfolio user={user}/>
+                <ProfilePortfolio projects={profile.projects}/>
             </Box>
         </VStack>
     );
-}
+};
 
 export default ProfilePage;

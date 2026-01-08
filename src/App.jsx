@@ -5,9 +5,10 @@ import ProfilesCatalogPage from "./pages/ProfilesCatalogPage.jsx";
 // import CreateUserPage from "./pages/CreateUserPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import Navbar from "./components/layout/Navbar.jsx";
-import {Toaster} from "./components/ui/toaster.jsx";
+import {Toaster} from "./ui/toaster.jsx";
 import AppBackground from "./components/layout/AppBackground.jsx";
 import Footbar from "./components/layout/Footbar.jsx";
+import ScrollToTopButton from "./components/ui/ScrollToTopButton.jsx";
 
 function App() {
     return (
@@ -50,6 +51,7 @@ function App() {
                     <Footbar />
                 </Box>
             </Container>
+            <ScrollToTopButton />
             <Toaster/>
         </Box>
     );

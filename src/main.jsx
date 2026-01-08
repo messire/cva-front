@@ -5,7 +5,7 @@ import {StrictMode} from 'react'
 
 import {system} from "./theme.js";
 
-import {ColorModeProvider} from "./components/ui/color-mode.jsx";
+import {ColorModeProvider} from "./ui/color-mode.jsx";
 import App from './App.jsx'
 
 createRoot(document.getElementById('root')).render(
