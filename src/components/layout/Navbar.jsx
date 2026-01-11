@@ -7,8 +7,17 @@ import LoginButton from "../auth/LoginButton.jsx";
 import SiteIcon from "../../assets/siteIcon.svg?react";
 import { Icons } from "../../ui/icons";
 
+import {useAuthStore} from "../../stores/auth.store.js";
+
 const Navbar = () => {
     const {colorMode, toggleColorMode} = useColorMode();
+
+    const isAuthenticated = useAuthStore(s => Boolean(s.accessToken || s.refreshToken));
+    const clearAuth = useAuthStore(s => s.clear);
+
+    const handleLogout = () => {
+        clearAuth();
+    };
 
     return (
         <Flex
@@ -49,7 +58,17 @@ const Navbar = () => {
                 </HStack>
             </Link>
             <HStack gap={4}>
-                <LoginButton />
+                {isAuthenticated ? (
+                    <Button
+                        onClick={handleLogout}
+                        size="sm"
+                        variant="outline"
+                    >
+                        Logout
+                    </Button>
+                ) : (
+                    <LoginButton/>
+                )}
                 <Button
                     variant="ghost"
                     size="sm"
