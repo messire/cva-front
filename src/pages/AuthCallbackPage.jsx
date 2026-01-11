@@ -3,15 +3,12 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {Box, Button, Heading, Text, VStack} from "@chakra-ui/react";
 import {exchangeOneTimeCode} from "../api/auth.api.js";
 
-const ACCESS_TOKEN_KEY = "accessToken";
-const REFRESH_TOKEN_KEY = "refreshToken";
-
 export default function AuthCallbackPage() {
     const ranRef = useRef(false);
     const location = useLocation();
     const navigate = useNavigate();
 
-    const [status, setStatus] = useState("loading"); // loading | ok | error
+    const [status, setStatus] = useState("loading");
     const [message, setMessage] = useState("");
 
     const params = useMemo(() => new URLSearchParams(location.search), [location.search]);
@@ -22,14 +19,17 @@ export default function AuthCallbackPage() {
     useEffect(() => {
         if (ranRef.current) return;
         ranRef.current = true;
+
         const run = async () => {
             if (error) {
+                useAuthStore.getState().clear();
                 setStatus("error");
                 setMessage(errorDescription ? `${error}: ${errorDescription}` : error);
                 return;
             }
 
             if (!code) {
+                useAuthStore.getState().clear();
                 setStatus("error");
                 setMessage("Missing one-time code.");
                 return;
@@ -38,14 +38,25 @@ export default function AuthCallbackPage() {
             const res = await exchangeOneTimeCode(code);
 
             if (!res.ok) {
+                useAuthStore.getState().clear();
                 setStatus("error");
                 setMessage(res.message || "Exchange failed.");
                 return;
             }
 
             const token = res.data;
-            localStorage.setItem(ACCESS_TOKEN_KEY, token.accessToken);
-            localStorage.setItem(REFRESH_TOKEN_KEY, token.refreshToken);
+
+            if (!token?.accessToken || !token?.refreshToken) {
+                useAuthStore.getState().clear();
+                setStatus("error");
+                setMessage("Invalid token payload.");
+                return;
+            }
+
+            useAuthStore.getState().setTokens({
+                accessToken: token.accessToken,
+                refreshToken: token.refreshToken,
+            });
 
             setStatus("ok");
             setMessage("Signed in.");
