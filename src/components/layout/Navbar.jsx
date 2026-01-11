@@ -1,22 +1,35 @@
-import {Box, Button, Flex, HStack, Text, ClientOnly} from "@chakra-ui/react";
-import {Link} from "react-router-dom";
+import {Button, Flex, HStack, ClientOnly} from "@chakra-ui/react";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 
 import {useColorMode} from "../../ui/color-mode.jsx";
 import LoginButton from "../auth/LoginButton.jsx";
 
-import SiteIcon from "../../assets/siteIcon.svg?react";
 import {Icons} from "../../ui/icons";
 
 import {useAuthStore} from "../../stores/auth.store.js";
+import SiteMainIcon from "../ui/SiteMainIcon.jsx";
 
 const Navbar = () => {
     const {colorMode, toggleColorMode} = useColorMode();
+
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const isAuthenticated = useAuthStore(s => Boolean(s.accessToken || s.refreshToken));
     const clearAuth = useAuthStore(s => s.clear);
 
     const handleLogout = () => {
         clearAuth();
+    };
+
+    const handleBrandClick = (e) => {
+        e.preventDefault();
+        if (location.pathname === "/") {
+            navigate(0);
+            return;
+        }
+
+        navigate("/");
     };
 
     return (
@@ -29,33 +42,8 @@ const Navbar = () => {
             borderBottom="1px solid"
             borderColor="border.subtle"
         >
-            <Link to="/">
-                <HStack gap={3}>
-                    <Box
-                        w="40px"
-                        h="40px"
-                        bg={{
-                            base: "linear-gradient(135deg, {colors.brand.600}, {colors.brand.400})",
-                            _dark: "linear-gradient(135deg, {colors.brand.700}, {colors.brand.500})"
-                        }}
-                        borderRadius="12px"
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        boxShadow="0 4px 12px rgba(79, 70, 229, 0.3)"
-                        color="white"
-                    >
-                        <SiteIcon width={36} height={36}/>
-                    </Box>
-                    <Text
-                        fontWeight="700"
-                        fontSize="xl"
-                        letterSpacing="-0.03em"
-                        color="text.primary"
-                    >
-                        Developers CV
-                    </Text>
-                </HStack>
+            <Link to="/" onClick={handleBrandClick}>
+                <SiteMainIcon />
             </Link>
             <HStack gap={4}>
                 {isAuthenticated ? (

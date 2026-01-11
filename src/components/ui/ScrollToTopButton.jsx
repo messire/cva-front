@@ -3,7 +3,7 @@ import {IconButton} from "@chakra-ui/react";
 
 import {Icons} from "../../ui/icons";
 
-const SCROLL_OFFSET = 50;
+const SCROLL_OFFSET = 104;
 
 const ScrollToTopButton = () => {
     const [visible, setVisible] = useState(false);

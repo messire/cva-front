@@ -15,10 +15,12 @@ import {useAuthStore} from "../stores/auth.store.js";
 
 const ProfilePage = () => {
     const {id} = useParams();
+    const accessToken = useAuthStore(s => s.accessToken);
+    const currentUserId = tryGetJwtSub(accessToken);
+    const isOwner = Boolean(currentUserId && id && currentUserId === id);
 
     const profiles = useCatalogStore((s) => s.profiles);
     const fetchProfiles = useCatalogStore((s) => s.fetchProfiles);
-
     const profile = useCatalogStore((s) => (id ? s.profileDetails?.[id] : null));
     const fetchProfileDetails = useCatalogStore((s) => s.fetchProfileDetails);
 
@@ -49,10 +51,6 @@ const ProfilePage = () => {
         );
     }
 
-    const accessToken = useAuthStore(s => s.accessToken);
-    const currentUserId = tryGetJwtSub(accessToken);
-    const isOwner = Boolean(currentUserId && id && currentUserId === id);
-
     return (
         <VStack
             maxW="container.lg"
@@ -62,18 +60,24 @@ const ProfilePage = () => {
             align="stretch"
             p={{base: 4, md: 8, xl: 10}}
         >
-            {isOwner && (
-                <Flex justify="flex-end" mb={3}>
-                    <Button as={RouterLink} to="/profile/edit" variant="outline" size="sm">
-                        Edit my profile
-                    </Button>
-                </Flex>
-            )}
-            <HStack w="full" gap={6} overflowX="auto" py={2}>
-                <Box as="a" href="#profile">Profile</Box>
-                <Box as="a" href="#work">Work experience</Box>
-                <Box as="a" href="#portfolio">Portfolio</Box>
-            </HStack>
+            <Flex
+                h="64px"
+                align="center"
+                justify="space-between"
+            >
+                <HStack w="full" gap={6} overflowX="auto" py={2}>
+                    <Box as="a" href="#profile">Profile</Box>
+                    <Box as="a" href="#work" whiteSpace="nowrap" flexShrink={0}>Work experience</Box>
+                    <Box as="a" href="#portfolio">Portfolio</Box>
+                </HStack>
+                <HStack gap={4}>
+                    {isOwner && (
+                        <Button as={RouterLink} to="/profile/edit" variant="outline" size="sm">
+                            Edit my profile
+                        </Button>
+                    )}
+                </HStack>
+            </Flex>
 
             <SimpleGrid columns={{base: 1, md: 3}} gap="18px" w="full">
                 <GridItem colSpan={{base: 1, md: 2}}>
