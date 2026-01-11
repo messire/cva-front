@@ -3,20 +3,42 @@ import {useAuthStore} from "../stores/auth.store.js";
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "";
 const REFRESH_ENDPOINT = `${API_BASE}/api/auth/refresh`;
 
-async function apiFetchInternal(url, options, retryOn401) {
+/**
+ * @param {string} url
+ * @param {RequestInit & { auth?: boolean, retryOn401?: boolean }} [options]
+ */
+export async function apiFetch(url, options = {}) {
+    const auth = options.auth ?? true;
+    const retryOn401 = options.retryOn401 ?? true;
+
+    const {auth: _a, retryOn401: _r, ...fetchOptions} = options;
+
+    return apiFetchInternal(url, fetchOptions, {auth, retryOn401});
+}
+
+async function apiFetchInternal(url, fetchOptions, {auth, retryOn401}) {
     const res = await fetch(url, {
-        ...options,
-        headers: buildHeaders(options),
+        ...fetchOptions,
+        headers: auth ? buildHeaders(fetchOptions) : buildHeaders(fetchOptions, null),
     });
 
-    if (res.status === 401 && retryOn401) {
+    if (res.status === 403) {
+        useAuthStore.getState().clear();
+        return toApiResult(res);
+    }
+
+    if (res.status === 401 && auth && retryOn401) {
         try {
             await refreshTokens();
             const newToken = useAuthStore.getState().accessToken;
             const retryRes = await fetch(url, {
-                ...options,
-                headers: buildHeaders(options, newToken),
+                ...fetchOptions,
+                headers: buildHeaders(fetchOptions, newToken),
             });
+
+            if (retryRes.status === 403) {
+                useAuthStore.getState().clear();
+            }
 
             return toApiResult(retryRes);
         } catch {
@@ -58,10 +80,6 @@ async function refreshTokens() {
 
         return safeReadJson(res);
     });
-}
-
-export async function apiFetch(url, options = {}) {
-    return apiFetchInternal(url, options, true);
 }
 
 
