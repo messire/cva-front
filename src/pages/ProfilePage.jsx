@@ -1,5 +1,6 @@
-import {Box, GridItem, HStack, SimpleGrid, Spinner, Text, VStack} from "@chakra-ui/react";
+import {Box, Button, Flex, GridItem, HStack, SimpleGrid, Spinner, Text, VStack} from "@chakra-ui/react";
 import {useParams} from "react-router-dom";
+import {Link as RouterLink} from "react-router-dom";
 import {useEffect} from "react";
 
 import {useCatalogStore} from "../stores/catalog.store.js";
@@ -8,6 +9,9 @@ import ProfileInfo from "../components/profile/ProfileInfo.jsx";
 import ProfileContacts from "../components/profile/ProfileContacts.jsx";
 import ProfileWork from "../components/profile/ProfileWork.jsx";
 import ProfilePortfolio from "../components/profile/ProfileProjects.jsx";
+
+import {tryGetJwtSub} from "../utils/jwt.js";
+import {useAuthStore} from "../stores/auth.store.js";
 
 const ProfilePage = () => {
     const {id} = useParams();
@@ -45,6 +49,10 @@ const ProfilePage = () => {
         );
     }
 
+    const accessToken = useAuthStore(s => s.accessToken);
+    const currentUserId = tryGetJwtSub(accessToken);
+    const isOwner = Boolean(currentUserId && id && currentUserId === id);
+
     return (
         <VStack
             maxW="container.lg"
@@ -54,6 +62,13 @@ const ProfilePage = () => {
             align="stretch"
             p={{base: 4, md: 8, xl: 10}}
         >
+            {isOwner && (
+                <Flex justify="flex-end" mb={3}>
+                    <Button as={RouterLink} to="/profile/edit" variant="outline" size="sm">
+                        Edit my profile
+                    </Button>
+                </Flex>
+            )}
             <HStack w="full" gap={6} overflowX="auto" py={2}>
                 <Box as="a" href="#profile">Profile</Box>
                 <Box as="a" href="#work">Work experience</Box>

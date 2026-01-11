@@ -60,7 +60,7 @@ const Navbar = () => {
             <HStack gap={4}>
                 {isAuthenticated ? (
                     <>
-                        <Link to="/profile/edit">
+                        <Link to="/profile">
                             <Button size="sm" variant="ghost">My profile</Button>
                         </Link>
                         <Button onClick={handleLogout} size="sm" variant="outline">

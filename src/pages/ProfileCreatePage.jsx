@@ -1,4 +1,4 @@
-﻿import {Box, Button, Container, Heading, Input, Spinner, Stack, Text, VStack} from "@chakra-ui/react";
+﻿import {Box, Button, Container, Heading, HStack, Input, Spinner, Stack, Text, VStack} from "@chakra-ui/react";
 import {useEffect, useState} from "react";
 import {Navigate, useNavigate} from "react-router-dom";
 
@@ -17,7 +17,6 @@ const ProfileCreatePage = () => {
         firstName: "",
         lastName: "",
         email: "",
-        yearsOfExperience: 0,
     });
 
     useEffect(() => {
@@ -109,33 +108,38 @@ const ProfileCreatePage = () => {
                         borderColor="border.subtle"
                         boxShadow="soft"
                     >
-                        <Stack gap={4}>
-                            <Text color="text.secondary">
-                                Minimal fields first. You can beautify it later in edit mode.
-                            </Text>
-
-                            <Input
-                                placeholder="First name"
-                                value={form.firstName}
-                                onChange={(e) => setForm({...form, firstName: e.target.value})}
-                            />
-                            <Input
-                                placeholder="Last name"
-                                value={form.lastName}
-                                onChange={(e) => setForm({...form, lastName: e.target.value})}
-                            />
-                            <Input
-                                placeholder="Email"
-                                type="email"
-                                value={form.email}
-                                onChange={(e) => setForm({...form, email: e.target.value})}
-                            />
-                            <Input
-                                placeholder="Years of experience"
-                                type="number"
-                                value={form.yearsOfExperience}
-                                onChange={(e) => setForm({...form, yearsOfExperience: Number(e.target.value || 0)})}
-                            />
+                        <VStack gap={4}>
+                            <HStack gap={4} justify="center">
+                                <Text mt="2" fontSize="14px" color="text.secondary" w="150px" align="right">
+                                    Your name:
+                                </Text>
+                                <Input
+                                    placeholder="First name"
+                                    value={form.firstName}
+                                    onChange={(e) => setForm({...form, firstName: e.target.value})}
+                                />
+                            </HStack>
+                            <HStack gap={4} justify="center">
+                                <Text mt="2" fontSize="14px" color="text.secondary" w="150px" align="right">
+                                    Your surname:
+                                </Text>
+                                <Input
+                                    placeholder="Last name"
+                                    value={form.lastName}
+                                    onChange={(e) => setForm({...form, lastName: e.target.value})}
+                                />
+                            </HStack>
+                            <HStack gap={4} justify="center">
+                                <Text mt="2" fontSize="14px" color="text.secondary" w="150px" align="right">
+                                    Your email:
+                                </Text>
+                                <Input
+                                    placeholder="Email"
+                                    type="email"
+                                    value={form.email}
+                                    onChange={(e) => setForm({...form, email: e.target.value})}
+                                />
+                            </HStack>
 
                             <Button
                                 bg="text.brand"
@@ -147,7 +151,7 @@ const ProfileCreatePage = () => {
                             >
                                 Create
                             </Button>
-                        </Stack>
+                        </VStack>
                     </Box>
                 )}
             </Stack>
