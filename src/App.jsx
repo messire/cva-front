@@ -2,8 +2,8 @@ import {Box, Container} from '@chakra-ui/react'
 import {Route, Routes, Navigate} from 'react-router-dom'
 
 import ProfilesCatalogPage from "./pages/ProfilesCatalogPage.jsx";
-// import CreateUserPage from "./pages/CreateUserPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
+import AuthCallbackPage from "./pages/AuthCallbackPage.jsx";
 import Navbar from "./components/layout/Navbar.jsx";
 import {Toaster} from "./ui/toaster.jsx";
 import AppBackground from "./components/layout/AppBackground.jsx";
@@ -45,7 +45,7 @@ function App() {
                         <Routes>
                             <Route path="/" element={<ProfilesCatalogPage/>}/>
                             <Route path="/u/:id" element={<ProfilePage/>}/>
-                            {/*<Route path="/create" element={<CreateUserPage />} />*/}
+                            <Route path="/auth/callback" element={<AuthCallbackPage/>}/>
                             <Route path="*" element={<Navigate to="/" replace/>}/>
                         </Routes>
                     </Box>

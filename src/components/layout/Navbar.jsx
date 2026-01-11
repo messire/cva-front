@@ -2,9 +2,9 @@ import {Box, Button, Flex, HStack, Text, ClientOnly} from "@chakra-ui/react";
 import {Link} from "react-router-dom";
 
 import {useColorMode} from "../../ui/color-mode.jsx";
+import LoginButton from "../auth/LoginButton.jsx";
 
 import SiteIcon from "../../assets/siteIcon.svg?react";
-
 import { Icons } from "../../ui/icons";
 
 const Navbar = () => {
@@ -49,17 +49,7 @@ const Navbar = () => {
                 </HStack>
             </Link>
             <HStack gap={4}>
-                {/*<Link to="/create">*/}
-                {/*    <Text*/}
-                {/*        display={{base: "none", sm: "block"}}*/}
-                {/*        color="text.secondary"*/}
-                {/*        fontWeight="600"*/}
-                {/*        _hover={{color: "text.brand"}}*/}
-                {/*        transition="color 0.2s"*/}
-                {/*    >*/}
-                {/*        Create profile*/}
-                {/*    </Text>*/}
-                {/*</Link>*/}
+                <LoginButton />
                 <Button
                     variant="ghost"
                     size="sm"
