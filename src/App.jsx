@@ -4,6 +4,8 @@ import {useEffect, useRef} from "react";
 
 import ProfilesCatalogPage from "./pages/ProfilesCatalogPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
+import ProfileCreatePage from "./pages/ProfileCreatePage.jsx";
+import ProfileEditPage from "./pages/ProfileEditPage.jsx";
 import AuthCallbackPage from "./pages/AuthCallbackPage.jsx";
 import Navbar from "./components/layout/Navbar.jsx";
 import {Toaster} from "./ui/toaster.jsx";
@@ -76,6 +78,8 @@ function App() {
                         <Routes>
                             <Route path="/" element={<ProfilesCatalogPage/>}/>
                             <Route path="/u/:id" element={<ProfilePage/>}/>
+                            <Route path="/profile/create" element={<ProfileCreatePage/>}/>
+                            <Route path="/profile/edit" element={<ProfileEditPage/>}/>
                             <Route path="/auth/callback" element={<AuthCallbackPage/>}/>
                             <Route path="*" element={<Navigate to="/" replace/>}/>
                         </Routes>

@@ -5,7 +5,7 @@ import {useColorMode} from "../../ui/color-mode.jsx";
 import LoginButton from "../auth/LoginButton.jsx";
 
 import SiteIcon from "../../assets/siteIcon.svg?react";
-import { Icons } from "../../ui/icons";
+import {Icons} from "../../ui/icons";
 
 import {useAuthStore} from "../../stores/auth.store.js";
 
@@ -22,7 +22,7 @@ const Navbar = () => {
     return (
         <Flex
             h="64px"
-            px={{ base: 4, md: 8 }}
+            px={{base: 4, md: 8}}
             align="center"
             justify="space-between"
             bg="bg.page"
@@ -45,7 +45,7 @@ const Navbar = () => {
                         boxShadow="0 4px 12px rgba(79, 70, 229, 0.3)"
                         color="white"
                     >
-                        <SiteIcon width={36} height={36} />
+                        <SiteIcon width={36} height={36}/>
                     </Box>
                     <Text
                         fontWeight="700"
@@ -59,13 +59,14 @@ const Navbar = () => {
             </Link>
             <HStack gap={4}>
                 {isAuthenticated ? (
-                    <Button
-                        onClick={handleLogout}
-                        size="sm"
-                        variant="outline"
-                    >
-                        Logout
-                    </Button>
+                    <>
+                        <Link to="/profile/edit">
+                            <Button size="sm" variant="ghost">My profile</Button>
+                        </Link>
+                        <Button onClick={handleLogout} size="sm" variant="outline">
+                            Logout
+                        </Button>
+                    </>
                 ) : (
                     <LoginButton/>
                 )}
