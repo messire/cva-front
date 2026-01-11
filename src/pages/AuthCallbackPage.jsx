@@ -1,7 +1,9 @@
-﻿import {useEffect, useMemo, useRef, useState} from "react";
+﻿import {Box, Button, Heading, Text, VStack} from "@chakra-ui/react";
 import {useLocation, useNavigate} from "react-router-dom";
-import {Box, Button, Heading, Text, VStack} from "@chakra-ui/react";
+import {useEffect, useMemo, useRef, useState} from "react";
+
 import {exchangeOneTimeCode} from "../api/auth.api.js";
+import {useAuthStore} from "../stores/auth.store.js";
 
 export default function AuthCallbackPage() {
     const ranRef = useRef(false);
