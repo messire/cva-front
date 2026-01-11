@@ -16,6 +16,7 @@ export default defineConfig({
             "/api": {
                 target: process.env.VITE_API_BASE_URL || "http://localhost:8080",
                 secure: false,
+                changeOrigin: true,
             }
         }
     },

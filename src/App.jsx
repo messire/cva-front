@@ -1,16 +1,47 @@
 import {Box, Container} from '@chakra-ui/react'
 import {Route, Routes, Navigate} from 'react-router-dom'
+import {useEffect, useRef} from "react";
 
 import ProfilesCatalogPage from "./pages/ProfilesCatalogPage.jsx";
-// import CreateUserPage from "./pages/CreateUserPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
+import AuthCallbackPage from "./pages/AuthCallbackPage.jsx";
 import Navbar from "./components/layout/Navbar.jsx";
 import {Toaster} from "./ui/toaster.jsx";
 import AppBackground from "./components/layout/AppBackground.jsx";
 import Footbar from "./components/layout/Footbar.jsx";
 import ScrollToTopButton from "./components/ui/ScrollToTopButton.jsx";
 
+import {useAuthStore} from "./stores/auth.store.js";
+import {refreshTokens} from "./api/auth.api.js";
+
 function App() {
+    const ranRef = useRef(false);
+
+    useEffect(() => {
+        if (ranRef.current) return;
+        ranRef.current = true;
+
+        const run = async () => {
+            const store = useAuthStore.getState();
+
+            if (store.accessToken) return;
+            if (!store.refreshToken) return;
+
+            try {
+                await store.refresh(async (rt) => {
+                    const res = await refreshTokens(rt);
+                    if (!res.ok) {
+                        throw new Error(res.message || "Refresh failed.");
+                    }
+                    return res.data;
+                });
+            } catch {
+            }
+        };
+
+        void run();
+    }, []);
+
     return (
         <Box
             minH="100vh"
@@ -45,7 +76,7 @@ function App() {
                         <Routes>
                             <Route path="/" element={<ProfilesCatalogPage/>}/>
                             <Route path="/u/:id" element={<ProfilePage/>}/>
-                            {/*<Route path="/create" element={<CreateUserPage />} />*/}
+                            <Route path="/auth/callback" element={<AuthCallbackPage/>}/>
                             <Route path="*" element={<Navigate to="/" replace/>}/>
                         </Routes>
                     </Box>
