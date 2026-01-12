@@ -1,6 +1,6 @@
 import {Box, Container} from '@chakra-ui/react'
 import {Route, Routes, Navigate} from 'react-router-dom'
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 
 import ProfilesCatalogPage from "./pages/ProfilesCatalogPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
@@ -18,8 +18,11 @@ import ScrollToTopButton from "./components/ui/ScrollToTopButton.jsx";
 import {useAuthStore} from "./stores/auth.store.js";
 import {refreshTokens} from "./api/auth.api.js";
 
+const SHOW_FLOATING_NAVBAR_Y = 64;
+
 function App() {
     const ranRef = useRef(false);
+    const [showFloatingNavbar, setShowFloatingNavbar] = useState(false);
 
     useEffect(() => {
         if (ranRef.current) return;
@@ -46,6 +49,17 @@ function App() {
         void run();
     }, []);
 
+    useEffect(() => {
+        const onScroll = () => {
+            setShowFloatingNavbar(window.scrollY > SHOW_FLOATING_NAVBAR_Y);
+        };
+
+        window.addEventListener("scroll", onScroll, {passive: true});
+        onScroll();
+
+        return () => window.removeEventListener("scroll", onScroll);
+    }, []);
+
     return (
         <Box
             minH="100vh"
@@ -64,6 +78,7 @@ function App() {
                 position="relative"
                 zIndex={1}
             >
+                {showFloatingNavbar && <Navbar mode="floating" />}
                 <Box
                     bg="bg.page"
                     border="1px solid"
@@ -75,7 +90,7 @@ function App() {
                     display="flex"
                     flexDirection="column"
                 >
-                    <Navbar/>
+                    <Navbar mode="inline" />
                     <Box px={{base: 3, md: 8}} py={{base: 6, md: 8}} flex="1">
                         <Routes>
                             <Route path="/" element={<ProfilesCatalogPage/>}/>
