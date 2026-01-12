@@ -17,9 +17,8 @@
 import {useState} from "react";
 import {useProfileStore} from "../../stores/profile.store.js";
 import {toaster} from "../../ui/toaster.jsx";
-import {mapProfileToDraft, mapDraftToUpdateRequest} from "../../models/mappers/profileMapper.js";
 
-export function ProjectEditModal({project, profile, isOpen: externalOpen, onOpenChange}) {
+export function ProjectEditModal({project, isOpen: externalOpen, onOpenChange}) {
     const isEditing = !!project;
     const [title, setTitle] = useState(project?.title || "");
     const [description, setDescription] = useState(project?.description || "");
@@ -27,12 +26,11 @@ export function ProjectEditModal({project, profile, isOpen: externalOpen, onOpen
     const [imageUrl, setImageUrl] = useState(project?.imageUrl || "");
     const [techStack, setTechStack] = useState(Array.isArray(project?.techStack) ? project.techStack.join(", ") : "");
 
-    const updateMyProfile = useProfileStore(s => s.updateMyProfile);
+    const addProject = useProfileStore(s => s.addProject);
+    const editProject = useProfileStore(s => s.editProject);
 
     const handleSave = async () => {
-        const draft = mapProfileToDraft(profile);
-        const newProject = {
-            id: project?.id || crypto.randomUUID(),
+        const payload = {
             title: title.trim(),
             description: description.trim(),
             url: url.trim() || null,
@@ -40,14 +38,9 @@ export function ProjectEditModal({project, profile, isOpen: externalOpen, onOpen
             techStack: techStack.split(",").map(s => s.trim()).filter(Boolean)
         };
 
-        if (isEditing) {
-            draft.projects = draft.projects.map(p => p.id === project.id ? newProject : p);
-        } else {
-            draft.projects = [...draft.projects, newProject];
-        }
-
-        const request = mapDraftToUpdateRequest(draft);
-        const res = await updateMyProfile(request);
+        const res = isEditing
+            ? await editProject(project.id, payload)
+            : await addProject(payload);
 
         if (res.ok) {
             toaster.create({title: isEditing ? "Project updated" : "Project added", type: "success"});

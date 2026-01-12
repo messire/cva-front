@@ -6,11 +6,10 @@ import {useState} from "react";
 import {ExperienceEditModal} from "./ExperienceEditModal.jsx";
 import {useProfileStore} from "../../stores/profile.store.js";
 import {toaster} from "../../ui/toaster.jsx";
-import {mapProfileToDraft, mapDraftToUpdateRequest} from "../../models/mappers/profileMapper.js";
 
-const ExperienceCard = ({workExperience, profile, isOwner}) => {
+const ExperienceCard = ({workExperience, isOwner}) => {
     const [isEditOpen, setIsEditOpen] = useState(false);
-    const updateMyProfile = useProfileStore(s => s.updateMyProfile);
+    const removeExperience = useProfileStore(s => s.removeExperience);
 
     const startDate = formatDate(workExperience.startDate) || "Not specified";
     const endDate = formatDate(workExperience?.endDate) || "Present";
@@ -21,11 +20,7 @@ const ExperienceCard = ({workExperience, profile, isOwner}) => {
     const handleDelete = async () => {
         if (!window.confirm("Are you sure you want to delete this experience?")) return;
 
-        const draft = mapProfileToDraft(profile);
-        draft.workExperience = draft.workExperience.filter(w => w.id !== workExperience.id);
-
-        const request = mapDraftToUpdateRequest(draft);
-        const res = await updateMyProfile(request);
+        const res = await removeExperience(workExperience.id);
 
         if (res.ok) {
             toaster.create({title: "Experience deleted", type: "success"});
@@ -88,7 +83,6 @@ const ExperienceCard = ({workExperience, profile, isOwner}) => {
             {isOwner && (
                 <ExperienceEditModal
                     experience={workExperience}
-                    profile={profile}
                     isOpen={isEditOpen}
                     onOpenChange={(e) => setIsEditOpen(e.open)}
                 />

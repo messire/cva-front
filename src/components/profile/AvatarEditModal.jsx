@@ -1,11 +1,11 @@
 ﻿import {
     Button,
-    DialogActionTrigger,
+    DialogActionTrigger, DialogBackdrop,
     DialogBody,
     DialogCloseTrigger,
     DialogContent,
     DialogFooter,
-    DialogHeader,
+    DialogHeader, DialogPositioner,
     DialogRoot,
     DialogTitle,
     DialogTrigger,
@@ -32,8 +32,7 @@ export function AvatarEditModal({currentAvatarUrl, onSave}) {
             role: myProfile.role,
             avatarUrl: url.trim() || null,
             openToWork: myProfile.openToWork,
-            yearsOfExperience: myProfile.yearsOfExperience,
-            verificationStatus: myProfile.verified
+            yearsOfExperience: myProfile.yearsOfExperience
         });
 
         if (res.ok) {
@@ -49,34 +48,37 @@ export function AvatarEditModal({currentAvatarUrl, onSave}) {
             <DialogTrigger asChild>
                 <Button variant="ghost" size="xs" colorPalette="blue">Change Photo</Button>
             </DialogTrigger>
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>Update Avatar</DialogTitle>
-                </DialogHeader>
-                <DialogBody pb="4">
-                    <Stack gap="4">
-                        <VStack align="center" py="4">
-                            <Text fontSize="sm" mb="2">Preview</Text>
-                            <ProfilePhoto avatarUrl={url} size="lg"/>
-                        </VStack>
-                        <Stack gap="2">
-                            <Text fontSize="sm" fontWeight="medium">Avatar URL</Text>
-                            <Input
-                                placeholder="https://example.com/photo.jpg"
-                                value={url}
-                                onChange={(e) => setUrl(e.target.value)}
-                            />
+            <DialogBackdrop bg="blackAlpha.600"/>
+            <DialogPositioner>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Update Avatar</DialogTitle>
+                    </DialogHeader>
+                    <DialogBody pb="4">
+                        <Stack gap="4">
+                            <VStack align="center" py="4">
+                                <Text fontSize="sm" mb="2">Preview</Text>
+                                <ProfilePhoto avatarUrl={url} size="lg"/>
+                            </VStack>
+                            <Stack gap="2">
+                                <Text fontSize="sm" fontWeight="medium">Avatar URL</Text>
+                                <Input
+                                    placeholder="https://example.com/photo.jpg"
+                                    value={url}
+                                    onChange={(e) => setUrl(e.target.value)}
+                                />
+                            </Stack>
                         </Stack>
-                    </Stack>
-                </DialogBody>
-                <DialogFooter>
-                    <DialogActionTrigger asChild>
-                        <Button variant="outline">Cancel</Button>
-                    </DialogActionTrigger>
-                    <Button onClick={handleSave}>Save</Button>
-                </DialogFooter>
-                <DialogCloseTrigger/>
-            </DialogContent>
+                    </DialogBody>
+                    <DialogFooter>
+                        <DialogActionTrigger asChild>
+                            <Button variant="outline">Cancel</Button>
+                        </DialogActionTrigger>
+                        <Button onClick={handleSave}>Save</Button>
+                    </DialogFooter>
+                    <DialogCloseTrigger/>
+                </DialogContent>
+            </DialogPositioner>
         </DialogRoot>
     );
 }

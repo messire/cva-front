@@ -30,8 +30,7 @@ const ProfileHeroCard = ({profile, isOwner}) => {
             role: profile.role,
             avatarUrl: profile.avatarUrl,
             openToWork: profile.openToWork,
-            yearsOfExperience: profile.yearsOfExperience,
-            verificationStatus: profile.verified
+            yearsOfExperience: profile.yearsOfExperience
         });
         if (res.ok) {
             setIsEditingName(false);
@@ -46,8 +45,7 @@ const ProfileHeroCard = ({profile, isOwner}) => {
             role: role.trim(),
             avatarUrl: profile.avatarUrl,
             openToWork: profile.openToWork,
-            yearsOfExperience: profile.yearsOfExperience,
-            verificationStatus: profile.verified
+            yearsOfExperience: profile.yearsOfExperience
         });
         if (res.ok) {
             setIsEditingRole(false);

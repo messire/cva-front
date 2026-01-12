@@ -18,7 +18,7 @@ const ProjectsSection = ({profile, isOwner}) => {
                     >
                         Portfolio
                     </Heading>
-                    {isOwner && <ProjectEditModal profile={profile} />}
+                    {isOwner && <ProjectEditModal />}
                 </HStack>
 
                 <Separator borderColor="border.subtle"/>
@@ -27,7 +27,7 @@ const ProjectsSection = ({profile, isOwner}) => {
                     <VStack align="stretch" gap={6}>
                         {projects.map((project, index) => (
                             <VStack key={project.id || index} align="stretch" gap={4}>
-                                <ProjectCard project={project} profile={profile} isOwner={isOwner}/>
+                                <ProjectCard project={project} isOwner={isOwner}/>
                                 {index < projects.length - 1 && <Separator borderColor="border.subtle" variant="dashed" />}
                             </VStack>
                         ))}

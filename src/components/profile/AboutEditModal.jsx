@@ -1,4 +1,19 @@
-﻿import {Button, DialogActionTrigger, DialogBody, DialogCloseTrigger, DialogContent, DialogFooter, DialogHeader, DialogRoot, DialogTitle, DialogTrigger, Stack, Text, Textarea} from "@chakra-ui/react";
+﻿import {
+    Button,
+    DialogActionTrigger,
+    DialogBackdrop,
+    DialogBody,
+    DialogCloseTrigger,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogRoot,
+    DialogTitle,
+    DialogTrigger,
+    Stack,
+    Text,
+    Textarea
+} from "@chakra-ui/react";
 import {useState} from "react";
 import {useProfileStore} from "../../stores/profile.store.js";
 import {toaster} from "../../ui/toaster.jsx";
@@ -24,6 +39,7 @@ export function AboutEditModal({currentSummary}) {
             <DialogTrigger asChild>
                 <Button variant="ghost" size="xs" colorPalette="blue">Edit About</Button>
             </DialogTrigger>
+            <DialogBackdrop bg="blackAlpha.600" />
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Edit About</DialogTitle>

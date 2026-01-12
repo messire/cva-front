@@ -11,7 +11,7 @@
     DialogTrigger,
     Stack,
     Text,
-    Input
+    Input, DialogBackdrop, DialogPositioner
 } from "@chakra-ui/react";
 import {useState} from "react";
 import {useProfileStore} from "../../stores/profile.store.js";
@@ -46,34 +46,37 @@ export function ContactsEditModal({profile}) {
             <DialogTrigger asChild>
                 <Button variant="ghost" size="xs" colorPalette="blue">Edit Contacts</Button>
             </DialogTrigger>
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>Edit Contacts</DialogTitle>
-                </DialogHeader>
-                <DialogBody pb="4">
-                    <Stack gap="4">
-                        <Stack gap="2">
-                            <Text fontSize="sm" fontWeight="medium">Email</Text>
-                            <Input value={email} onChange={e => setEmail(e.target.value)} />
+            <DialogBackdrop bg="blackAlpha.600"/>
+            <DialogPositioner>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Edit Contacts</DialogTitle>
+                    </DialogHeader>
+                    <DialogBody pb="4">
+                        <Stack gap="4">
+                            <Stack gap="2">
+                                <Text fontSize="sm" fontWeight="medium">Email</Text>
+                                <Input value={email} onChange={e => setEmail(e.target.value)}/>
+                            </Stack>
+                            <Stack gap="2">
+                                <Text fontSize="sm" fontWeight="medium">Phone</Text>
+                                <Input value={phone} onChange={e => setPhone(e.target.value)}/>
+                            </Stack>
+                            <Stack gap="2">
+                                <Text fontSize="sm" fontWeight="medium">Website</Text>
+                                <Input value={website} onChange={e => setWebsite(e.target.value)}/>
+                            </Stack>
                         </Stack>
-                        <Stack gap="2">
-                            <Text fontSize="sm" fontWeight="medium">Phone</Text>
-                            <Input value={phone} onChange={e => setPhone(e.target.value)} />
-                        </Stack>
-                        <Stack gap="2">
-                            <Text fontSize="sm" fontWeight="medium">Website</Text>
-                            <Input value={website} onChange={e => setWebsite(e.target.value)} />
-                        </Stack>
-                    </Stack>
-                </DialogBody>
-                <DialogFooter>
-                    <DialogActionTrigger asChild>
-                        <Button variant="outline">Cancel</Button>
-                    </DialogActionTrigger>
-                    <Button onClick={handleSave}>Save</Button>
-                </DialogFooter>
-                <DialogCloseTrigger />
-            </DialogContent>
+                    </DialogBody>
+                    <DialogFooter>
+                        <DialogActionTrigger asChild>
+                            <Button variant="outline">Cancel</Button>
+                        </DialogActionTrigger>
+                        <Button onClick={handleSave}>Save</Button>
+                    </DialogFooter>
+                    <DialogCloseTrigger/>
+                </DialogContent>
+            </DialogPositioner>
         </DialogRoot>
     );
 }

@@ -5,20 +5,15 @@ import {useState} from "react";
 import {ProjectEditModal} from "./ProjectEditModal.jsx";
 import {useProfileStore} from "../../stores/profile.store.js";
 import {toaster} from "../../ui/toaster.jsx";
-import {mapProfileToDraft, mapDraftToUpdateRequest} from "../../models/mappers/profileMapper.js";
 
-const ProjectCard = ({project, profile, isOwner}) => {
+const ProjectCard = ({project, isOwner}) => {
     const [isEditOpen, setIsEditOpen] = useState(false);
-    const updateMyProfile = useProfileStore(s => s.updateMyProfile);
+    const removeProject = useProfileStore(s => s.removeProject);
 
     const handleDelete = async () => {
         if (!window.confirm("Are you sure you want to delete this project?")) return;
 
-        const draft = mapProfileToDraft(profile);
-        draft.projects = draft.projects.filter(p => p.id !== project.id);
-
-        const request = mapDraftToUpdateRequest(draft);
-        const res = await updateMyProfile(request);
+        const res = await removeProject(project.id);
 
         if (res.ok) {
             toaster.create({title: "Project deleted", type: "success"});
@@ -87,7 +82,6 @@ const ProjectCard = ({project, profile, isOwner}) => {
             {isOwner && (
                 <ProjectEditModal
                     project={project}
-                    profile={profile}
                     isOpen={isEditOpen}
                     onOpenChange={(e) => setIsEditOpen(e.open)}
                 />

@@ -75,3 +75,69 @@ export async function replaceSkills(request) {
         body: JSON.stringify(request)
     });
 }
+
+/**
+ * @param {object} payload
+ */
+export async function createWorkExperience(payload) {
+    return apiFetch(`${BASE_URL}/work-experiences`, {
+        method: "POST",
+        auth: true,
+        body: JSON.stringify(payload)
+    });
+}
+
+/**
+ * @param {string} id
+ * @param {object} payload
+ */
+export async function updateWorkExperience(id, payload) {
+    return apiFetch(`${BASE_URL}/work-experiences/${id}`, {
+        method: "PUT",
+        auth: true,
+        body: JSON.stringify(payload)
+    });
+}
+
+/**
+ * @param {string} id
+ */
+export async function deleteWorkExperience(id) {
+    return apiFetch(`${BASE_URL}/work-experiences/${id}`, {
+        method: "DELETE",
+        auth: true
+    });
+}
+
+/**
+ * @param {object} payload
+ */
+export async function createProject(payload) {
+    return apiFetch(`${BASE_URL}/projects`, {
+        method: "POST",
+        auth: true,
+        body: JSON.stringify(payload)
+    });
+}
+
+/**
+ * @param {string} id
+ * @param {object} payload
+ */
+export async function updateProject(id, payload) {
+    return apiFetch(`${BASE_URL}/projects/${id}`, {
+        method: "PUT",
+        auth: true,
+        body: JSON.stringify(payload)
+    });
+}
+
+/**
+ * @param {string} id
+ */
+export async function deleteProject(id) {
+    return apiFetch(`${BASE_URL}/projects/${id}`, {
+        method: "DELETE",
+        auth: true
+    });
+}

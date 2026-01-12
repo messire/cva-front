@@ -17,9 +17,8 @@
 import {useState} from "react";
 import {useProfileStore} from "../../stores/profile.store.js";
 import {toaster} from "../../ui/toaster.jsx";
-import {mapProfileToDraft, mapDraftToUpdateRequest} from "../../models/mappers/profileMapper.js";
 
-export function ExperienceEditModal({experience, profile, isOpen: externalOpen, onOpenChange}) {
+export function ExperienceEditModal({experience, isOpen: externalOpen, onOpenChange}) {
     const isEditing = !!experience;
     const [company, setCompany] = useState(experience?.company || "");
     const [role, setRole] = useState(experience?.role || "");
@@ -30,33 +29,29 @@ export function ExperienceEditModal({experience, profile, isOpen: externalOpen, 
     const [country, setCountry] = useState(experience?.location?.country || "");
     const [techStack, setTechStack] = useState(Array.isArray(experience?.techStack) ? experience.techStack.join(", ") : "");
 
-    const updateMyProfile = useProfileStore(s => s.updateMyProfile);
+    const addExperience = useProfileStore(s => s.addExperience);
+    const editExperience = useProfileStore(s => s.editExperience);
 
     const handleSave = async () => {
-        const draft = mapProfileToDraft(profile);
-        const newExperience = {
-            id: experience?.id || crypto.randomUUID(),
+        const payload = {
             company: company.trim(),
             role: role.trim(),
             startDate: startDate || null,
             endDate: endDate || null,
             description: description.trim(),
-            location: { city: city.trim(), country: country.trim() },
+            location: {city: city.trim(), country: country.trim()},
             techStack: techStack.split(",").map(s => s.trim()).filter(Boolean)
         };
 
-        if (isEditing) {
-            draft.workExperience = draft.workExperience.map(w => w.id === experience.id ? newExperience : w);
-        } else {
-            draft.workExperience = [...draft.workExperience, newExperience];
-        }
-
-        const request = mapDraftToUpdateRequest(draft);
-        const res = await updateMyProfile(request);
+        const res = isEditing
+            ? await editExperience(experience.id, payload)
+            : await addExperience(payload);
 
         if (res.ok) {
             toaster.create({title: isEditing ? "Experience updated" : "Experience added", type: "success"});
-            if (onOpenChange) onOpenChange({open: false});
+            if (onOpenChange) {
+                onOpenChange({open: false});
+            }
         } else {
             toaster.create({title: "Failed to save experience", description: res.message, type: "error"});
         }
@@ -77,39 +72,39 @@ export function ExperienceEditModal({experience, profile, isOpen: externalOpen, 
                     <Stack gap="4">
                         <Stack gap="2">
                             <Text fontSize="sm" fontWeight="medium">Company</Text>
-                            <Input value={company} onChange={e => setCompany(e.target.value)} />
+                            <Input value={company} onChange={e => setCompany(e.target.value)}/>
                         </Stack>
                         <Stack gap="2">
                             <Text fontSize="sm" fontWeight="medium">Role</Text>
-                            <Input value={role} onChange={e => setRole(e.target.value)} />
+                            <Input value={role} onChange={e => setRole(e.target.value)}/>
                         </Stack>
                         <Stack direction="row" gap="4">
-                             <Stack gap="2" flex="1">
+                            <Stack gap="2" flex="1">
                                 <Text fontSize="sm" fontWeight="medium">Start Date</Text>
-                                <Input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+                                <Input type="date" value={startDate} onChange={e => setStartDate(e.target.value)}/>
                             </Stack>
-                             <Stack gap="2" flex="1">
+                            <Stack gap="2" flex="1">
                                 <Text fontSize="sm" fontWeight="medium">End Date</Text>
-                                <Input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
+                                <Input type="date" value={endDate} onChange={e => setEndDate(e.target.value)}/>
                             </Stack>
                         </Stack>
                         <Stack direction="row" gap="4">
-                             <Stack gap="2" flex="1">
+                            <Stack gap="2" flex="1">
                                 <Text fontSize="sm" fontWeight="medium">City</Text>
-                                <Input value={city} onChange={e => setCity(e.target.value)} />
+                                <Input value={city} onChange={e => setCity(e.target.value)}/>
                             </Stack>
-                             <Stack gap="2" flex="1">
+                            <Stack gap="2" flex="1">
                                 <Text fontSize="sm" fontWeight="medium">Country</Text>
-                                <Input value={country} onChange={e => setCountry(e.target.value)} />
+                                <Input value={country} onChange={e => setCountry(e.target.value)}/>
                             </Stack>
                         </Stack>
                         <Stack gap="2">
                             <Text fontSize="sm" fontWeight="medium">Tech Stack (comma separated)</Text>
-                            <Input value={techStack} onChange={e => setTechStack(e.target.value)} />
+                            <Input value={techStack} onChange={e => setTechStack(e.target.value)}/>
                         </Stack>
                         <Stack gap="2">
                             <Text fontSize="sm" fontWeight="medium">Description</Text>
-                            <Textarea value={description} onChange={e => setDescription(e.target.value)} rows={4} />
+                            <Textarea value={description} onChange={e => setDescription(e.target.value)} rows={4}/>
                         </Stack>
                     </Stack>
                 </DialogBody>
@@ -119,7 +114,7 @@ export function ExperienceEditModal({experience, profile, isOpen: externalOpen, 
                     </DialogActionTrigger>
                     <Button onClick={handleSave}>Save</Button>
                 </DialogFooter>
-                <DialogCloseTrigger />
+                <DialogCloseTrigger/>
             </DialogContent>
         </DialogRoot>
     );

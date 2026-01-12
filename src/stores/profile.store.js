@@ -91,5 +91,47 @@ export const useProfileStore = create((set, get) => ({
         }
         set({myProfile: DeveloperProfileDetails.fromApi(res.data)});
         return ApiResult.ok("Skills updated");
+    },
+
+    addExperience: async (payload) => {
+        const res = await profileApi.createWorkExperience(payload);
+        if (!res.ok) return ApiResult.fail(res.message, res.problem);
+        await get().loadMyProfile();
+        return ApiResult.ok("Experience added");
+    },
+
+    editExperience: async (id, payload) => {
+        const res = await profileApi.updateWorkExperience(id, payload);
+        if (!res.ok) return ApiResult.fail(res.message, res.problem);
+        await get().loadMyProfile();
+        return ApiResult.ok("Experience updated");
+    },
+
+    removeExperience: async (id) => {
+        const res = await profileApi.deleteWorkExperience(id);
+        if (!res.ok) return ApiResult.fail(res.message, res.problem);
+        await get().loadMyProfile();
+        return ApiResult.ok("Experience removed");
+    },
+
+    addProject: async (payload) => {
+        const res = await profileApi.createProject(payload);
+        if (!res.ok) return ApiResult.fail(res.message, res.problem);
+        await get().loadMyProfile();
+        return ApiResult.ok("Project added");
+    },
+
+    editProject: async (id, payload) => {
+        const res = await profileApi.updateProject(id, payload);
+        if (!res.ok) return ApiResult.fail(res.message, res.problem);
+        await get().loadMyProfile();
+        return ApiResult.ok("Project updated");
+    },
+
+    removeProject: async (id) => {
+        const res = await profileApi.deleteProject(id);
+        if (!res.ok) return ApiResult.fail(res.message, res.problem);
+        await get().loadMyProfile();
+        return ApiResult.ok("Project removed");
     }
 }));
