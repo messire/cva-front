@@ -28,7 +28,7 @@ const ProfileCreatePage = () => {
                 const res = await fetchMyProfile();
 
                 if (res.ok) {
-                    navigate("/profile/edit", {replace: true});
+                    navigate(`/u/${res.data.id}`, {replace: true});
                     return;
                 }
 
@@ -83,7 +83,7 @@ const ProfileCreatePage = () => {
             }
 
             toaster.create({description: "Profile created.", type: "success", closable: true});
-            navigate("/profile/edit", {replace: true});
+            navigate(`/u/${res.data.id}`, {replace: true});
         } finally {
             setIsLoading(false);
         }

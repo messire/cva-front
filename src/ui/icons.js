@@ -19,10 +19,16 @@
     FaUsersSlash,
     FaWhatsapp,
     FaXTwitter,
+    FaCheck,
+    FaXmark,
+    FaPencil,
+    FaTrashCan,
 } from "react-icons/fa6";
 
 export const Icons = {
     Calendar: FaCalendarDays,
+    Check: FaCheck,
+    Edit: FaPencil,
     Email: FaAt,
     Experience: FaBriefcase,
     Github: FaGithub,
@@ -35,6 +41,7 @@ export const Icons = {
     Search: FaMagnifyingGlass,
     Sun: FaRegSun,
     Telegram: FaTelegram,
+    Trash: FaTrashCan,
     Twitter: FaXTwitter,
     Up: FaAngleUp,
     UserNotFound: FaUsersSlash,
@@ -42,4 +49,5 @@ export const Icons = {
     Website: FaUpRightFromSquare,
     Whatsapp: FaWhatsapp,
     Verified: FaCircleCheck,
+    X: FaXmark,
 };

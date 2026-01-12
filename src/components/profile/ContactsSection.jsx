@@ -1,34 +1,35 @@
-import {Box, Heading, HStack, IconButton, Separator, Text, VStack} from "@chakra-ui/react";
-
+﻿import {Box, Heading, HStack, IconButton, Separator, Text, VStack} from "@chakra-ui/react";
 import ProfileSectionCard from "../ui/ProfileSectionCard.jsx";
-
 import { Icons } from "../../ui/icons";
+import {ContactsEditModal} from "./ContactsEditModal.jsx";
+import {SocialLinksEditModal} from "./SocialLinksEditModal.jsx";
 
-/**
- * @param {{ profile: import('../models/DeveloperProfileDetails').DeveloperProfileDetails }} props
- */
-const ProfileContacts = ({profile}) => {
+const ContactsSection = ({profile, isOwner}) => {
     const location = [profile.location?.city, profile.location?.country]
         .filter(Boolean)
         .join(", ");
     const telephone = profile.phone ? profile.phone.replace(/[^\d+]/g, '') : '';
     const whatsapp = profile.phone ? profile.phone.replace(/\D/g, '') : '';
-    const telegram = profile.socialLinks.telegram;
-    const linkedin = profile.socialLinks.linkedIn;
-    const github = profile.socialLinks.gitHub;
-    const twitter = profile.socialLinks.twitter;
+    const telegram = profile.socialLinks?.telegram;
+    const linkedin = profile.socialLinks?.linkedIn;
+    const github = profile.socialLinks?.gitHub;
+    const twitter = profile.socialLinks?.twitter;
+
     return (
         <ProfileSectionCard h="full">
             <VStack align={'left'}>
-                <Heading
-                    fontSize='2xl'
-                    fontWeight='800'
-                    pb={4}
-                    letterSpacing='-0.02em'
-                    color="text.primary"
-                >
-                    Contacts
-                </Heading>
+                <HStack justify="space-between" pb={4}>
+                    <Heading
+                        fontSize='2xl'
+                        fontWeight='800'
+                        letterSpacing='-0.02em'
+                        color="text.primary"
+                    >
+                        Contacts
+                    </Heading>
+                    {isOwner && <ContactsEditModal profile={profile} />}
+                </HStack>
+
                 <VStack align="stretch" gap={2}>
                     {location && (
                         <HStack gap={3}>
@@ -92,7 +93,14 @@ const ProfileContacts = ({profile}) => {
                         </HStack>
                     )}
                 </VStack>
-                <Separator borderColor="border.subtle"/>
+
+                <Separator borderColor="border.subtle" my={2}/>
+
+                <HStack justify="space-between" pb={2}>
+                    <Text fontSize="sm" fontWeight="bold">Social Links</Text>
+                    {isOwner && <SocialLinksEditModal profile={profile} />}
+                </HStack>
+
                 <HStack gap={3} justify="center">
                     {linkedin && (
                         <IconButton
@@ -187,4 +195,4 @@ const ProfileContacts = ({profile}) => {
     )
 };
 
-export default ProfileContacts;
+export default ContactsSection;

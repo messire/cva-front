@@ -5,7 +5,7 @@ import {ApiResult} from "../common/ApiResult.js";
 import {DeveloperProfile} from "../models/DeveloperProfile.js";
 import {DeveloperProfileDetails} from "../models/DeveloperProfileDetails.js";
 
-export const createApiResult = ({success, message, problem}) => ({success, message, problem});
+export const createApiResult = ({ok, message, problem}) => ({ok, message, problem});
 
 export const useCatalogStore = create((set, get) => {
     return {

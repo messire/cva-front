@@ -24,7 +24,18 @@ export async function createMyProfile(request) {
 /**
  * @param {object} request
  */
-export async function updateMyProfileHeader(request) {
+export async function updateMyProfile(request) {
+    return apiFetch(BASE_URL, {
+        method: "PUT",
+        auth: true,
+        body: JSON.stringify(request)
+    });
+}
+
+/**
+ * @param {object} request
+ */
+export async function updateHeader(request) {
     return apiFetch(`${BASE_URL}/header`, {
         method: "PATCH",
         auth: true,
@@ -35,7 +46,7 @@ export async function updateMyProfileHeader(request) {
 /**
  * @param {{ summary: string }} request
  */
-export async function updateMyProfileSummary(request) {
+export async function updateSummary(request) {
     return apiFetch(`${BASE_URL}/summary`, {
         method: "PATCH",
         auth: true,
@@ -46,7 +57,7 @@ export async function updateMyProfileSummary(request) {
 /**
  * @param {object} request
  */
-export async function updateMyProfileContacts(request) {
+export async function updateContacts(request) {
     return apiFetch(`${BASE_URL}/contacts`, {
         method: "PATCH",
         auth: true,
@@ -57,7 +68,7 @@ export async function updateMyProfileContacts(request) {
 /**
  * @param {{ skills: string[] }} request
  */
-export async function replaceMyProfileSkills(request) {
+export async function replaceSkills(request) {
     return apiFetch(`${BASE_URL}/skills`, {
         method: "PUT",
         auth: true,

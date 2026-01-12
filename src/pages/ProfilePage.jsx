@@ -1,17 +1,18 @@
-import {Box, Button, Flex, GridItem, HStack, SimpleGrid, Spinner, Text, VStack} from "@chakra-ui/react";
+import {Box, Flex, GridItem, HStack, SimpleGrid, Spinner, Text, VStack} from "@chakra-ui/react";
 import {useParams} from "react-router-dom";
-import {Link as RouterLink} from "react-router-dom";
 import {useEffect} from "react";
 
 import {useCatalogStore} from "../stores/catalog.store.js";
-
-import ProfileInfo from "../components/profile/ProfileInfo.jsx";
-import ProfileContacts from "../components/profile/ProfileContacts.jsx";
-import ProfileWork from "../components/profile/ProfileWork.jsx";
-import ProfilePortfolio from "../components/profile/ProfileProjects.jsx";
-
-import {tryGetJwtSub} from "../utils/jwt.js";
+import {useProfileStore} from "../stores/profile.store.js";
 import {useAuthStore} from "../stores/auth.store.js";
+import {tryGetJwtSub} from "../utils/jwt.js";
+
+import ProfileHeroCard from "../components/profile/ProfileHeroCard.jsx";
+import AboutSection from "../components/profile/AboutSection.jsx";
+import ContactsSection from "../components/profile/ContactsSection.jsx";
+import SkillsSection from "../components/profile/SkillsSection.jsx";
+import ExperienceSection from "../components/profile/ExperienceSection.jsx";
+import ProjectsSection from "../components/profile/ProjectsSection.jsx";
 
 const ProfilePage = () => {
     const {id} = useParams();
@@ -19,28 +20,30 @@ const ProfilePage = () => {
     const currentUserId = tryGetJwtSub(accessToken);
     const isOwner = Boolean(currentUserId && id && currentUserId === id);
 
-    const profiles = useCatalogStore((s) => s.profiles);
-    const fetchProfiles = useCatalogStore((s) => s.fetchProfiles);
-    const profile = useCatalogStore((s) => (id ? s.profileDetails?.[id] : null));
+    const catalogProfile = useCatalogStore((s) => (id ? s.profileDetails?.[id] : null));
     const fetchProfileDetails = useCatalogStore((s) => s.fetchProfileDetails);
 
+    const myProfile = useProfileStore(s => s.myProfile);
+    const loadMyProfile = useProfileStore(s => s.loadMyProfile);
+    const isProfileLoading = useProfileStore(s => s.isLoading);
+
+    const profile = isOwner ? myProfile : catalogProfile;
+
     useEffect(() => {
-        if (!id) {
-            return;
-        }
+        if (!id) return;
 
-        if (profiles.length === 0) {
-            void fetchProfiles();
+        if (isOwner) {
+            if (!myProfile) {
+                void loadMyProfile();
+            }
+        } else {
+            if (!catalogProfile) {
+                void fetchProfileDetails(id);
+            }
         }
+    }, [id, isOwner, myProfile, catalogProfile, loadMyProfile, fetchProfileDetails]);
 
-        if (!profile) {
-            void fetchProfileDetails(id);
-        }
-    }, [id, profiles.length, profile, fetchProfiles, fetchProfileDetails]);
-
-    if (!id) {
-        return null;
-    }
+    if (!id) return null;
 
     if (!profile) {
         return (
@@ -70,30 +73,27 @@ const ProfilePage = () => {
                     <Box as="a" href="#work" whiteSpace="nowrap" flexShrink={0}>Work experience</Box>
                     <Box as="a" href="#portfolio">Portfolio</Box>
                 </HStack>
-                <HStack gap={4}>
-                    {isOwner && (
-                        <Button as={RouterLink} to="/profile/edit" variant="outline" size="sm">
-                            Edit my profile
-                        </Button>
-                    )}
-                </HStack>
             </Flex>
 
-            <SimpleGrid columns={{base: 1, md: 3}} gap="18px" w="full">
+            <SimpleGrid columns={{base: 1, md: 3}} gap="18px" w="full" id="profile">
                 <GridItem colSpan={{base: 1, md: 2}}>
-                    <ProfileInfo profile={profile}/>
+                    <VStack align="stretch" gap={4}>
+                        <ProfileHeroCard profile={profile} isOwner={isOwner}/>
+                        <AboutSection profile={profile} isOwner={isOwner}/>
+                        <SkillsSection profile={profile} isOwner={isOwner}/>
+                    </VStack>
                 </GridItem>
                 <GridItem colSpan={{base: 1, md: 1}}>
-                    <ProfileContacts profile={profile}/>
+                    <ContactsSection profile={profile} isOwner={isOwner}/>
                 </GridItem>
             </SimpleGrid>
 
             <Box id="work" mt={4}>
-                <ProfileWork profile={profile}/>
+                <ExperienceSection profile={profile} isOwner={isOwner}/>
             </Box>
 
             <Box id="portfolio" mt={4}>
-                <ProfilePortfolio projects={profile.projects}/>
+                <ProjectsSection profile={profile} isOwner={isOwner}/>
             </Box>
         </VStack>
     );

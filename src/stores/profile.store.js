@@ -13,7 +13,7 @@ export const useProfileStore = create((set, get) => ({
         try {
             const res = await profileApi.fetchMyProfile();
 
-            if (!res.success) {
+            if (!res.ok) {
                 set({myProfile: null});
                 return ApiResult.fail(res.message, res.problem);
             }
@@ -30,7 +30,7 @@ export const useProfileStore = create((set, get) => ({
         set({isLoading: true});
         try {
             const res = await profileApi.createMyProfile(request);
-            if (!res.success) {
+            if (!res.ok) {
                 return ApiResult.fail(res.message, res.problem);
             }
 
@@ -42,9 +42,24 @@ export const useProfileStore = create((set, get) => ({
         }
     },
 
+    updateMyProfile: async (request) => {
+        set({isLoading: true});
+        try {
+            const res = await profileApi.updateMyProfile(request);
+            if (!res.ok) {
+                return ApiResult.fail(res.message, res.problem);
+            }
+            const details = DeveloperProfileDetails.fromApi(res.data);
+            set({myProfile: details});
+            return ApiResult.ok("Profile updated");
+        } finally {
+            set({isLoading: false});
+        }
+    },
+
     updateHeader: async (request) => {
         const res = await profileApi.updateHeader(request);
-        if (!res.success) {
+        if (!res.ok) {
             return ApiResult.fail(res.message, res.problem);
         }
         set({myProfile: DeveloperProfileDetails.fromApi(res.data)});
@@ -53,7 +68,7 @@ export const useProfileStore = create((set, get) => ({
 
     updateSummary: async (request) => {
         const res = await profileApi.updateSummary(request);
-        if (!res.success) {
+        if (!res.ok) {
             return ApiResult.fail(res.message, res.problem);
         }
         set({myProfile: DeveloperProfileDetails.fromApi(res.data)});
@@ -62,7 +77,7 @@ export const useProfileStore = create((set, get) => ({
 
     updateContacts: async (request) => {
         const res = await profileApi.updateContacts(request);
-        if (!res.success) {
+        if (!res.ok) {
             return ApiResult.fail(res.message, res.problem);
         }
         set({myProfile: DeveloperProfileDetails.fromApi(res.data)});
@@ -71,7 +86,7 @@ export const useProfileStore = create((set, get) => ({
 
     replaceSkills: async (skills) => {
         const res = await profileApi.replaceSkills(skills);
-        if (!res.success) {
+        if (!res.ok) {
             return ApiResult.fail(res.message, res.problem);
         }
         set({myProfile: DeveloperProfileDetails.fromApi(res.data)});

@@ -1,6 +1,6 @@
 ﻿export class ApiResult {
-    constructor(success, message, data = null, problem = null) {
-        this.success = success;
+    constructor(ok, message, data = null, problem = null) {
+        this.ok = ok;
         this.message = message;
         this.data = data;
         this.problem = problem;
