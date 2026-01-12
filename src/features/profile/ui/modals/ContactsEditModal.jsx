@@ -1,21 +1,9 @@
-import {
-    Button,
-    DialogActionTrigger,
-    DialogBody,
-    DialogCloseTrigger,
-    DialogContent,
-    DialogFooter,
-    DialogHeader,
-    DialogRoot,
-    DialogTitle,
-    DialogTrigger,
-    Stack,
-    Text,
-    Input, DialogBackdrop, DialogPositioner
-} from "@chakra-ui/react";
+import {Button, Dialog, Stack, Text, Input} from "@chakra-ui/react";
 import {useState} from "react";
+
 import {useProfileStore} from "../../model/profile.store.js";
 import {toaster} from "../../../../shared/ui/toaster.jsx";
+import _ProfileDialogShell from "./_ProfileDialogShell.jsx";
 
 export function ContactsEditModal({profile}) {
     const [email, setEmail] = useState(profile.email || "");
@@ -41,42 +29,43 @@ export function ContactsEditModal({profile}) {
         }
     };
 
+    const trigger = (
+        <Dialog.Trigger asChild>
+            <Button variant="ghost" size="xs" colorPalette="blue">Edit Contacts</Button>
+        </Dialog.Trigger>
+    );
+
+    const footer = (
+        <Dialog.Footer>
+            <Dialog.ActionTrigger asChild>
+                <Button variant="outline">Cancel</Button>
+            </Dialog.ActionTrigger>
+            <Button onClick={handleSave}>Save</Button>
+        </Dialog.Footer>
+    );
+
     return (
-        <DialogRoot open={open} onOpenChange={(e) => setOpen(e.open)}>
-            <DialogTrigger asChild>
-                <Button variant="ghost" size="xs" colorPalette="blue">Edit Contacts</Button>
-            </DialogTrigger>
-            <DialogBackdrop bg="blackAlpha.600"/>
-            <DialogPositioner>
-                <DialogContent>
-                    <DialogHeader>
-                        <DialogTitle>Edit Contacts</DialogTitle>
-                    </DialogHeader>
-                    <DialogBody pb="4">
-                        <Stack gap="4">
-                            <Stack gap="2">
-                                <Text fontSize="sm" fontWeight="medium">Email</Text>
-                                <Input value={email} onChange={e => setEmail(e.target.value)}/>
-                            </Stack>
-                            <Stack gap="2">
-                                <Text fontSize="sm" fontWeight="medium">Phone</Text>
-                                <Input value={phone} onChange={e => setPhone(e.target.value)}/>
-                            </Stack>
-                            <Stack gap="2">
-                                <Text fontSize="sm" fontWeight="medium">Website</Text>
-                                <Input value={website} onChange={e => setWebsite(e.target.value)}/>
-                            </Stack>
-                        </Stack>
-                    </DialogBody>
-                    <DialogFooter>
-                        <DialogActionTrigger asChild>
-                            <Button variant="outline">Cancel</Button>
-                        </DialogActionTrigger>
-                        <Button onClick={handleSave}>Save</Button>
-                    </DialogFooter>
-                    <DialogCloseTrigger/>
-                </DialogContent>
-            </DialogPositioner>
-        </DialogRoot>
+        <_ProfileDialogShell
+            title="Edit Contacts"
+            open={open}
+            onOpenChange={(e) => setOpen(e.open)}
+            trigger={trigger}
+            footer={footer}
+        >
+            <Stack gap="4">
+                <Stack gap="2">
+                    <Text fontSize="sm" fontWeight="medium">Email</Text>
+                    <Input value={email} onChange={e => setEmail(e.target.value)}/>
+                </Stack>
+                <Stack gap="2">
+                    <Text fontSize="sm" fontWeight="medium">Phone</Text>
+                    <Input value={phone} onChange={e => setPhone(e.target.value)}/>
+                </Stack>
+                <Stack gap="2">
+                    <Text fontSize="sm" fontWeight="medium">Website</Text>
+                    <Input value={website} onChange={e => setWebsite(e.target.value)}/>
+                </Stack>
+            </Stack>
+        </_ProfileDialogShell>
     );
 }

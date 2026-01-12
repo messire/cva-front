@@ -69,7 +69,7 @@ function App() {
                 my={{base: 4, md: 10}}
                 px={{base: 2, md: 6}}
                 position="relative"
-                zIndex={1}
+                zIndex="docked"
             >
                 {showFloatingNavbar && <Navbar mode="floating" />}
                 <Box

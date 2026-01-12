@@ -5,5 +5,5 @@ import {AppProviders} from "./app/providers.jsx";
 createRoot(document.getElementById('root')).render(
     <AppProviders>
         <App/>
-    </AppProviders>,
+    </AppProviders>
 )

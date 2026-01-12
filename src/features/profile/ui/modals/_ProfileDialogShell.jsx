@@ -1,39 +1,34 @@
-import {
-    DialogBackdrop,
-    DialogBody,
-    DialogCloseTrigger,
-    DialogContent,
-    DialogHeader,
-    DialogRoot,
-    DialogTitle,
-} from "@chakra-ui/react";
+import {Dialog} from "@chakra-ui/react";
 
-/**
- * Internal shell for profile modals to ensure consistent backdrop and layout.
- */
-export function _ProfileDialogShell({
-    title,
-    children,
-    footer,
-    open,
-    onOpenChange,
-    trigger,
-    size = "lg"
-}) {
+function _ProfileDialogShell({title, children, footer, open, onOpenChange, trigger}) {
     return (
-        <DialogRoot open={open} onOpenChange={onOpenChange} size={size}>
+        <Dialog.Root
+            open={open}
+            onOpenChange={onOpenChange}
+            size="lg"
+            key="center"
+            placement="center"
+            motionPreset="slide-in-bottom"
+            zIndex="modal"
+            layerIndex={1000}
+            portalled
+        >
             {trigger}
-            <DialogBackdrop />
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>{title}</DialogTitle>
-                </DialogHeader>
-                <DialogBody pb="4">
-                    {children}
-                </DialogBody>
-                {footer}
-                <DialogCloseTrigger />
-            </DialogContent>
-        </DialogRoot>
+            <Dialog.Backdrop bg="blackAlpha.600"/>
+            <Dialog.Positioner>
+                <Dialog.Content>
+                    <Dialog.Header>
+                        <Dialog.Title>{title}</Dialog.Title>
+                    </Dialog.Header>
+                    <Dialog.Body pb="4">
+                        {children}
+                    </Dialog.Body>
+                    {footer}
+                    <Dialog.CloseTrigger/>
+                </Dialog.Content>
+            </Dialog.Positioner>
+        </Dialog.Root>
     );
 }
+
+export default _ProfileDialogShell

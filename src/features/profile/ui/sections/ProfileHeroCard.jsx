@@ -1,4 +1,4 @@
-import {Box, Heading, HStack, Text, VStack, IconButton, Input, Badge} from "@chakra-ui/react";
+import {Heading, HStack, Text, VStack, IconButton, Input} from "@chakra-ui/react";
 import {useState} from "react";
 import {getOpenToWorkUi} from "../../../../shared/utils/profileBadges.js";
 import ProfileSectionCard from "../components/ProfileSectionCard.jsx";

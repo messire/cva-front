@@ -49,7 +49,7 @@ const Navbar = ({ mode = "inline" }) => {
             top={isFloating ? 0 : "auto"}
             left={isFloating ? 0 : "auto"}
             right={isFloating ? 0 : "auto"}
-            zIndex={isFloating ? 1000 : "auto"}
+            zIndex={isFloating ? "modal" : "auto"}
             boxShadow={isFloating ? "sm" : "none"}
         >
             <Link to="/" onClick={handleBrandClick}>

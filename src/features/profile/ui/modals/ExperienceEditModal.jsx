@@ -1,22 +1,8 @@
-import {
-    Button,
-    DialogActionTrigger,
-    DialogBody,
-    DialogCloseTrigger,
-    DialogContent,
-    DialogFooter,
-    DialogHeader,
-    DialogRoot,
-    DialogTitle,
-    DialogTrigger,
-    Stack,
-    Text,
-    Input,
-    Textarea
-} from "@chakra-ui/react";
-import {useState} from "react";
+import {Button, Dialog, Stack, Text, Input, Textarea} from "@chakra-ui/react";
+import {useMemo, useState} from "react";
 import {useProfileStore} from "../../model/profile.store.js";
 import {toaster} from "../../../../shared/ui/toaster.jsx";
+import _ProfileDialogShell from "./_ProfileDialogShell.jsx";
 
 export function ExperienceEditModal({experience, isOpen: externalOpen, onOpenChange}) {
     const isEditing = !!experience;
@@ -31,6 +17,8 @@ export function ExperienceEditModal({experience, isOpen: externalOpen, onOpenCha
 
     const addExperience = useProfileStore(s => s.addExperience);
     const editExperience = useProfileStore(s => s.editExperience);
+
+    const title = useMemo(() => (isEditing ? "Edit Experience" : "Add Experience"), [isEditing]);
 
     const handleSave = async () => {
         const payload = {
@@ -57,65 +45,64 @@ export function ExperienceEditModal({experience, isOpen: externalOpen, onOpenCha
         }
     };
 
+    const trigger = !isEditing ? (
+        <Dialog.Trigger asChild>
+            <Button size="sm" variant="outline">+ Add Experience</Button>
+        </Dialog.Trigger>
+    ) : null;
+
+    const footer = (
+        <Dialog.Footer>
+            <Dialog.ActionTrigger asChild>
+                <Button variant="outline">Cancel</Button>
+            </Dialog.ActionTrigger>
+            <Button onClick={handleSave}>Save</Button>
+        </Dialog.Footer>
+    );
+
     return (
-        <DialogRoot open={externalOpen} onOpenChange={onOpenChange} size="lg">
-            {!isEditing && (
-                <DialogTrigger asChild>
-                    <Button size="sm" variant="outline">+ Add Experience</Button>
-                </DialogTrigger>
-            )}
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>{isEditing ? "Edit Experience" : "Add Experience"}</DialogTitle>
-                </DialogHeader>
-                <DialogBody pb="4">
-                    <Stack gap="4">
-                        <Stack gap="2">
-                            <Text fontSize="sm" fontWeight="medium">Company</Text>
-                            <Input value={company} onChange={e => setCompany(e.target.value)}/>
-                        </Stack>
-                        <Stack gap="2">
-                            <Text fontSize="sm" fontWeight="medium">Role</Text>
-                            <Input value={role} onChange={e => setRole(e.target.value)}/>
-                        </Stack>
-                        <Stack direction="row" gap="4">
-                            <Stack gap="2" flex="1">
-                                <Text fontSize="sm" fontWeight="medium">Start Date</Text>
-                                <Input type="date" value={startDate} onChange={e => setStartDate(e.target.value)}/>
-                            </Stack>
-                            <Stack gap="2" flex="1">
-                                <Text fontSize="sm" fontWeight="medium">End Date</Text>
-                                <Input type="date" value={endDate} onChange={e => setEndDate(e.target.value)}/>
-                            </Stack>
-                        </Stack>
-                        <Stack direction="row" gap="4">
-                            <Stack gap="2" flex="1">
-                                <Text fontSize="sm" fontWeight="medium">City</Text>
-                                <Input value={city} onChange={e => setCity(e.target.value)}/>
-                            </Stack>
-                            <Stack gap="2" flex="1">
-                                <Text fontSize="sm" fontWeight="medium">Country</Text>
-                                <Input value={country} onChange={e => setCountry(e.target.value)}/>
-                            </Stack>
-                        </Stack>
-                        <Stack gap="2">
-                            <Text fontSize="sm" fontWeight="medium">Tech Stack (comma separated)</Text>
-                            <Input value={techStack} onChange={e => setTechStack(e.target.value)}/>
-                        </Stack>
-                        <Stack gap="2">
-                            <Text fontSize="sm" fontWeight="medium">Description</Text>
-                            <Textarea value={description} onChange={e => setDescription(e.target.value)} rows={4}/>
-                        </Stack>
+        <_ProfileDialogShell
+            title={title}
+            open={externalOpen}
+            onOpenChange={onOpenChange}
+            trigger={trigger}
+            footer={footer}
+        >
+            <Stack gap="4">
+                <Stack gap="2">
+                    <Text fontSize="sm" fontWeight="medium">Company</Text>
+                    <Input value={company} onChange={e => setCompany(e.target.value)}/>
+                </Stack>
+                <Stack gap="2">
+                    <Text fontSize="sm" fontWeight="medium">Role</Text>
+                    <Input value={role} onChange={e => setRole(e.target.value)}/>
+                </Stack>
+                <Stack direction="row" gap="4">
+                    <Stack gap="2" flex="1">
+                        <Text fontSize="sm" fontWeight="medium">Start Date</Text>
+                        <Input type="date" value={startDate} onChange={e => setStartDate(e.target.value)}/>
                     </Stack>
-                </DialogBody>
-                <DialogFooter>
-                    <DialogActionTrigger asChild>
-                        <Button variant="outline">Cancel</Button>
-                    </DialogActionTrigger>
-                    <Button onClick={handleSave}>Save</Button>
-                </DialogFooter>
-                <DialogCloseTrigger/>
-            </DialogContent>
-        </DialogRoot>
+                    <Stack gap="2" flex="1">
+                        <Text fontSize="sm" fontWeight="medium">End Date</Text>
+                        <Input type="date" value={endDate} onChange={e => setEndDate(e.target.value)}/>
+                    </Stack>
+                </Stack>
+                <Stack gap="2">
+                    <Text fontSize="sm" fontWeight="medium">Location</Text>
+                    <Stack direction="row" gap="4">
+                        <Input placeholder="City" value={city} onChange={e => setCity(e.target.value)}/>
+                        <Input placeholder="Country" value={country} onChange={e => setCountry(e.target.value)}/>
+                    </Stack>
+                </Stack>
+                <Stack gap="2">
+                    <Text fontSize="sm" fontWeight="medium">Tech Stack (comma separated)</Text>
+                    <Input value={techStack} onChange={e => setTechStack(e.target.value)}/>
+                </Stack>
+                <Stack gap="2">
+                    <Text fontSize="sm" fontWeight="medium">Description</Text>
+                    <Textarea value={description} onChange={e => setDescription(e.target.value)} rows={4}/>
+                </Stack>
+            </Stack>
+        </_ProfileDialogShell>
     );
 }

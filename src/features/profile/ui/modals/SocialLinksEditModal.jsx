@@ -1,21 +1,8 @@
-import {
-    Button,
-    DialogActionTrigger,
-    DialogBody,
-    DialogCloseTrigger,
-    DialogContent,
-    DialogFooter,
-    DialogHeader,
-    DialogRoot,
-    DialogTitle,
-    DialogTrigger,
-    Stack,
-    Text,
-    Input
-} from "@chakra-ui/react";
+import {Button, Dialog, Stack, Text, Input} from "@chakra-ui/react";
 import {useState} from "react";
 import {useProfileStore} from "../../model/profile.store.js";
 import {toaster} from "../../../../shared/ui/toaster.jsx";
+import _ProfileDialogShell from "./_ProfileDialogShell.jsx";
 
 export function SocialLinksEditModal({profile}) {
     const [telegram, setTelegram] = useState(profile.socialLinks?.telegram || "");
@@ -47,43 +34,47 @@ export function SocialLinksEditModal({profile}) {
         }
     };
 
+    const trigger = (
+        <Dialog.Trigger asChild>
+            <Button variant="ghost" size="xs" colorPalette="blue">Edit Social Links</Button>
+        </Dialog.Trigger>
+    );
+
+    const footer = (
+        <Dialog.Footer>
+            <Dialog.ActionTrigger asChild>
+                <Button variant="outline">Cancel</Button>
+            </Dialog.ActionTrigger>
+            <Button onClick={handleSave}>Save</Button>
+        </Dialog.Footer>
+    );
+
     return (
-        <DialogRoot open={open} onOpenChange={(e) => setOpen(e.open)}>
-            <DialogTrigger asChild>
-                <Button variant="ghost" size="xs" colorPalette="blue">Edit Socials</Button>
-            </DialogTrigger>
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>Edit Social Links</DialogTitle>
-                </DialogHeader>
-                <DialogBody pb="4">
-                    <Stack gap="4">
-                        <Stack gap="2">
-                            <Text fontSize="sm" fontWeight="medium">Telegram</Text>
-                            <Input value={telegram} onChange={e => setTelegram(e.target.value)} />
-                        </Stack>
-                        <Stack gap="2">
-                            <Text fontSize="sm" fontWeight="medium">LinkedIn</Text>
-                            <Input value={linkedIn} onChange={e => setLinkedIn(e.target.value)} />
-                        </Stack>
-                        <Stack gap="2">
-                            <Text fontSize="sm" fontWeight="medium">GitHub</Text>
-                            <Input value={gitHub} onChange={e => setGitHub(e.target.value)} />
-                        </Stack>
-                        <Stack gap="2">
-                            <Text fontSize="sm" fontWeight="medium">Twitter/X</Text>
-                            <Input value={twitter} onChange={e => setTwitter(e.target.value)} />
-                        </Stack>
-                    </Stack>
-                </DialogBody>
-                <DialogFooter>
-                    <DialogActionTrigger asChild>
-                        <Button variant="outline">Cancel</Button>
-                    </DialogActionTrigger>
-                    <Button onClick={handleSave}>Save</Button>
-                </DialogFooter>
-                <DialogCloseTrigger />
-            </DialogContent>
-        </DialogRoot>
+        <_ProfileDialogShell
+            title="Edit Social Links"
+            open={open}
+            onOpenChange={(e) => setOpen(e.open)}
+            trigger={trigger}
+            footer={footer}
+        >
+            <Stack gap="4">
+                <Stack gap="2">
+                    <Text fontSize="sm" fontWeight="medium">Telegram</Text>
+                    <Input value={telegram} onChange={e => setTelegram(e.target.value)} placeholder="@username or link"/>
+                </Stack>
+                <Stack gap="2">
+                    <Text fontSize="sm" fontWeight="medium">LinkedIn</Text>
+                    <Input value={linkedIn} onChange={e => setLinkedIn(e.target.value)} placeholder="https://linkedin.com/in/..."/>
+                </Stack>
+                <Stack gap="2">
+                    <Text fontSize="sm" fontWeight="medium">GitHub</Text>
+                    <Input value={gitHub} onChange={e => setGitHub(e.target.value)} placeholder="https://github.com/..."/>
+                </Stack>
+                <Stack gap="2">
+                    <Text fontSize="sm" fontWeight="medium">Twitter/X</Text>
+                    <Input value={twitter} onChange={e => setTwitter(e.target.value)} placeholder="https://x.com/..."/>
+                </Stack>
+            </Stack>
+        </_ProfileDialogShell>
     );
 }

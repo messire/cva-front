@@ -6,7 +6,7 @@ export const AppBackground = ({children}) => {
              inset={0}
              overflowX="hidden"
              pointerEvents="none"
-             zIndex={0}
+             zIndex="base"
              _before={{
                  content: '""',
                  position: "fixed",
