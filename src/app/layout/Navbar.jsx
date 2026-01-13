@@ -37,19 +37,16 @@ const Navbar = ({ mode = "inline" }) => {
     return (
         <Flex
             h="64px"
-            px={{base: 4, md: 8}}
+            p={{base: 4, md: 8}}
             align="center"
             justify="space-between"
             bg="bg.page"
-            borderBottom="1px solid"
-            borderColor="border.subtle"
-
 
             position={isFloating ? "fixed" : "relative"}
             top={isFloating ? 0 : "auto"}
             left={isFloating ? 0 : "auto"}
             right={isFloating ? 0 : "auto"}
-            zIndex={isFloating ? "modal" : "auto"}
+            zIndex={isFloating ? "sticky" : "auto"}
             boxShadow={isFloating ? "sm" : "none"}
         >
             <Link to="/" onClick={handleBrandClick}>

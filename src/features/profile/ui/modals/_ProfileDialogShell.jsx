@@ -9,13 +9,11 @@ function _ProfileDialogShell({title, children, footer, open, onOpenChange, trigg
             key="center"
             placement="center"
             motionPreset="slide-in-bottom"
-            zIndex="modal"
-            layerIndex={1000}
             portalled
         >
             {trigger}
-            <Dialog.Backdrop bg="blackAlpha.600"/>
-            <Dialog.Positioner>
+            <Dialog.Backdrop bg="blackAlpha.600" zIndex="modal"/>
+            <Dialog.Positioner zIndex="modal">
                 <Dialog.Content>
                     <Dialog.Header>
                         <Dialog.Title>{title}</Dialog.Title>

@@ -66,20 +66,15 @@ function App() {
             <Container
                 maxW="full"
                 mx="auto"
-                my={{base: 4, md: 10}}
-                px={{base: 2, md: 6}}
+                px={0}
                 position="relative"
                 zIndex="docked"
             >
                 {showFloatingNavbar && <Navbar mode="floating" />}
                 <Box
                     bg="bg.page"
-                    border="1px solid"
-                    borderColor="border.subtle"
-                    borderRadius="24px"
                     overflowX="visible"
                     overflowY="hidden"
-                    boxShadow="0 18px 60px rgba(0,0,0,0.22)"
                     display="flex"
                     flexDirection="column"
                 >

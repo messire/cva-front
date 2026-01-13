@@ -14,10 +14,9 @@ const ProfileSectionCard = ({children, ...props}) => {
             borderColor="border.subtle"
             boxShadow="soft"
             transition="all 0.2s ease"
-            zIndex="base"
             {...props}
         >
-            <Box position="relative" zIndex="auto">
+            <Box position="relative">
                 {children}
             </Box>
         </Box>

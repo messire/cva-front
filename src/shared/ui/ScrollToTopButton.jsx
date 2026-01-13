@@ -27,7 +27,7 @@ const ScrollToTopButton = () => {
             position="fixed"
             bottom="24px"
             right="24px"
-            zIndex="modal"
+            zIndex="sticky"
             rounded="full"
             boxShadow="lg"
             colorPallete="brand"

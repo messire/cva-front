@@ -25,7 +25,6 @@ const ProfilePage = () => {
 
     const myProfile = useProfileStore(s => s.myProfile);
     const loadMyProfile = useProfileStore(s => s.loadMyProfile);
-    const isProfileLoading = useProfileStore(s => s.isLoading);
 
     const profile = isOwner ? myProfile : catalogProfile;
 

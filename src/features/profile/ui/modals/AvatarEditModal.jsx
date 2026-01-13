@@ -6,7 +6,7 @@ import {useProfileStore} from "../../model/profile.store.js";
 import {toaster} from "../../../../shared/ui/toaster.jsx";
 import _ProfileDialogShell from "./_ProfileDialogShell.jsx";
 
-export function AvatarEditModal({currentAvatarUrl, onSave}) {
+export function AvatarEditModal({currentAvatarUrl}) {
     const [url, setUrl] = useState(currentAvatarUrl || "");
     const [open, setOpen] = useState(false);
     const updateHeader = useProfileStore(s => s.updateHeader);
