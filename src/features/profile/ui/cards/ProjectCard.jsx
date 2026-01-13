@@ -1,10 +1,11 @@
-import {Box, Flex, Heading, HStack, IconButton, Text, VStack, Image} from "@chakra-ui/react";
+import {Box, Flex, HStack, IconButton, Text, VStack, Image} from "@chakra-ui/react";
 import {Icons} from "../../../../shared/ui/icons.js";
 import TagBadge from "../../../../shared/ui/TagBadge.jsx";
 import {useState} from "react";
 import {ProjectEditModal} from "../modals/ProjectEditModal.jsx";
 import {useProfileStore} from "../../model/profile.store.js";
 import {toaster} from "../../../../shared/ui/toaster.jsx";
+import SubSectionHeading from "../components/SubSectionHeading.jsx";
 
 const ProjectCard = ({project, isOwner}) => {
     const [isEditOpen, setIsEditOpen] = useState(false);
@@ -24,11 +25,11 @@ const ProjectCard = ({project, isOwner}) => {
 
     return (
         <Box w="full">
-            <Flex gap={4} align="start" direction={{base: "column", sm: "row"}}>
-                {project.imageUrl && (
+            <Flex gap={4} align="start" direction={{base: "column", sm: "row"}} pl={6}>
+                {project.iconUrl && (
                     <Image
-                        src={project.imageUrl}
-                        alt={project.title}
+                        src={project.iconUrl}
+                        alt={project.name}
                         boxSize="100px"
                         borderRadius="md"
                         objectFit="cover"
@@ -37,31 +38,25 @@ const ProjectCard = ({project, isOwner}) => {
                 )}
                 <VStack align='left' gap={1} w="full">
                     <HStack justify="space-between" w="full">
-                        <Heading
-                            fontSize='xl'
-                            fontWeight='700'
-                            color="text.primary"
-                        >
-                            {project.title}
-                        </Heading>
+                        <SubSectionHeading> {project.name} </SubSectionHeading>
                         {isOwner && (
                             <HStack gap={1}>
-                                <IconButton size="xs" variant="ghost" onClick={() => setIsEditOpen(true)} aria-label="Edit project"><Icons.Edit /></IconButton>
-                                <IconButton size="xs" variant="ghost" colorPalette="red" onClick={handleDelete} aria-label="Delete project"><Icons.Trash /></IconButton>
+                                <IconButton size="xs" variant="ghost" onClick={() => setIsEditOpen(true)} aria-label="Edit project"><Icons.Edit/></IconButton>
+                                <IconButton size="xs" variant="ghost" colorPalette="red" onClick={handleDelete} aria-label="Delete project"><Icons.Trash/></IconButton>
                             </HStack>
                         )}
                     </HStack>
 
-                    {project.url && (
+                    {project.linkUrl && (
                         <Text
                             as="a"
-                            href={project.url}
+                            href={project.linkUrl}
                             target="_blank"
                             fontSize="sm"
                             color="text.brand"
                             _hover={{textDecoration: "underline"}}
                         >
-                            {project.url}
+                            {project.linkUrl}
                         </Text>
                     )}
 

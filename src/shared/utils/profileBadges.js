@@ -51,9 +51,14 @@ export function getVerificationUi(status) {
 }
 
 export function getOpenToWorkUi(openToWork) {
-    if (!openToWork) return null;
+    if (openToWork){
+        return {
+            label: "Open to work",
+            badgeProps: {colorPalette: "green", variant: "subtle"},
+        }
+    }
     return {
         label: "Open to work",
-        badgeProps: {colorPalette: "green", variant: "subtle"},
+        badgeProps: {colorPalette: "red", variant: "subtle"},
     };
 }

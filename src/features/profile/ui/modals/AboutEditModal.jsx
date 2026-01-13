@@ -23,7 +23,7 @@ export function AboutEditModal({currentSummary}) {
 
     const trigger = (
         <Dialog.Trigger asChild>
-            <Button variant="ghost" size="xs" colorPalette="blue">Edit About</Button>
+            <Button variant="ghost" size="xs" colorPalette="blue">Edit</Button>
         </Dialog.Trigger>
     );
 

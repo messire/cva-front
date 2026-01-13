@@ -1,33 +1,47 @@
-import {Button, Dialog, Stack, Text, Textarea} from "@chakra-ui/react";
-import {useState} from "react";
-import {useProfileStore} from "../../model/profile.store.js";
-import {toaster} from "../../../../shared/ui/toaster.jsx";
+import { Button, Dialog } from "@chakra-ui/react";
+import { useEffect, useMemo, useState } from "react";
+import { useProfileStore } from "../../model/profile.store.js";
+import { toaster } from "../../../../shared/ui/toaster.jsx";
 import _ProfileDialogShell from "./_ProfileDialogShell.jsx";
+import {Icons} from "../../../../shared/ui/icons.js";
+import TagsField from "../../../../shared/ui/TagsField.jsx";
 
-export function SkillsEditModal({currentSkills}) {
-    const [skillsText, setSkillsText] = useState(Array.isArray(currentSkills) ? currentSkills.join(", ") : "");
+export function SkillsEditModal({ currentSkills }) {
+    const initialSkills = useMemo(
+        () => (Array.isArray(currentSkills) ? currentSkills.filter(Boolean) : []),
+        [currentSkills]
+    );
+
     const [open, setOpen] = useState(false);
-    const replaceSkills = useProfileStore(s => s.replaceSkills);
+    const [_, setValue] = useState("");
+    const [skills, setSkills] = useState(initialSkills);
+
+    const replaceSkills = useProfileStore((s) => s.replaceSkills);
+
+    useEffect(() => {
+        if (!open) return;
+        setValue("");
+        setSkills(initialSkills);
+    }, [open, initialSkills]);
+
+    const normalize = (s) => (s ?? "").trim();
 
     const handleSave = async () => {
-        const skillsArray = skillsText
-            .split(",")
-            .map(s => s.trim())
-            .filter(Boolean);
+        const clean = skills.map(normalize).filter(Boolean);
 
-        const res = await replaceSkills({skills: skillsArray});
+        const res = await replaceSkills({ skills: clean });
 
         if (res.ok) {
-            toaster.create({title: "Skills updated", type: "success"});
+            toaster.create({ title: "Skills updated", type: "success" });
             setOpen(false);
         } else {
-            toaster.create({title: "Failed to update skills", description: res.message, type: "error"});
+            toaster.create({ title: "Failed to update skills", description: res.message, type: "error" });
         }
     };
 
     const trigger = (
         <Dialog.Trigger asChild>
-            <Button variant="ghost" size="xs" colorPalette="blue">Edit Skills</Button>
+            <Button variant="ghost" size="xs" colorPalette="blue"><Icons.Edit/></Button>
         </Dialog.Trigger>
     );
 
@@ -48,17 +62,13 @@ export function SkillsEditModal({currentSkills}) {
             trigger={trigger}
             footer={footer}
         >
-            <Stack gap="4">
-                <Stack gap="2">
-                    <Text fontSize="sm" fontWeight="medium">Skills (comma separated)</Text>
-                    <Textarea
-                        placeholder="Enter your skills"
-                        value={skillsText}
-                        onChange={(e) => setSkillsText(e.target.value)}
-                        rows={6}
-                    />
-                </Stack>
-            </Stack>
+            <TagsField
+                label="Skills"
+                placeholder="Type a skill and press Enter"
+                value={skills}
+                onChange={setSkills}
+                maxTags={30}
+            />
         </_ProfileDialogShell>
     );
 }

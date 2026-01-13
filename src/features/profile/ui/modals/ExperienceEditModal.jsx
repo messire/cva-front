@@ -1,34 +1,52 @@
-import {Button, Dialog, Stack, Text, Input, Textarea} from "@chakra-ui/react";
-import {useMemo, useState} from "react";
+import {Button, Dialog} from "@chakra-ui/react";
+import {useEffect, useMemo, useState} from "react";
 import {useProfileStore} from "../../model/profile.store.js";
 import {toaster} from "../../../../shared/ui/toaster.jsx";
 import _ProfileDialogShell from "./_ProfileDialogShell.jsx";
 
+import {ExperienceForm} from "./experience/ExperienceForm.jsx";
+import {isoToMonth, monthToPeriodEndIso, monthToPeriodStartIso} from "../../../../shared/utils/monthDateUtils.js";
+import {Icons} from "../../../../shared/ui/icons.js";
+
 export function ExperienceEditModal({experience, isOpen: externalOpen, onOpenChange}) {
     const isEditing = !!experience;
+
     const [company, setCompany] = useState(experience?.company || "");
     const [role, setRole] = useState(experience?.role || "");
-    const [startDate, setStartDate] = useState(experience?.startDate ? experience.startDate.split('T')[0] : "");
-    const [endDate, setEndDate] = useState(experience?.endDate ? experience.endDate.split('T')[0] : "");
+    const [startMonth, setStartMonth] = useState(isoToMonth(experience?.startDate));
+    const [endMonth, setEndMonth] = useState(isoToMonth(experience?.endDate));
     const [description, setDescription] = useState(experience?.description || "");
     const [city, setCity] = useState(experience?.location?.city || "");
     const [country, setCountry] = useState(experience?.location?.country || "");
-    const [techStack, setTechStack] = useState(Array.isArray(experience?.techStack) ? experience.techStack.join(", ") : "");
+    const [techStackTags, setTechStackTags] = useState(
+        Array.isArray(experience?.techStack) ? experience.techStack : []
+    );
 
     const addExperience = useProfileStore(s => s.addExperience);
     const editExperience = useProfileStore(s => s.editExperience);
 
     const title = useMemo(() => (isEditing ? "Edit Experience" : "Add Experience"), [isEditing]);
 
+    useEffect(() => {
+        setCompany(experience?.company || "");
+        setRole(experience?.role || "");
+        setStartMonth(isoToMonth(experience?.startDate));
+        setEndMonth(isoToMonth(experience?.endDate));
+        setDescription(experience?.description || "");
+        setCity(experience?.location?.city || "");
+        setCountry(experience?.location?.country || "");
+        setTechStackTags(Array.isArray(experience?.techStack) ? experience.techStack : []);
+    }, [experience]);
+
     const handleSave = async () => {
         const payload = {
             company: company.trim(),
             role: role.trim(),
-            startDate: startDate || null,
-            endDate: endDate || null,
+            startDate: startMonth ? monthToPeriodStartIso(startMonth) : null,
+            endDate: endMonth ? monthToPeriodEndIso(endMonth) : null,
             description: description.trim(),
             location: {city: city.trim(), country: country.trim()},
-            techStack: techStack.split(",").map(s => s.trim()).filter(Boolean)
+            techStack: (techStackTags || []).map(s => String(s).trim()).filter(Boolean),
         };
 
         const res = isEditing
@@ -37,17 +55,16 @@ export function ExperienceEditModal({experience, isOpen: externalOpen, onOpenCha
 
         if (res.ok) {
             toaster.create({title: isEditing ? "Experience updated" : "Experience added", type: "success"});
-            if (onOpenChange) {
-                onOpenChange({open: false});
-            }
-        } else {
-            toaster.create({title: "Failed to save experience", description: res.message, type: "error"});
+            onOpenChange?.({open: false});
+            return;
         }
+
+        toaster.create({title: "Failed to save experience", description: res.message, type: "error"});
     };
 
     const trigger = !isEditing ? (
         <Dialog.Trigger asChild>
-            <Button size="sm" variant="outline">+ Add Experience</Button>
+            <Button variant="ghost" size="xs" colorPalette="blue"><Icons.AddExperience/></Button>
         </Dialog.Trigger>
     ) : null;
 
@@ -68,41 +85,24 @@ export function ExperienceEditModal({experience, isOpen: externalOpen, onOpenCha
             trigger={trigger}
             footer={footer}
         >
-            <Stack gap="4">
-                <Stack gap="2">
-                    <Text fontSize="sm" fontWeight="medium">Company</Text>
-                    <Input value={company} onChange={e => setCompany(e.target.value)}/>
-                </Stack>
-                <Stack gap="2">
-                    <Text fontSize="sm" fontWeight="medium">Role</Text>
-                    <Input value={role} onChange={e => setRole(e.target.value)}/>
-                </Stack>
-                <Stack direction="row" gap="4">
-                    <Stack gap="2" flex="1">
-                        <Text fontSize="sm" fontWeight="medium">Start Date</Text>
-                        <Input type="date" value={startDate} onChange={e => setStartDate(e.target.value)}/>
-                    </Stack>
-                    <Stack gap="2" flex="1">
-                        <Text fontSize="sm" fontWeight="medium">End Date</Text>
-                        <Input type="date" value={endDate} onChange={e => setEndDate(e.target.value)}/>
-                    </Stack>
-                </Stack>
-                <Stack gap="2">
-                    <Text fontSize="sm" fontWeight="medium">Location</Text>
-                    <Stack direction="row" gap="4">
-                        <Input placeholder="City" value={city} onChange={e => setCity(e.target.value)}/>
-                        <Input placeholder="Country" value={country} onChange={e => setCountry(e.target.value)}/>
-                    </Stack>
-                </Stack>
-                <Stack gap="2">
-                    <Text fontSize="sm" fontWeight="medium">Tech Stack (comma separated)</Text>
-                    <Input value={techStack} onChange={e => setTechStack(e.target.value)}/>
-                </Stack>
-                <Stack gap="2">
-                    <Text fontSize="sm" fontWeight="medium">Description</Text>
-                    <Textarea value={description} onChange={e => setDescription(e.target.value)} rows={4}/>
-                </Stack>
-            </Stack>
+            <ExperienceForm
+                company={company}
+                role={role}
+                startMonth={startMonth}
+                endMonth={endMonth}
+                city={city}
+                country={country}
+                techStackTags={techStackTags}
+                description={description}
+                setCompany={setCompany}
+                setRole={setRole}
+                setStartMonth={setStartMonth}
+                setEndMonth={setEndMonth}
+                setCity={setCity}
+                setCountry={setCountry}
+                setTechStackTags={setTechStackTags}
+                setDescription={setDescription}
+            />
         </_ProfileDialogShell>
     );
 }

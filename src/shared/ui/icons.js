@@ -3,9 +3,12 @@ import {
     FaAt,
     FaBriefcase,
     FaCalendarDays,
+    FaCalendarPlus,
     FaCheck,
     FaCircleCheck,
+    FaCircleInfo,
     FaGithub,
+    FaFolderPlus,
     FaLayerGroup,
     FaLinkedin,
     FaLocationDot,
@@ -26,12 +29,15 @@ import {
 } from "react-icons/fa6";
 
 export const Icons = {
+    AddExperience: FaCalendarPlus,
+    AddProject: FaFolderPlus,
     Calendar: FaCalendarDays,
     Check: FaCheck,
     Edit: FaPencil,
     Email: FaAt,
     Experience: FaBriefcase,
     Github: FaGithub,
+    Info: FaCircleInfo,
     Linkedin: FaLinkedin,
     Location: FaLocationDot,
     Moon: FaMoon,

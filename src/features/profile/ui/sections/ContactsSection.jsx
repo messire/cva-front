@@ -1,33 +1,68 @@
-import {Box, Heading, HStack, IconButton, Separator, Text, VStack} from "@chakra-ui/react";
+import {Box, HStack, IconButton, Separator, Text, VStack} from "@chakra-ui/react";
 import ProfileSectionCard from "../components/ProfileSectionCard.jsx";
-import { Icons } from "../../../../shared/ui/icons.js";
+import {Icons} from "../../../../shared/ui/icons.js";
 import {ContactsEditModal} from "../modals/ContactsEditModal.jsx";
 import {SocialLinksEditModal} from "../modals/SocialLinksEditModal.jsx";
+import SectionHeading from "../components/SectionHeading.jsx";
 
 const ContactsSection = ({profile, isOwner}) => {
     const location = [profile.location?.city, profile.location?.country]
         .filter(Boolean)
         .join(", ");
+
     const telephone = profile.phone ? profile.phone.replace(/[^\d+]/g, '') : '';
     const whatsapp = profile.phone ? profile.phone.replace(/\D/g, '') : '';
+
     const telegram = profile.socialLinks?.telegram;
     const linkedin = profile.socialLinks?.linkedIn;
     const github = profile.socialLinks?.gitHub;
     const twitter = profile.socialLinks?.twitter;
 
+    const socialButtons = [
+        {
+            key: "linkedin",
+            label: "LinkedIn",
+            icon: <Icons.Linkedin size={20} />,
+            href: linkedin || null,
+            external: true,
+        },
+        {
+            key: "github",
+            label: "GitHub",
+            icon: <Icons.Github size={20} />,
+            href: github || null,
+            external: true,
+        },
+        {
+            key: "telegram",
+            label: "Telegram",
+            icon: <Icons.Telegram size={20} />,
+            href: telegram || null,
+            external: true,
+        },
+        {
+            key: "twitter",
+            label: "X",
+            icon: <Icons.Twitter size={20} />,
+            href: twitter || null,
+            external: true,
+        },
+        {
+            key: "whatsapp",
+            label: "WhatsApp",
+            icon: <Icons.Whatsapp size={20} />,
+            href: whatsapp ? `https://wa.me/${whatsapp}` : null,
+            external: true,
+        },
+    ];
+
     return (
         <ProfileSectionCard h="full">
             <VStack align={'left'}>
                 <HStack justify="space-between" pb={4}>
-                    <Heading
-                        fontSize='2xl'
-                        fontWeight='800'
-                        letterSpacing='-0.02em'
-                        color="text.primary"
-                    >
-                        Contacts
-                    </Heading>
-                    {isOwner && <ContactsEditModal profile={profile} />}
+                    <SectionHeading flexShrink="0"> Contacts </SectionHeading>
+                    <Separator borderColor="border.subtle" flex="1"/>
+                    {isOwner && <ContactsEditModal profile={profile} flexShrink="0"/>}
                 </HStack>
 
                 <VStack align="stretch" gap={2}>
@@ -94,101 +129,57 @@ const ContactsSection = ({profile, isOwner}) => {
                     )}
                 </VStack>
 
-                <Separator borderColor="border.subtle" my={2}/>
-
-                <HStack justify="space-between" pb={2}>
-                    <Text fontSize="sm" fontWeight="bold">Social Links</Text>
-                    {isOwner && <SocialLinksEditModal profile={profile} />}
+                <HStack justify="space-between" p={2}>
+                    <SectionHeading flexShrink="0"> Social Links </SectionHeading>
+                    <Separator borderColor="border.subtle" flex="1"/>
+                    {isOwner && <SocialLinksEditModal profile={profile} flexShrink="0"/>}
                 </HStack>
 
                 <HStack gap={3} justify="center">
-                    {linkedin && (
-                        <IconButton
-                            as="a"
-                            href={`${linkedin}`}
-                            aria-label="LinkedIn"
-                            variant="ghost"
-                            w="36px"
-                            h="36px"
-                            borderRadius="button"
-                            bg="bg.page"
-                            color="text.secondary"
-                            _hover={{bg: "bg.main", color: "text.brand"}}
-                            transition="all 0.2s"
-                        >
-                            <Icons.Linkedin size={20}/>
-                        </IconButton>
-                    )}
-                    {github && (
-                        <IconButton
-                            as="a"
-                            href={`${github}`}
-                            aria-label="GitHub"
-                            variant="ghost"
-                            w="36px"
-                            h="36px"
-                            borderRadius="button"
-                            bg="bg.page"
-                            color="text.secondary"
-                            _hover={{bg: "bg.main", color: "text.brand"}}
-                            transition="all 0.2s"
-                        >
-                            <Icons.Github size={20}/>
-                        </IconButton>
-                    )}
-                    {telegram && (
-                        <IconButton
-                            as="a"
-                            href={`${telegram}`}
-                            aria-label="Telegram"
-                            variant="ghost"
-                            w="36px"
-                            h="36px"
-                            borderRadius="button"
-                            bg="bg.page"
-                            color="text.secondary"
-                            _hover={{bg: "bg.main", color: "text.brand"}}
-                            transition="all 0.2s"
-                        >
-                            <Icons.Telegram size={20}/>
-                        </IconButton>
-                    )}
-                    {twitter && (
-                        <IconButton
-                            as="a"
-                            href={`${twitter}`}
-                            aria-label="X"
-                            variant="ghost"
-                            w="36px"
-                            h="36px"
-                            borderRadius="button"
-                            bg="bg.page"
-                            color="text.secondary"
-                            _hover={{bg: "bg.main", color: "text.brand"}}
-                            transition="all 0.2s"
-                        >
-                            <Icons.Twitter size={20}/>
-                        </IconButton>
-                    )}
-                    {whatsapp && (
-                        <IconButton
-                            as="a"
-                            href={`https://wa.me/${whatsapp}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="WhatsApp"
-                            variant="ghost"
-                            w="36px"
-                            h="36px"
-                            borderRadius="button"
-                            bg="bg.page"
-                            color="text.secondary"
-                            _hover={{bg: "bg.main", color: "text.brand"}}
-                            transition="all 0.2s"
-                        >
-                            <Icons.Whatsapp size={20}/>
-                        </IconButton>
-                    )}
+                    {socialButtons.map((b) => {
+                        const isActive = Boolean(b.href);
+                        const commonProps = {
+                            "aria-label": b.label,
+                            variant: "ghost",
+                            w: "36px",
+                            h: "36px",
+                            borderRadius: "button",
+                            transition: "all 0.2s",
+                        };
+                        if (isActive) {
+                            return (
+                                <IconButton
+                                    key={b.key}
+                                    as="a"
+                                    href={b.href}
+                                    target={b.external ? "_blank" : undefined}
+                                    rel={b.external ? "no opener no referrer" : undefined}
+                                    bg="bg.main"
+                                    color="text.brand"
+                                    _hover={{bg: "bg.page", color: "text.brand"}}
+                                    {...commonProps}
+                                >
+                                    {b.icon}
+                                </IconButton>
+                            );
+                        }
+
+                        return (
+                            <IconButton
+                                key={b.key}
+                                isDisabled
+                                aria-disabled="true"
+                                bg="bg.page"
+                                color="text.secondary"
+                                opacity={0.45}
+                                cursor="default"
+                                _hover={{bg: "bg.page", color: "text.secondary"}}
+                                {...commonProps}
+                            >
+                                {b.icon}
+                            </IconButton>
+                        );
+                    })}
                 </HStack>
             </VStack>
         </ProfileSectionCard>

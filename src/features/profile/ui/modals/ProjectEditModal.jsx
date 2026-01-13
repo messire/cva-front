@@ -3,13 +3,16 @@ import {useMemo, useState} from "react";
 import {useProfileStore} from "../../model/profile.store.js";
 import {toaster} from "../../../../shared/ui/toaster.jsx";
 import _ProfileDialogShell from "./_ProfileDialogShell.jsx";
+import TagsField from "../../../../shared/ui/TagsField.jsx";
+
+import {Icons} from "../../../../shared/ui/icons.js";
 
 export function ProjectEditModal({project, isOpen: externalOpen, onOpenChange}) {
     const isEditing = !!project;
-    const [title, setTitle] = useState(project?.title || "");
+    const [name, setName] = useState(project?.name || "");
     const [description, setDescription] = useState(project?.description || "");
-    const [url, setUrl] = useState(project?.url || "");
-    const [imageUrl, setImageUrl] = useState(project?.imageUrl || "");
+    const [linkUrl, setLinkUrl] = useState(project?.linkUrl || "");
+    const [iconUrl, setIconUrl] = useState(project?.iconUrl || "");
     const [techStack, setTechStack] = useState(Array.isArray(project?.techStack) ? project.techStack.join(", ") : "");
 
     const addProject = useProfileStore(s => s.addProject);
@@ -17,10 +20,10 @@ export function ProjectEditModal({project, isOpen: externalOpen, onOpenChange}) 
 
     const handleSave = async () => {
         const payload = {
-            title: title.trim(),
+            name: name.trim(),
             description: description.trim(),
-            url: url.trim() || null,
-            imageUrl: imageUrl.trim() || null,
+            linkUrl: linkUrl.trim() || null,
+            iconUrl: iconUrl.trim() || null,
             techStack: techStack.split(",").map(s => s.trim()).filter(Boolean)
         };
 
@@ -40,7 +43,7 @@ export function ProjectEditModal({project, isOpen: externalOpen, onOpenChange}) 
 
     const trigger = !isEditing ? (
         <Dialog.Trigger asChild>
-            <Button size="sm" variant="outline">+ Add Project</Button>
+            <Button variant="ghost" size="xs" colorPalette="blue"><Icons.AddProject/></Button>
         </Dialog.Trigger>
     ) : null;
 
@@ -64,20 +67,23 @@ export function ProjectEditModal({project, isOpen: externalOpen, onOpenChange}) 
             <Stack gap="4">
                 <Stack gap="2">
                     <Text fontSize="sm" fontWeight="medium">Title</Text>
-                    <Input value={title} onChange={e => setTitle(e.target.value)}/>
+                    <Input value={name} onChange={e => setName(e.target.value)}/>
                 </Stack>
                 <Stack gap="2">
                     <Text fontSize="sm" fontWeight="medium">URL</Text>
-                    <Input value={url} onChange={e => setUrl(e.target.value)} placeholder="https://..."/>
+                    <Input value={linkUrl} onChange={e => setLinkUrl(e.target.value)} placeholder="https://..."/>
                 </Stack>
                 <Stack gap="2">
                     <Text fontSize="sm" fontWeight="medium">Image URL</Text>
-                    <Input value={imageUrl} onChange={e => setImageUrl(e.target.value)} placeholder="https://..."/>
+                    <Input value={iconUrl} onChange={e => setIconUrl(e.target.value)} placeholder="https://..."/>
                 </Stack>
-                <Stack gap="2">
-                    <Text fontSize="sm" fontWeight="medium">Tech Stack (comma separated)</Text>
-                    <Input value={techStack} onChange={e => setTechStack(e.target.value)}/>
-                </Stack>
+                <TagsField
+                    label="Tech Stack"
+                    placeholder="Add tag..."
+                    value={techStack}
+                    onChange={setTechStack}
+                    maxTags={20}
+                />
                 <Stack gap="2">
                     <Text fontSize="sm" fontWeight="medium">Description</Text>
                     <Textarea value={description} onChange={e => setDescription(e.target.value)} rows={4}/>

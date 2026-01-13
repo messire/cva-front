@@ -1,42 +1,45 @@
-import {Button, Dialog, Stack, Text, Input} from "@chakra-ui/react";
+import { Button, Dialog, Stack } from "@chakra-ui/react";
 import {useState} from "react";
-import {useProfileStore} from "../../model/profile.store.js";
-import {toaster} from "../../../../shared/ui/toaster.jsx";
-import _ProfileDialogShell from "./_ProfileDialogShell.jsx";
 
-export function SocialLinksEditModal({profile}) {
-    const [telegram, setTelegram] = useState(profile.socialLinks?.telegram || "");
-    const [linkedIn, setLinkedIn] = useState(profile.socialLinks?.linkedIn || "");
-    const [gitHub, setGitHub] = useState(profile.socialLinks?.gitHub || "");
-    const [twitter, setTwitter] = useState(profile.socialLinks?.twitter || "");
+import _ProfileDialogShell from "./_ProfileDialogShell.jsx";
+import { SocialLinkField } from "../edit/SocialLinkField.jsx";
+import { useSocialLinksForm } from "../edit/useSocialLinksForm.js";
+import { useProfileStore } from "../../model/profile.store.js";
+import { toaster } from "../../../../shared/ui/toaster.jsx";
+
+import {Icons} from "../../../../shared/ui/icons.js";
+
+export function SocialLinksEditModal({ profile }) {
     const [open, setOpen] = useState(false);
     const updateContacts = useProfileStore(s => s.updateContacts);
 
+    const form = useSocialLinksForm(profile.socialLinks);
+
     const handleSave = async () => {
+        if (!form.validateAll()) {
+            toaster.create({ title: "Fix invalid links", type: "error" });
+            return;
+        }
+
         const res = await updateContacts({
             email: profile.email,
             phone: profile.phone,
             website: profile.website,
             location: profile.location,
-            socialLinks: {
-                telegram: telegram.trim() || null,
-                linkedIn: linkedIn.trim() || null,
-                gitHub: gitHub.trim() || null,
-                twitter: twitter.trim() || null
-            }
+            socialLinks: form.buildSocialLinks(),
         });
 
         if (res.ok) {
-            toaster.create({title: "Social links updated", type: "success"});
+            toaster.create({ title: "Social links updated", type: "success" });
             setOpen(false);
         } else {
-            toaster.create({title: "Failed to update social links", description: res.message, type: "error"});
+            toaster.create({ title: "Failed to update social links", description: res.message, type: "error" });
         }
     };
 
     const trigger = (
         <Dialog.Trigger asChild>
-            <Button variant="ghost" size="xs" colorPalette="blue">Edit Social Links</Button>
+            <Button variant="ghost" size="xs" colorPalette="blue"><Icons.Edit/></Button>
         </Dialog.Trigger>
     );
 
@@ -51,29 +54,45 @@ export function SocialLinksEditModal({profile}) {
 
     return (
         <_ProfileDialogShell
-            title="Edit Social Links"
+            title="Edit Socials"
             open={open}
             onOpenChange={(e) => setOpen(e.open)}
             trigger={trigger}
             footer={footer}
         >
             <Stack gap="4">
-                <Stack gap="2">
-                    <Text fontSize="sm" fontWeight="medium">Telegram</Text>
-                    <Input value={telegram} onChange={e => setTelegram(e.target.value)} placeholder="@username or link"/>
-                </Stack>
-                <Stack gap="2">
-                    <Text fontSize="sm" fontWeight="medium">LinkedIn</Text>
-                    <Input value={linkedIn} onChange={e => setLinkedIn(e.target.value)} placeholder="https://linkedin.com/in/..."/>
-                </Stack>
-                <Stack gap="2">
-                    <Text fontSize="sm" fontWeight="medium">GitHub</Text>
-                    <Input value={gitHub} onChange={e => setGitHub(e.target.value)} placeholder="https://github.com/..."/>
-                </Stack>
-                <Stack gap="2">
-                    <Text fontSize="sm" fontWeight="medium">Twitter/X</Text>
-                    <Input value={twitter} onChange={e => setTwitter(e.target.value)} placeholder="https://x.com/..."/>
-                </Stack>
+                <SocialLinkField
+                    label="Telegram"
+                    placeholder="https://t.me/..."
+                    value={form.values.telegram}
+                    error={form.errors.telegram}
+                    onChangeStripped={(v) => form.setField("telegram", v)}
+                    onErrorChange={(m) => form.setError("telegram", m)}
+                />
+                <SocialLinkField
+                    label="LinkedIn"
+                    placeholder="https://www.linkedin.com/in/..."
+                    value={form.values.linkedIn}
+                    error={form.errors.linkedIn}
+                    onChangeStripped={(v) => form.setField("linkedIn", v)}
+                    onErrorChange={(m) => form.setError("linkedIn", m)}
+                />
+                <SocialLinkField
+                    label="GitHub"
+                    placeholder="https://github.com/..."
+                    value={form.values.gitHub}
+                    error={form.errors.gitHub}
+                    onChangeStripped={(v) => form.setField("gitHub", v)}
+                    onErrorChange={(m) => form.setError("gitHub", m)}
+                />
+                <SocialLinkField
+                    label="Twitter/X"
+                    placeholder="https://x.com/..."
+                    value={form.values.twitter}
+                    error={form.errors.twitter}
+                    onChangeStripped={(v) => form.setField("twitter", v)}
+                    onErrorChange={(m) => form.setError("twitter", m)}
+                />
             </Stack>
         </_ProfileDialogShell>
     );

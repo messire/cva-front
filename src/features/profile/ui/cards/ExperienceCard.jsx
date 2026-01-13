@@ -1,4 +1,4 @@
-import {Box, Flex, Heading, HStack, IconButton, Text, VStack} from "@chakra-ui/react";
+import {Box, Flex, HStack, IconButton, Text, VStack} from "@chakra-ui/react";
 import {useState} from "react";
 import {formatDate} from "../../../../shared/utils/dateFormatter.js";
 import {Icons} from "../../../../shared/ui/icons.js";
@@ -6,6 +6,7 @@ import TagBadge from "../../../../shared/ui/TagBadge.jsx";
 import {ExperienceEditModal} from "../modals/ExperienceEditModal.jsx";
 import {useProfileStore} from "../../model/profile.store.js";
 import {toaster} from "../../../../shared/ui/toaster.jsx";
+import SubSectionHeading from "../components/SubSectionHeading.jsx";
 
 const ExperienceCard = ({workExperience, isOwner}) => {
     const [isEditOpen, setIsEditOpen] = useState(false);
@@ -32,27 +33,17 @@ const ExperienceCard = ({workExperience, isOwner}) => {
     return (
         <Box w="full">
             <Flex justify="space-between" align="start">
-                <VStack align='left' gap={1} w="full">
+                <VStack align='left' gap={1} w="full" pl={6}>
                     <HStack justify="space-between" w="full">
-                        <Heading
-                            fontSize='xl'
-                            fontWeight='700'
-                            color="text.primary"
-                        >
-                            {workExperience?.role}
-                        </Heading>
+                        <SubSectionHeading>{workExperience?.role}</SubSectionHeading>
                         {isOwner && (
                             <HStack gap={1}>
-                                <IconButton size="xs" variant="ghost" onClick={() => setIsEditOpen(true)} aria-label="Edit experience"><Icons.Edit /></IconButton>
-                                <IconButton size="xs" variant="ghost" colorPalette="red" onClick={handleDelete} aria-label="Delete experience"><Icons.Trash /></IconButton>
+                                <IconButton size="xs" variant="ghost" onClick={() => setIsEditOpen(true)} aria-label="Edit experience"><Icons.Edit/></IconButton>
+                                <IconButton size="xs" variant="ghost" colorPalette="red" onClick={handleDelete} aria-label="Delete experience"><Icons.Trash/></IconButton>
                             </HStack>
                         )}
                     </HStack>
-
-                    <Text fontSize="md" color="text.brand" fontWeight="600">
-                        {workExperience?.company}
-                    </Text>
-
+                    <SubSectionHeading color="text.brand">{workExperience?.company}</SubSectionHeading>
                     <HStack gap={4} color="text.secondary" fontSize="sm">
                         <HStack gap={1}>
                             <Icons.Calendar size={14}/>

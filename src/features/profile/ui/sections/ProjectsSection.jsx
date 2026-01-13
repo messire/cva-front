@@ -1,7 +1,8 @@
-import {Heading, VStack, Text, Separator, HStack} from "@chakra-ui/react";
+import {VStack, Text, Separator, HStack} from "@chakra-ui/react";
 import ProfileSectionCard from "../components/ProfileSectionCard.jsx";
 import ProjectCard from "../cards/ProjectCard.jsx";
 import {ProjectEditModal} from "../modals/ProjectEditModal.jsx";
+import SectionHeading from "../components/SectionHeading.jsx";
 
 const ProjectsSection = ({profile, isOwner}) => {
     const projects = profile.projects || [];
@@ -10,15 +11,9 @@ const ProjectsSection = ({profile, isOwner}) => {
         <ProfileSectionCard id="portfolio">
             <VStack align={'left'} gap={4}>
                 <HStack justify="space-between">
-                    <Heading
-                        fontSize='2xl'
-                        fontWeight='800'
-                        letterSpacing='-0.02em'
-                        color="text.primary"
-                    >
-                        Portfolio
-                    </Heading>
-                    {isOwner && <ProjectEditModal />}
+                    <SectionHeading flexShrink="0"> Portfolio </SectionHeading>
+                    <Separator borderColor="border.subtle" flex="1"/>
+                    {isOwner && <ProjectEditModal flexShrink="0"/>}
                 </HStack>
 
                 <Separator borderColor="border.subtle"/>
@@ -28,7 +23,7 @@ const ProjectsSection = ({profile, isOwner}) => {
                         {projects.map((project, index) => (
                             <VStack key={project.id || index} align="stretch" gap={4}>
                                 <ProjectCard project={project} isOwner={isOwner}/>
-                                {index < projects.length - 1 && <Separator borderColor="border.subtle" variant="dashed" />}
+                                {index < projects.length - 1 && <Separator borderColor="border.subtle" variant="dashed"/>}
                             </VStack>
                         ))}
                     </VStack>

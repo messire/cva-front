@@ -1,8 +1,9 @@
-import {Heading, VStack, Text, Separator, HStack} from "@chakra-ui/react";
+import {VStack, Text, Separator, HStack} from "@chakra-ui/react";
 import {useMemo} from "react";
 import ProfileSectionCard from "../components/ProfileSectionCard.jsx";
 import ExperienceCard from "../cards/ExperienceCard.jsx";
 import {ExperienceEditModal} from "../modals/ExperienceEditModal.jsx";
+import SectionHeading from "../components/SectionHeading.jsx";
 
 const toSortValue = (endDate) => {
     if (!endDate) {
@@ -28,18 +29,10 @@ const ExperienceSection = ({profile, isOwner}) => {
         <ProfileSectionCard id="work">
             <VStack align={'left'} gap={4}>
                 <HStack justify="space-between">
-                    <Heading
-                        fontSize='2xl'
-                        fontWeight='800'
-                        letterSpacing='-0.02em'
-                        color="text.primary"
-                    >
-                        Work Experience
-                    </Heading>
-                    {isOwner && <ExperienceEditModal/>}
+                    <SectionHeading flexShrink="0"> Work Experience </SectionHeading>
+                    <Separator borderColor="border.subtle" flex="1"/>
+                    {isOwner && <ExperienceEditModal flexShrink="0"/>}
                 </HStack>
-
-                <Separator borderColor="border.subtle"/>
 
                 {sortedWork.length > 0 ? (
                     <VStack align="stretch" gap={6}>
