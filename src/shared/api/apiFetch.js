@@ -50,8 +50,10 @@ async function apiFetchInternal(url, fetchOptions, {auth, retryOn401}) {
 }
 
 function buildHeaders(options, tokenOverride) {
+    const isFormData = typeof FormData !== "undefined" && options?.body instanceof FormData;
+
     const headers = {
-        "Content-Type": "application/json",
+        ...(isFormData ? {} : {"Content-Type": "application/json"}),
         ...(options?.headers || {}),
     };
 
@@ -81,7 +83,6 @@ async function refreshTokens() {
         return safeReadJson(res);
     });
 }
-
 
 async function toApiResult(res) {
     if (res.status === 204) {

@@ -95,28 +95,36 @@ export const useProfileStore = create((set, get) => ({
 
     addExperience: async (payload) => {
         const res = await profileApi.createWorkExperience(payload);
-        if (!res.ok) return ApiResult.fail(res.message, res.problem);
+        if (!res.ok) {
+            return ApiResult.fail(res.message, res.problem);
+        }
         await get().loadMyProfile();
         return ApiResult.ok("Experience added");
     },
 
     editExperience: async (id, payload) => {
         const res = await profileApi.updateWorkExperience(id, payload);
-        if (!res.ok) return ApiResult.fail(res.message, res.problem);
+        if (!res.ok){
+            return ApiResult.fail(res.message, res.problem);
+        }
         await get().loadMyProfile();
         return ApiResult.ok("Experience updated");
     },
 
     removeExperience: async (id) => {
         const res = await profileApi.deleteWorkExperience(id);
-        if (!res.ok) return ApiResult.fail(res.message, res.problem);
+        if (!res.ok){
+            return ApiResult.fail(res.message, res.problem);
+        }
         await get().loadMyProfile();
         return ApiResult.ok("Experience removed");
     },
 
     addProject: async (payload) => {
         const res = await profileApi.createProject(payload);
-        if (!res.ok) return ApiResult.fail(res.message, res.problem);
+        if (!res.ok){
+            return ApiResult.fail(res.message, res.problem);
+        }
         await get().loadMyProfile();
         return ApiResult.ok("Project added");
     },
@@ -133,5 +141,23 @@ export const useProfileStore = create((set, get) => ({
         if (!res.ok) return ApiResult.fail(res.message, res.problem);
         await get().loadMyProfile();
         return ApiResult.ok("Project removed");
-    }
+    },
+
+    uploadAvatar: async (file) => {
+        const res = await profileApi.uploadAvatar(file);
+        if (!res.ok) {
+            return ApiResult.fail(res.message, res.problem);
+        }
+        set({myProfile: DeveloperProfileDetails.fromApi(res.data)});
+        return ApiResult.ok("Avatar uploaded");
+    },
+
+    uploadProjectImage: async (projectId, file) => {
+        const res = await profileApi.uploadProjectImage(projectId, file);
+        if (!res.ok) {
+            return ApiResult.fail(res.message, res.problem);
+        }
+        set({myProfile: DeveloperProfileDetails.fromApi(res.data)});
+        return ApiResult.ok("Project image uploaded");
+    },
 }));

@@ -50,7 +50,9 @@ const ProfileCreatePage = () => {
         void run();
     }, [isAuthenticated, navigate]);
 
-    if (!isAuthenticated) return <Navigate to="/" replace/>;
+    if (!isAuthenticated){
+        return <Navigate to="/" replace/>;
+    }
 
     const handleCreate = async () => {
         if (!form.firstName.trim() || !form.lastName.trim() || !form.email.trim()) {

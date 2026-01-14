@@ -36,7 +36,9 @@ const ProfileRedirectPage = () => {
         void run();
     }, [isAuthenticated, navigate]);
 
-    if (!isAuthenticated) return <Navigate to="/" replace/>;
+    if (!isAuthenticated){
+        return <Navigate to="/" replace/>;
+    }
 
     return (
         <Container maxW="container.sm" py={10}>

@@ -4,7 +4,9 @@
  * @returns {import('./profile.draft').DeveloperProfileDraft}
  */
 export function mapProfileToDraft(model) {
-    if (!model) return null;
+    if (!model) {
+        return null;
+    }
 
     return {
         firstName: model.firstName || "",

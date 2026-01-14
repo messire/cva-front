@@ -141,3 +141,32 @@ export async function deleteProject(id) {
         auth: true
     });
 }
+
+/**
+ * @param {File} file
+ */
+export async function uploadAvatar(file) {
+    const form = new FormData();
+    form.append("file", file);
+
+    return apiFetch(`${BASE_URL}/avatar`, {
+        method: "POST",
+        auth: true,
+        body: form,
+    });
+}
+
+/**
+ * @param {string} projectId
+ * @param {File} file
+ */
+export async function uploadProjectImage(projectId, file) {
+    const form = new FormData();
+    form.append("file", file);
+
+    return apiFetch(`${BASE_URL}/projects/${projectId}/image`, {
+        method: "POST",
+        auth: true,
+        body: form,
+    });
+}
