@@ -41,7 +41,9 @@ const ProfilePage = () => {
         }
     }, [id, isOwner, myProfile, catalogProfile, loadMyProfile, fetchProfileDetails]);
 
-    if (!id) return null;
+    if (!id) {
+        return null;
+    }
 
     if (!profile) {
         return (

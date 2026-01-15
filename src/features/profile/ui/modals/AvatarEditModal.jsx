@@ -1,38 +1,64 @@
-import {Button, Dialog, Input, Stack, Text, VStack} from "@chakra-ui/react";
-import {useState} from "react";
+import {Button, Dialog, Stack, Text, VStack} from "@chakra-ui/react";
+import {useEffect, useState} from "react";
 
 import ProfilePhoto from "../../../../shared/ui/ProfilePhoto.jsx";
 import {useProfileStore} from "../../model/profile.store.js";
 import {toaster} from "../../../../shared/ui/toaster.jsx";
 import _ProfileDialogShell from "./_ProfileDialogShell.jsx";
+import ImageFileField from "../../../../shared/ui/ImageFileField.jsx";
 
 export function AvatarEditModal({currentAvatarUrl}) {
-    const [url, setUrl] = useState(currentAvatarUrl || "");
+    const [file, setFile] = useState(null);
+    const [previewUrl, setPreviewUrl] = useState(null);
     const [open, setOpen] = useState(false);
-    const updateHeader = useProfileStore(s => s.updateHeader);
-    const myProfile = useProfileStore(s => s.myProfile);
+
+    const uploadAvatar = useProfileStore(s => s.uploadAvatar);
+
+    useEffect(() => {
+        if (!file) {
+            setPreviewUrl(null);
+            return;
+        }
+
+        const url = URL.createObjectURL(file);
+        setPreviewUrl(url);
+        return () => URL.revokeObjectURL(url);
+    }, [file]);
 
     const handleSave = async () => {
-        const res = await updateHeader({
-            firstName: myProfile.firstName,
-            lastName: myProfile.lastName,
-            role: myProfile.role,
-            avatarUrl: url.trim() || null,
-            openToWork: myProfile.openToWork,
-            yearsOfExperience: myProfile.yearsOfExperience
-        });
+        if (!file) {
+            toaster.create({
+                title: "No file selected",
+                description: "Please select an image file to upload.",
+                type: "warning"
+            });
+            return;
+        }
+
+        const res = await uploadAvatar(file);
 
         if (res.ok) {
-            toaster.create({title: "Avatar updated", type: "success"});
+            toaster.create({
+                title: "Avatar updated",
+                type: "success"
+            });
             setOpen(false);
-        } else {
-            toaster.create({title: "Failed to update avatar", description: res.message, type: "error"});
+            setFile(null);
+            return;
         }
+
+        toaster.create({
+            title: "Avatar upload failed",
+            description: res.message,
+            type: "error"
+        });
     };
 
     const trigger = (
         <Dialog.Trigger asChild>
-            <Button variant="ghost" size="xs" colorPalette="blue">Change Photo</Button>
+            <Button variant="ghost" size="xs" colorPalette="blue">
+                Change Photo
+            </Button>
         </Dialog.Trigger>
     );
 
@@ -56,17 +82,24 @@ export function AvatarEditModal({currentAvatarUrl}) {
             <Stack gap="4">
                 <VStack align="center" py="4">
                     <Text fontSize="sm" mb="2">Preview</Text>
-                    <ProfilePhoto avatarUrl={url} size="lg"/>
+                    <ProfilePhoto avatarUrl={previewUrl || currentAvatarUrl} size="lg"/>
                 </VStack>
 
-                <Stack gap="2">
-                    <Text fontSize="sm" fontWeight="medium">Image URL</Text>
-                    <Input
-                        placeholder="https://example.com/photo.jpg"
-                        value={url}
-                        onChange={(e) => setUrl(e.target.value)}
-                    />
-                </Stack>
+                <ImageFileField
+                    label="Upload avatar"
+                    helperText="Supported formats: JPEG, PNG, WebP. Upload a file from your device."
+                    maxBytes={500 * 1024}
+                    initialUrl={currentAvatarUrl}
+                    value={file}
+                    onChange={setFile}
+                    onError={(message) =>
+                        toaster.create({
+                            title: "Invalid file",
+                            description: message,
+                            type: "error"
+                        })
+                    }
+                />
             </Stack>
         </_ProfileDialogShell>
     );

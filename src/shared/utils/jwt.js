@@ -1,8 +1,12 @@
 export function tryGetJwtSub(accessToken) {
-    if (!accessToken) return null;
+    if (!accessToken) {
+        return null;
+    }
 
     const parts = accessToken.split(".");
-    if (parts.length !== 3) return null;
+    if (parts.length !== 3) {
+        return null;
+    }
 
     try {
         const payload = parts[1].replace(/-/g, "+").replace(/_/g, "/");

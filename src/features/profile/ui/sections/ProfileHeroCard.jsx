@@ -76,7 +76,12 @@ const ProfileHeroCard = ({profile, isOwner}) => {
             <VStack align={'left'} gap={6}>
                 <HStack gap={6} align="start">
                     <VStack align="center" gap={1}>
-                        <ProfilePhoto avatarUrl={profile.avatarUrl} status={profile.verified} size="md"/>
+                        <ProfilePhoto
+                            avatarUrl={profile.avatarUrl}
+                            avatarPreviewUrl={profile.avatarUrl ? (profile.avatarOriginalUrl || profile.avatarUrl) : null}
+                            status={profile.verified}
+                            size="md"
+                        />
                         {isOwner && <AvatarEditModal currentAvatarUrl={profile.avatarUrl}/>}
                     </VStack>
                     <VStack align='left' gap={1} w="full">
