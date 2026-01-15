@@ -5,6 +5,7 @@ export class DeveloperProfile {
                     lastName,
                     role,
                     avatarUrl = null,
+                    avatarOriginalUrl = null,
                     openToWork = false,
                     yearsOfExperience = null,
                     summary = null,
@@ -17,6 +18,7 @@ export class DeveloperProfile {
         this.lastName = lastName ?? "";
         this.role = role ?? "";
         this.avatarUrl = avatarUrl;
+        this.avatarOriginalUrl = avatarOriginalUrl;
         this.openToWork = Boolean(openToWork);
         this.verificationStatus = verificationStatus ?? "NotVerified";
         this.yearsOfExperience = yearsOfExperience ?? "";
@@ -129,6 +131,7 @@ export class DeveloperProfileDetails {
                     role = "",
                     summary = "",
                     avatarUrl = null,
+                    avatarOriginalUrl = null,
                     openToWork = false,
                     verified = "NotVerified",
                     yearsOfExperience = null,
@@ -147,6 +150,7 @@ export class DeveloperProfileDetails {
         this.role = role ?? "";
         this.summary = summary ?? "";
         this.avatarUrl = avatarUrl;
+        this.avatarOriginalUrl = avatarOriginalUrl;
         this.openToWork = Boolean(openToWork);
         this.verified = verified;
         this.yearsOfExperience = yearsOfExperience ?? 0;
