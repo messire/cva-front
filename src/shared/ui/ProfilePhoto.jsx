@@ -1,8 +1,9 @@
 import {Badge, Box, Icon, Image, Popover, Portal} from "@chakra-ui/react";
 
-import { getVerificationUi } from "../utils/profileBadges.js";
+import {getVerificationUi} from "../utils/profileBadges.js";
 
-import { useColorModeValue } from "./color-mode.jsx";
+import {useColorModeValue} from "./color-mode.jsx";
+import {Tooltip} from "./tooltip.jsx";
 
 /**
  * @typedef {'sm'|'md'|'lg'} ProfilePhotoSize
@@ -19,16 +20,16 @@ import { useColorModeValue } from "./color-mode.jsx";
  *   alt?: string
  * }} props
  */
-const ProfilePhoto = ({ avatarUrl, avatarPreviewUrl, status, size = "md", alt = "Profile photo" }) => {
+const ProfilePhoto = ({avatarUrl, avatarPreviewUrl, status, size = "md", alt = "Profile photo"}) => {
     const defaultPhoto = useColorModeValue("/images/no-photo-light.svg", "/images/no-photo-dark.svg");
     const photoLink = avatarUrl ? avatarUrl : defaultPhoto;
     const previewLink = avatarPreviewUrl ? avatarPreviewUrl : photoLink;
     const verUi = getVerificationUi(status);
 
     const sizeMap = {
-        sm: { outer: "52px", inner: "48px", badgeBottom: "2px", badgeRight: "2px", badgeIcon: "12px" },
-        md: { outer: "110px", inner: "100px", badgeBottom: "6px", badgeRight: "6px", badgeIcon: "14px" },
-        lg: { outer: "160px", inner: "150px", badgeBottom: "8px", badgeRight: "8px", badgeIcon: "16px" },
+        sm: {outer: "52px", inner: "48px", badgeBottom: "2px", badgeRight: "2px", badgeIcon: "12px"},
+        md: {outer: "110px", inner: "100px", badgeBottom: "6px", badgeRight: "6px", badgeIcon: "14px"},
+        lg: {outer: "160px", inner: "150px", badgeBottom: "8px", badgeRight: "8px", badgeIcon: "16px"},
     };
 
     const s = sizeMap[size] ?? sizeMap.md;
@@ -60,7 +61,7 @@ const ProfilePhoto = ({ avatarUrl, avatarPreviewUrl, status, size = "md", alt = 
                 <Popover.Root
                     openDelay={150}
                     closeDelay={75}
-                    positioning={{ placement: "right-start" }}
+                    positioning={{placement: "right-start"}}
                 >
                     <Popover.Trigger asChild>
                         <Box cursor="zoom-in">{photo}</Box>
@@ -94,21 +95,23 @@ const ProfilePhoto = ({ avatarUrl, avatarPreviewUrl, status, size = "md", alt = 
             )}
 
             {verUi && (
-                <Badge
-                    position="absolute"
-                    bottom={s.badgeBottom}
-                    right={s.badgeRight}
-                    display="inline-flex"
-                    alignItems="center"
-                    gap={1}
-                    px={2}
-                    py={1}
-                    borderRadius="999px"
-                    {...verUi.badgeProps}
-                >
-                    <Icon as={verUi.icon} boxSize={s.badgeIcon} />
-                    {/*{verUi.label}*/}
-                </Badge>
+                <Tooltip content={status}>
+                    <Badge
+                        position="absolute"
+                        bottom={s.badgeBottom}
+                        right={s.badgeRight}
+                        display="inline-flex"
+                        alignItems="center"
+                        gap={1}
+                        px={2}
+                        py={1}
+                        borderRadius="999px"
+                        {...verUi.badgeProps}
+                    >
+                        <Icon as={verUi.icon} boxSize={s.badgeIcon}/>
+                        {/*{verUi.label}*/}
+                    </Badge>
+                </Tooltip>
             )}
         </Box>
     );

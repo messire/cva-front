@@ -156,7 +156,7 @@ const ProfileHeroCard = ({profile, isOwner}) => {
                     <Separator borderColor="border.subtle" flex="1"/>
                     {isOwner && <AboutEditModal currentSummary={profile.summary} flexShrink="0"/>}
                 </HStack>
-                <Text fontSize="md" color="text.secondary" lineHeight="tall" whiteSpace="pre-wrap">
+                <Text fontSize="md" color="text.secondary" lineHeight="tall" whiteSpace="pre-line">
                     {description}
                 </Text>
 

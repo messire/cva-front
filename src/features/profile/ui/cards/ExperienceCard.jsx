@@ -57,7 +57,7 @@ const ExperienceCard = ({workExperience, isOwner}) => {
                         )}
                     </HStack>
 
-                    <Text color="text.secondary" mt={2}>{workExperience?.description}</Text>
+                    <Text color="text.secondary" mt={2} whiteSpace="pre-line">{workExperience?.description}</Text>
 
                     {workExperience?.techStack?.length > 0 && (
                         <Flex gap={2} wrap="wrap" mt={2}>

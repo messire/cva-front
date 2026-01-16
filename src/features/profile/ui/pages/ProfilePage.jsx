@@ -27,6 +27,20 @@ const ProfilePage = () => {
     const loadMyProfile = useProfileStore(s => s.loadMyProfile);
 
     const profile = isOwner ? myProfile : catalogProfile;
+    const hasProjects = Array.isArray(profile?.projects || []) && profile?.projects?.length > 0;
+    const hasWorks = Array.isArray(profile?.workExperience || []) && profile?.workExperience?.length > 0;
+
+    const profileSkills = Array.isArray(profile?.skills) ? profile.skills : [];
+    const experiences = Array.isArray(profile?.workExperience) ? profile.workExperience : [];
+
+    const hasSkillsFromProfile = profileSkills.some(s => String(s ?? "").trim().length > 0);
+
+    const hasSkillsFromExperience = experiences.some(exp =>
+        Array.isArray(exp?.techStack) &&
+        exp.techStack.some(t => String(t ?? "").trim().length > 0)
+    );
+
+    const hasAnySkills = hasSkillsFromProfile || hasSkillsFromExperience;
 
     useEffect(() => {
         if (!id) return;
@@ -80,10 +94,15 @@ const ProfilePage = () => {
                         <ContactsSection profile={profile} isOwner={isOwner}/>
                     </Box>
                 </Flex>
-
-                <SkillsSection profile={profile} isOwner={isOwner}/>
-                <ExperienceSection profile={profile} isOwner={isOwner}/>
-                <ProjectsSection profile={profile} isOwner={isOwner}/>
+                {(isOwner || hasAnySkills) && (
+                    <SkillsSection profile={profile} isOwner={isOwner}/>
+                )}
+                {(isOwner || hasWorks) && (
+                    <ExperienceSection profile={profile} isOwner={isOwner}/>
+                )}
+                {(isOwner || hasProjects) && (
+                    <ProjectsSection profile={profile} isOwner={isOwner}/>
+                )}
             </VStack>
         </Box>
     );

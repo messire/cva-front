@@ -1,11 +1,16 @@
 import {Box, Flex, HStack, IconButton, Text, VStack, Image} from "@chakra-ui/react";
-import {Icons} from "../../../../shared/ui/icons.js";
-import TagBadge from "../../../../shared/ui/TagBadge.jsx";
 import {useState} from "react";
+
+import TagBadge from "../../../../shared/ui/TagBadge.jsx";
 import {ProjectEditModal} from "../modals/ProjectEditModal.jsx";
 import {useProfileStore} from "../../model/profile.store.js";
 import {toaster} from "../../../../shared/ui/toaster.jsx";
 import SubSectionHeading from "../components/SubSectionHeading.jsx";
+
+import {Icons} from "../../../../shared/ui/icons.js";
+import {useColorModeValue} from "../../../../shared/ui/color-mode.jsx";
+
+import defaultProjectIcon from "/images/project.svg";
 
 const ProjectCard = ({project, isOwner}) => {
     const [isEditOpen, setIsEditOpen] = useState(false);
@@ -15,7 +20,6 @@ const ProjectCard = ({project, isOwner}) => {
         if (!window.confirm("Are you sure you want to delete this project?")) return;
 
         const res = await removeProject(project.id);
-
         if (res.ok) {
             toaster.create({title: "Project deleted", type: "success"});
         } else {
@@ -26,16 +30,15 @@ const ProjectCard = ({project, isOwner}) => {
     return (
         <Box w="full">
             <Flex gap={4} align="start" direction={{base: "column", sm: "row"}} pl={6}>
-                {project.iconUrl && (
-                    <Image
-                        src={project.iconUrl}
-                        alt={project.name}
-                        boxSize="100px"
-                        borderRadius="md"
-                        objectFit="cover"
-                        flexShrink={0}
-                    />
-                )}
+                <Image
+                    src={project.iconUrl || defaultProjectIcon}
+                    alt={project.name}
+                    boxSize="100px"
+                    borderRadius="md"
+                    objectFit="cover"
+                    flexShrink={0}
+                />
+
                 <VStack align='left' gap={1} w="full">
                     <HStack justify="space-between" w="full">
                         <SubSectionHeading> {project.name} </SubSectionHeading>
@@ -60,7 +63,7 @@ const ProjectCard = ({project, isOwner}) => {
                         </Text>
                     )}
 
-                    <Text color="text.secondary" mt={2}>{project.description}</Text>
+                    <Text color="text.secondary" mt={2} whiteSpace="pre-line">{project.description}</Text>
 
                     {project.techStack?.length > 0 && (
                         <Flex gap={2} wrap="wrap" mt={2}>

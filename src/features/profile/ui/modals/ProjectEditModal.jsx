@@ -15,7 +15,9 @@ export function ProjectEditModal({project, isOpen: externalOpen, onOpenChange}) 
     const [linkUrl, setLinkUrl] = useState(project?.linkUrl || "");
     const [iconUrl, setIconUrl] = useState(project?.iconUrl || "");
     const [imageFile, setImageFile] = useState(null);
-    const [techStack, setTechStack] = useState(Array.isArray(project?.techStack) ? project.techStack.join(", ") : "");
+    const [techStack, setTechStack] = useState(
+        Array.isArray(project?.techStack) ? project.techStack : []
+    );
 
     const addProject = useProfileStore(s => s.addProject);
     const editProject = useProfileStore(s => s.editProject);
@@ -37,7 +39,7 @@ export function ProjectEditModal({project, isOpen: externalOpen, onOpenChange}) 
             description: description.trim(),
             linkUrl: linkUrl.trim() || null,
             iconUrl: iconUrl.trim() || null,
-            techStack: techStack.split(",").map(s => s.trim()).filter(Boolean)
+            techStack: techStack
         };
 
         const res = isEditing

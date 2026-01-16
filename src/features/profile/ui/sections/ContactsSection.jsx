@@ -4,6 +4,7 @@ import {Icons} from "../../../../shared/ui/icons.js";
 import {ContactsEditModal} from "../modals/ContactsEditModal.jsx";
 import {SocialLinksEditModal} from "../modals/SocialLinksEditModal.jsx";
 import SectionHeading from "../components/SectionHeading.jsx";
+import {Tooltip} from "../../../../shared/ui/tooltip.jsx";
 
 const ContactsSection = ({profile, isOwner}) => {
     const location = [profile.location?.city, profile.location?.country]
@@ -22,35 +23,35 @@ const ContactsSection = ({profile, isOwner}) => {
         {
             key: "linkedin",
             label: "LinkedIn",
-            icon: <Icons.Linkedin size={20} />,
+            icon: <Icons.Linkedin size={20}/>,
             href: linkedin || null,
             external: true,
         },
         {
             key: "github",
             label: "GitHub",
-            icon: <Icons.Github size={20} />,
+            icon: <Icons.Github size={20}/>,
             href: github || null,
             external: true,
         },
         {
             key: "telegram",
             label: "Telegram",
-            icon: <Icons.Telegram size={20} />,
+            icon: <Icons.Telegram size={20}/>,
             href: telegram || null,
             external: true,
         },
         {
             key: "twitter",
             label: "X",
-            icon: <Icons.Twitter size={20} />,
+            icon: <Icons.Twitter size={20}/>,
             href: twitter || null,
             external: true,
         },
         {
             key: "whatsapp",
             label: "WhatsApp",
-            icon: <Icons.Whatsapp size={20} />,
+            icon: <Icons.Whatsapp size={20}/>,
             href: whatsapp ? `https://wa.me/${whatsapp}` : null,
             external: true,
         },
@@ -147,20 +148,23 @@ const ContactsSection = ({profile, isOwner}) => {
                             transition: "all 0.2s",
                         };
                         if (isActive) {
+                            console.log(b);
                             return (
-                                <IconButton
-                                    key={b.key}
-                                    as="a"
-                                    href={b.href}
-                                    target={b.external ? "_blank" : undefined}
-                                    rel={b.external ? "no opener no referrer" : undefined}
-                                    bg="bg.main"
-                                    color="text.brand"
-                                    _hover={{bg: "bg.page", color: "text.brand"}}
-                                    {...commonProps}
-                                >
-                                    {b.icon}
-                                </IconButton>
+                                <Tooltip content={b.label}>
+                                    <IconButton
+                                        key={b.key}
+                                        as="a"
+                                        href={b.href}
+                                        target={b.external ? "_blank" : undefined}
+                                        rel={b.external ? "no opener no referrer" : undefined}
+                                        bg="bg.main"
+                                        color="text.brand"
+                                        _hover={{bg: "bg.page", color: "text.brand"}}
+                                        {...commonProps}
+                                    >
+                                        {b.icon}
+                                    </IconButton>
+                                </Tooltip>
                             );
                         }
 

@@ -11,6 +11,9 @@ import {Icons} from "../../../../shared/ui/icons.js";
 export function ExperienceEditModal({experience, isOpen: externalOpen, onOpenChange}) {
     const isEditing = !!experience;
 
+    const [internalOpen, setInternalOpen] = useState(false);
+    const open = externalOpen ?? internalOpen;
+
     const [company, setCompany] = useState(experience?.company || "");
     const [role, setRole] = useState(experience?.role || "");
     const [startMonth, setStartMonth] = useState(isoToMonth(experience?.startDate));
@@ -38,7 +41,22 @@ export function ExperienceEditModal({experience, isOpen: externalOpen, onOpenCha
         setTechStackTags(Array.isArray(experience?.techStack) ? experience.techStack : []);
     }, [experience]);
 
+    useEffect(() => {
+        if (isEditing) return;
+        if (open) return;
+
+        setCompany("");
+        setRole("");
+        setStartMonth("");
+        setEndMonth("");
+        setDescription("");
+        setCity("");
+        setCountry("");
+        setTechStackTags([]);
+    }, [open, isEditing]);
+
     const handleSave = async () => {
+
         const payload = {
             company: company.trim(),
             role: role.trim(),
@@ -55,11 +73,18 @@ export function ExperienceEditModal({experience, isOpen: externalOpen, onOpenCha
 
         if (res.ok) {
             toaster.create({title: isEditing ? "Experience updated" : "Experience added", type: "success"});
-            onOpenChange?.({open: false});
+            handleOpenChange({open: false});
             return;
         }
 
         toaster.create({title: "Failed to save experience", description: res.message, type: "error"});
+    };
+
+    const handleOpenChange = (details) => {
+        onOpenChange?.(details);
+        if (externalOpen === undefined) {
+            setInternalOpen(!!details?.open);
+        }
     };
 
     const trigger = !isEditing ? (
@@ -80,8 +105,8 @@ export function ExperienceEditModal({experience, isOpen: externalOpen, onOpenCha
     return (
         <_ProfileDialogShell
             title={title}
-            open={externalOpen}
-            onOpenChange={onOpenChange}
+            open={open}
+            onOpenChange={handleOpenChange}
             trigger={trigger}
             footer={footer}
         >
