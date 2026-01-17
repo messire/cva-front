@@ -8,7 +8,6 @@ import {toaster} from "../../../../shared/ui/toaster.jsx";
 import SubSectionHeading from "../components/SubSectionHeading.jsx";
 
 import {Icons} from "../../../../shared/ui/icons.js";
-import {useColorModeValue} from "../../../../shared/ui/color-mode.jsx";
 
 import defaultProjectIcon from "/images/project.svg";
 
@@ -28,7 +27,7 @@ const ProjectCard = ({project, isOwner}) => {
     };
 
     return (
-        <Box w="full">
+        <Box w="full" className="avoid-break">
             <Flex gap={4} align="start" direction={{base: "column", sm: "row"}} pl={6}>
                 <Image
                     src={project.iconUrl || defaultProjectIcon}

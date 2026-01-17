@@ -1,15 +1,17 @@
 import {Heading, HStack, Text, VStack, IconButton, Input, Separator, Switch} from "@chakra-ui/react";
 import {useState} from "react";
-import {getOpenToWorkUi} from "../../../../shared/utils/profileBadges.js";
-import ProfileSectionCard from "../components/ProfileSectionCard.jsx";
-import ProfilePhoto from "../../../../shared/ui/ProfilePhoto.jsx";
-import TagBadge from "../../../../shared/ui/TagBadge.jsx";
-import {Icons} from "../../../../shared/ui/icons.js";
-import {AvatarEditModal} from "../modals/AvatarEditModal.jsx";
-import {useProfileStore} from "../../model/profile.store.js";
-import {toaster} from "../../../../shared/ui/toaster.jsx";
+
 import {AboutEditModal} from "../modals/AboutEditModal.jsx";
+import {AvatarEditModal} from "../modals/AvatarEditModal.jsx";
+import ProfilePhoto from "../../../../shared/ui/ProfilePhoto.jsx";
+import ProfileSectionCard from "../components/ProfileSectionCard.jsx";
 import SectionHeading from "../components/SectionHeading.jsx";
+import TagBadge from "../../../../shared/ui/TagBadge.jsx";
+import {toaster} from "../../../../shared/ui/toaster.jsx";
+
+import {getOpenToWorkUi} from "../../../../shared/utils/profileBadges.js";
+import {Icons} from "../../../../shared/ui/icons.js";
+import {useProfileStore} from "../../model/profile.store.js";
 
 const ProfileHeroCard = ({profile, isOwner}) => {
     const [isEditingName, setIsEditingName] = useState(false);
@@ -129,7 +131,7 @@ const ProfileHeroCard = ({profile, isOwner}) => {
                         )}
 
                         <HStack mt={1} gap={3}>
-                            <TagBadge w="fit-content" {...openToWorkUi.badgeProps}>
+                            <TagBadge w="fit-content" {...openToWorkUi.badgeProps} className="no-print">
                                 {openToWorkUi.label}
                             </TagBadge>
 

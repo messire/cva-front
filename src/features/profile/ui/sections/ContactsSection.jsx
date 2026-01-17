@@ -59,14 +59,13 @@ const ContactsSection = ({profile, isOwner}) => {
     ];
 
     return (
-        <ProfileSectionCard h="full">
-            <VStack align={'left'}>
+        <ProfileSectionCard h="full" display="flex" flexDirection="column">
+            <VStack align='stretch' flexShrink="0" h="full">
                 <HStack justify="space-between" pb={4}>
                     <SectionHeading flexShrink="0"> Contacts </SectionHeading>
-                    <Separator borderColor="border.subtle" flex="1"/>
+                    <Separator flex="1"/>
                     {isOwner && <ContactsEditModal profile={profile} flexShrink="0"/>}
                 </HStack>
-
                 <VStack align="stretch" gap={2}>
                     {location && (
                         <HStack gap={3}>
@@ -130,13 +129,11 @@ const ContactsSection = ({profile, isOwner}) => {
                         </HStack>
                     )}
                 </VStack>
-
                 <HStack justify="space-between" p={2}>
                     <SectionHeading flexShrink="0"> Social Links </SectionHeading>
-                    <Separator borderColor="border.subtle" flex="1"/>
+                    <Separator flex="1"/>
                     {isOwner && <SocialLinksEditModal profile={profile} flexShrink="0"/>}
                 </HStack>
-
                 <HStack gap={3} justify="center">
                     {socialButtons.map((b) => {
                         const isActive = Boolean(b.href);
@@ -185,11 +182,16 @@ const ContactsSection = ({profile, isOwner}) => {
                         );
                     })}
                 </HStack>
-
-                      <HStack mt={3}>
-                          <ResumeDownloadButton profileId={profile.id} mode="open"/>
-                      </HStack>
             </VStack>
+            <Box pt={4}>
+                <HStack w="full" justify="center">
+                    <ResumeDownloadButton
+                        profileId={profile.id}
+                        mode="open"
+                        colorPalette="brand"
+                        variant="solid"/>
+                </HStack>
+            </Box>
         </ProfileSectionCard>
     )
 };

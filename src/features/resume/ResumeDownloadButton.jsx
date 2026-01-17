@@ -1,6 +1,7 @@
-﻿import { Button } from "@chakra-ui/react";
+﻿import {Box, Button} from "@chakra-ui/react";
 
 import {Icons} from "../../shared/ui/icons.js";
+
 const API_BASE = (import.meta.env.VITE_API_BASE_URL ?? "").replace(/\/+$/, "");
 
 export const ResumeDownloadButton = ({
@@ -8,7 +9,6 @@ export const ResumeDownloadButton = ({
                                          mode = "open", // "open" | "download"
                                          label,
                                          size = "sm",
-                                         variant = "outline",
                                          ...props
                                      }) => {
     const href = profileId
@@ -19,20 +19,21 @@ export const ResumeDownloadButton = ({
     const text = label ?? (isOpenMode ? "Open resume" : "Download resume");
 
     return (
-        <Button
-            as="a"
-            href={href || undefined}
-            target={isOpenMode ? "_blank" : undefined}
-            rel={isOpenMode ? "noopener noreferrer" : undefined}
-            isDisabled={!href}
-            size={size}
-            variant={variant}
-            gap={2}
-            {...props}
-        >
-            <Icons.Download />
-            {text}
-        </Button>
+        <Box className="no-print">
+            <Button
+                as="a"
+                href={href || undefined}
+                target={isOpenMode ? "_blank" : undefined}
+                rel={isOpenMode ? "noopener noreferrer" : undefined}
+                isDisabled={!href}
+                size={size}
+                gap={2}
+                {...props}
+            >
+                <Icons.Download/>
+                {text}
+            </Button>
+        </Box>
     );
 };
 
