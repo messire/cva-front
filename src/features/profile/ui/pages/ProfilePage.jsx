@@ -70,6 +70,7 @@ const ProfilePage = () => {
 
     return (
         <Box
+            data-print-anchor="profile-page"
             w="full"
             maxW="6xl"
             mx="auto"

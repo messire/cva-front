@@ -5,6 +5,7 @@ import {ContactsEditModal} from "../modals/ContactsEditModal.jsx";
 import {SocialLinksEditModal} from "../modals/SocialLinksEditModal.jsx";
 import SectionHeading from "../components/SectionHeading.jsx";
 import {Tooltip} from "../../../../shared/ui/tooltip.jsx";
+import ResumeDownloadButton from "../../../resume/ResumeDownloadButton.jsx";
 
 const ContactsSection = ({profile, isOwner}) => {
     const location = [profile.location?.city, profile.location?.country]
@@ -148,9 +149,8 @@ const ContactsSection = ({profile, isOwner}) => {
                             transition: "all 0.2s",
                         };
                         if (isActive) {
-                            console.log(b);
                             return (
-                                <Tooltip content={b.label}>
+                                <Tooltip key={b.key} content={b.label}>
                                     <IconButton
                                         key={b.key}
                                         as="a"
@@ -185,6 +185,10 @@ const ContactsSection = ({profile, isOwner}) => {
                         );
                     })}
                 </HStack>
+
+                      <HStack mt={3}>
+                          <ResumeDownloadButton profileId={profile.id} mode="open"/>
+                      </HStack>
             </VStack>
         </ProfileSectionCard>
     )
