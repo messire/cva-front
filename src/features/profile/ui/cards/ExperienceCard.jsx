@@ -31,7 +31,7 @@ const ExperienceCard = ({workExperience, isOwner}) => {
     };
 
     return (
-        <Box w="full">
+        <Box w="full" className="avoid-break">
             <Flex justify="space-between" align="start">
                 <VStack align='left' gap={1} w="full" pl={6}>
                     <HStack justify="space-between" w="full">

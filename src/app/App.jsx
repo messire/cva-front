@@ -62,7 +62,9 @@ function App() {
             position="relative"
             bg="bg.main"
         >
-            <AppBackground/>
+            <Box className="no-print">
+                <AppBackground/>
+            </Box>
             <Container
                 maxW="full"
                 mx="auto"
@@ -70,7 +72,7 @@ function App() {
                 position="relative"
                 zIndex="docked"
             >
-                {showFloatingNavbar && <Navbar mode="floating" />}
+                {showFloatingNavbar && <Navbar mode="floating"/>}
                 <Box
                     bg="bg.page"
                     overflowX="visible"
@@ -78,14 +80,20 @@ function App() {
                     display="flex"
                     flexDirection="column"
                 >
-                    <Navbar mode="inline" />
+                    <Box className="no-print">
+                        <Navbar mode="inline"/>
+                    </Box>
                     <Box px={{base: 3, md: 8}} py={{base: 6, md: 8}} flex="1">
                         <AppRoutes/>
                     </Box>
-                    <Footbar/>
+                    <Box className="no-print">
+                        <Footbar/>
+                    </Box>
                 </Box>
             </Container>
-            <ScrollToTopButton/>
+            <Box className="no-print">
+                <ScrollToTopButton/>
+            </Box>
             <Toaster/>
         </Box>
     );

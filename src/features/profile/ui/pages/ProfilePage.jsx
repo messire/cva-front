@@ -70,6 +70,7 @@ const ProfilePage = () => {
 
     return (
         <Box
+            data-print-anchor="profile-page"
             w="full"
             maxW="6xl"
             mx="auto"
@@ -97,9 +98,11 @@ const ProfilePage = () => {
                 {(isOwner || hasAnySkills) && (
                     <SkillsSection profile={profile} isOwner={isOwner}/>
                 )}
+                <Box className="page-break" />
                 {(isOwner || hasWorks) && (
                     <ExperienceSection profile={profile} isOwner={isOwner}/>
                 )}
+                <Box className="page-break" />
                 {(isOwner || hasProjects) && (
                     <ProjectsSection profile={profile} isOwner={isOwner}/>
                 )}

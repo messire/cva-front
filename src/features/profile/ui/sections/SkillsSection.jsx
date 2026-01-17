@@ -1,4 +1,4 @@
-import {Checkbox, Flex, HStack, Separator, Text, VStack} from "@chakra-ui/react";
+import {Box, Checkbox, Flex, HStack, Separator, Text, VStack} from "@chakra-ui/react";
 import {useMemo, useState} from "react";
 
 import ProfileSectionCard from "../components/ProfileSectionCard.jsx";
@@ -28,7 +28,10 @@ const SkillsSection = ({profile, isOwner}) => {
                 <HStack justify="space-between">
                     <SectionHeading flexShrink="0"> Skills </SectionHeading>
                     <Separator borderColor="border.subtle" flex="1" />
+                    <Box className="no-print">
+                    </Box>
                     <Checkbox.Root
+                        className="no-print"
                         checked={showCombined}
                         size="sm"
                         variant="subtle"
