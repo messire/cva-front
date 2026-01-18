@@ -5,24 +5,22 @@ export function CatalogPagination({page, totalPages, isLoading, onPrev, onNext,}
     const canNext = page < totalPages;
 
     return (
-        <HStack justify="center" align="center" pt={2}>
+        <HStack justify="space-between" align="center" pt={2}>
             <Button
-                variant="plain"
+                variant="outline"
                 onClick={onPrev}
-                colorPalette="brand"
                 disabled={!canPrev || isLoading}
             >
                 Prev
             </Button>
 
-            <Text color="text.brand">
+            <Text color="text.secondary">
                 Page <b>{page}</b> of <b>{totalPages}</b>
             </Text>
 
             <Button
-                variant="plain"
+                variant="outline"
                 onClick={onNext}
-                colorPalette="brand"
                 disabled={!canNext || isLoading}
             >
                 Next

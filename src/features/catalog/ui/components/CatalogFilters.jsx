@@ -60,7 +60,7 @@ export function CatalogFilters({
         <VStack align="stretch" gap={4}>
             <HStack gap={3} wrap="wrap" align="center">
                 <HStack flex="1" minW={{base: "100%", md: "320px"}} gap={2}>
-                    <Box color="text.brand" display="flex" alignItems="center">
+                    <Box color="gray.400" display="flex" alignItems="center">
                         <Icons.Search />
                     </Box>
 
