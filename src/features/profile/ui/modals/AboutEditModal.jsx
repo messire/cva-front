@@ -4,6 +4,7 @@ import {useState} from "react";
 import {useProfileStore} from "../../model/profile.store.js";
 import {toaster} from "../../../../shared/ui/toaster.jsx";
 import _ProfileDialogShell from "./_ProfileDialogShell.jsx";
+import {Icons} from "../../../../shared/ui/icons.js";
 
 export function AboutEditModal({currentSummary}) {
     const [summary, setSummary] = useState(currentSummary || "");
@@ -23,7 +24,7 @@ export function AboutEditModal({currentSummary}) {
 
     const trigger = (
         <Dialog.Trigger asChild>
-            <Button variant="ghost" size="xs" colorPalette="blue">Edit</Button>
+            <Button variant="ghost" size="xs"><Icons.Edit/></Button>
         </Dialog.Trigger>
     );
 

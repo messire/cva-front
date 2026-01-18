@@ -9,7 +9,7 @@ import {Icons} from "../../shared/ui/icons.js";
 import {useAuthStore} from "../../features/auth/model/auth.store.js";
 import SiteMainIcon from "./SiteMainIcon.jsx";
 
-const Navbar = ({ mode = "inline" }) => {
+const Navbar = ({mode = "inline"}) => {
     const {colorMode, toggleColorMode} = useColorMode();
 
     const navigate = useNavigate();
@@ -56,9 +56,9 @@ const Navbar = ({ mode = "inline" }) => {
                 {isAuthenticated ? (
                     <>
                         <Link to="/profile">
-                            <Button size="sm" variant="ghost">My profile</Button>
+                            <Button size="sm">My profile</Button>
                         </Link>
-                        <Button onClick={handleLogout} size="sm" variant="outline">
+                        <Button onClick={handleLogout} size="sm" variant="ghost">
                             Logout
                         </Button>
                     </>

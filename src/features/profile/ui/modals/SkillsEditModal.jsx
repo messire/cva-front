@@ -1,12 +1,12 @@
-import { Button, Dialog } from "@chakra-ui/react";
-import { useEffect, useMemo, useState } from "react";
-import { useProfileStore } from "../../model/profile.store.js";
-import { toaster } from "../../../../shared/ui/toaster.jsx";
+import {Button, Dialog} from "@chakra-ui/react";
+import {useEffect, useMemo, useState} from "react";
+import {useProfileStore} from "../../model/profile.store.js";
+import {toaster} from "../../../../shared/ui/toaster.jsx";
 import _ProfileDialogShell from "./_ProfileDialogShell.jsx";
 import {Icons} from "../../../../shared/ui/icons.js";
 import TagsField from "../../../../shared/ui/TagsField.jsx";
 
-export function SkillsEditModal({ currentSkills }) {
+export function SkillsEditModal({currentSkills}) {
     const initialSkills = useMemo(
         () => (Array.isArray(currentSkills) ? currentSkills.filter(Boolean) : []),
         [currentSkills]
@@ -29,19 +29,19 @@ export function SkillsEditModal({ currentSkills }) {
     const handleSave = async () => {
         const clean = skills.map(normalize).filter(Boolean);
 
-        const res = await replaceSkills({ skills: clean });
+        const res = await replaceSkills({skills: clean});
 
         if (res.ok) {
-            toaster.create({ title: "Skills updated", type: "success" });
+            toaster.create({title: "Skills updated", type: "success"});
             setOpen(false);
         } else {
-            toaster.create({ title: "Failed to update skills", description: res.message, type: "error" });
+            toaster.create({title: "Failed to update skills", description: res.message, type: "error"});
         }
     };
 
     const trigger = (
         <Dialog.Trigger asChild>
-            <Button variant="ghost" size="xs" colorPalette="blue"><Icons.Edit/></Button>
+            <Button variant="ghost" size="xs"><Icons.Edit/></Button>
         </Dialog.Trigger>
     );
 

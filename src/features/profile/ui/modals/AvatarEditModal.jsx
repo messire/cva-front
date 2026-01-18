@@ -56,7 +56,7 @@ export function AvatarEditModal({currentAvatarUrl}) {
 
     const trigger = (
         <Dialog.Trigger asChild>
-            <Button variant="ghost" size="xs" colorPalette="blue">
+            <Button variant="plain" size="xs">
                 Change Photo
             </Button>
         </Dialog.Trigger>
@@ -82,7 +82,7 @@ export function AvatarEditModal({currentAvatarUrl}) {
             <Stack gap="4">
                 <VStack align="center" py="4">
                     <Text fontSize="sm" mb="2">Preview</Text>
-                    <ProfilePhoto avatarUrl={previewUrl || currentAvatarUrl} size="lg"/>
+                    <ProfilePhoto avatarUrl={currentAvatarUrl} size="lg"/>
                 </VStack>
 
                 <ImageFileField

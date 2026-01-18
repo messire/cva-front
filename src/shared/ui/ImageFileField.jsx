@@ -1,9 +1,7 @@
-﻿import {Button, HStack, Input, Stack, Text, Image, Box} from "@chakra-ui/react";
+﻿import {Button, HStack, Input, Stack, Text} from "@chakra-ui/react";
 import {useEffect, useMemo, useState} from "react";
 
 /**
- * Simple image file picker with preview.
- *
  * @param {{
  *   label?: string,
  *   helperText?: string,
@@ -106,15 +104,7 @@ export default function ImageFileField({
                 <Text fontSize="sm" fontWeight="medium">{label}</Text>
                 {sizeText && <Text fontSize="xs" color="fg.muted">{sizeText}</Text>}
             </HStack>
-
             {helperText && <Text fontSize="xs" color="fg.muted">{helperText}</Text>}
-
-            {previewSrc && (
-                <Box borderRadius="md" overflow="hidden" borderWidth="1px" borderColor="border" bg="bg.page">
-                    <Image src={previewSrc} alt="preview" w="100%" maxH="200px" objectFit="cover"/>
-                </Box>
-            )}
-
             <HStack>
                 <Input
                     type="file"

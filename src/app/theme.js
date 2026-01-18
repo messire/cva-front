@@ -1,13 +1,16 @@
-import {createSystem, defaultConfig, defineConfig, defineRecipe} from "@chakra-ui/react"
+import { createSystem, defaultConfig, defineConfig, defineRecipe } from "@chakra-ui/react"
 
 const buttonRecipe = defineRecipe({
+    base: {
+        borderRadius: "radii.button",
+    },
     variants: {
         variant: {
             solid: {
                 bg: "colorPalette.600",
                 color: "colorPalette.contrast",
-                _hover: {bg: "colorPalette.700"},
-                _active: {bg: "colorPalette.800"},
+                _hover: { bg: "colorPalette.700" },
+                _active: { bg: "colorPalette.800" },
             },
         },
     },
@@ -17,36 +20,48 @@ const buttonRecipe = defineRecipe({
 })
 
 const customConfig = defineConfig({
+    globalCss: {
+        html: {
+            colorPalette: "brand",
+        },
+    },
     theme: {
         recipes: {
             Button: buttonRecipe,
         },
+
         tokens: {
             colors: {
                 brand: {
-                    50: {value: "#eef2ff"},
-                    100: {value: "#e0e7ff"},
-                    200: {value: "#c7d2fe"},
-                    300: {value: "#a5b4fc"},
-                    400: {value: "#818cf8"},
-                    500: {value: "#6366f1"},
-                    600: {value: "#4f46e5"},
-                    700: {value: "#4338ca"},
-                    800: {value: "#3730a3"},
-                    900: {value: "#312e81"},
-                    solid: {value: "#4f46e5"},
-                    emphasized: {value: "#4338ca"},
-                    contrast: {value: "#ffffff"},
-                    fg: {value: "#4f46e5"},
-                    muted: {value: "#e0e7ff"},
-                    subtle: {value: "#c7d2fe"},
+                    50: { value: { base: "#eef2ff", _dark: "#f7f8ff" } },
+                    100: { value: { base: "#e0e7ff", _dark: "#eef0ff" } },
+                    200: { value: { base: "#c7d2fe", _dark: "#e2e6ff" } },
+                    300: { value: { base: "#a5b4fc", _dark: "#cdd3ff" } },
+                    400: { value: { base: "#818cf8", _dark: "#b3bcff" } },
+
+                    500: { value: { base: "#6366f1", _dark: "#9aa5ff" } },
+                    600: { value: { base: "#4f46e5", _dark: "#818cf8" } },
+                    700: { value: { base: "#4338ca", _dark: "#6366f1" } },
+                    800: { value: { base: "#3730a3", _dark: "#4f46e5" } },
+                    900: { value: { base: "#312e81", _dark: "#4338ca" } },
+
+                    solid: { value: { base: "#4f46e5", _dark: "#818cf8" } },
+                    emphasized: { value: { base: "#4338ca", _dark: "#6366f1" } },
+                    contrast: { value: { base: "#ffffff", _dark: "#0b1220" } },
+
+                    fg: { value: { base: "#4f46e5", _dark: "#818cf8" } },
+
+                    muted: { value: { base: "#e0e7ff", _dark: "rgba(129,140,248,0.18)" } },
+                    subtle: { value: { base: "#c7d2fe", _dark: "rgba(99,102,241,0.28)" } },
                 },
             },
+
             radii: {
-                card: {value: "16px"},
-                button: {value: "12px"},
+                card: { value: "16px" },
+                button: { value: "12px" },
             },
         },
+
         semanticTokens: {
             colors: {
                 bg: {
@@ -81,6 +96,7 @@ const customConfig = defineConfig({
                         },
                     },
                 },
+
                 text: {
                     primary: {
                         value: {
@@ -101,6 +117,7 @@ const customConfig = defineConfig({
                         },
                     },
                 },
+
                 border: {
                     subtle: {
                         value: {
@@ -109,6 +126,7 @@ const customConfig = defineConfig({
                         },
                     },
                 },
+
                 assets: {
                     defaultUserPhoto: {
                         value: {
@@ -118,17 +136,18 @@ const customConfig = defineConfig({
                     },
                 },
             },
+
             shadows: {
                 soft: {
                     value: {
                         base: "0 10px 24px rgba(15,23,42,0.10)",
-                        _dark: "0 10px 24px rgba(0,0,0,0.28)"
+                        _dark: "0 10px 24px rgba(0,0,0,0.28)",
                     },
                 },
                 cardHover: {
                     value: {
                         base: "0 14px 32px rgba(15,23,42,0.14)",
-                        _dark: "0 14px 32px rgba(0,0,0,0.36)"
+                        _dark: "0 14px 32px rgba(0,0,0,0.36)",
                     },
                 },
             },
@@ -136,4 +155,4 @@ const customConfig = defineConfig({
     },
 })
 
-export const system = createSystem(defaultConfig, customConfig);
+export const system = createSystem(defaultConfig, customConfig)

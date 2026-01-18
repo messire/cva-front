@@ -40,9 +40,9 @@ const ProjectCard = ({project, isOwner}) => {
 
                 <VStack align='left' gap={1} w="full">
                     <HStack justify="space-between" w="full">
-                        <SubSectionHeading> {project.name} </SubSectionHeading>
+                        <SubSectionHeading flexShrink={0}> {project.name} </SubSectionHeading>
                         {isOwner && (
-                            <HStack gap={1}>
+                            <HStack gap={1} flexShrink={0}>
                                 <IconButton size="xs" variant="ghost" onClick={() => setIsEditOpen(true)} aria-label="Edit project"><Icons.Edit/></IconButton>
                                 <IconButton size="xs" variant="ghost" colorPalette="red" onClick={handleDelete} aria-label="Delete project"><Icons.Trash/></IconButton>
                             </HStack>

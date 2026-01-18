@@ -27,7 +27,7 @@ const SkillsSection = ({profile, isOwner}) => {
             <VStack align={"left"} gap={4}>
                 <HStack justify="space-between">
                     <SectionHeading flexShrink="0"> Skills </SectionHeading>
-                    <Separator borderColor="border.subtle" flex="1" />
+                    <Separator flex="1" />
                     <Box className="no-print">
                     </Box>
                     <Checkbox.Root
@@ -35,7 +35,7 @@ const SkillsSection = ({profile, isOwner}) => {
                         checked={showCombined}
                         size="sm"
                         variant="subtle"
-                        colorPalette="gray"
+                        colorPalette="brand"
                         onCheckedChange={(e) => setShowCombined(Boolean(e.checked))}
                         disabled={isCombinedDisabled}
                         alignSelf="center"
@@ -45,8 +45,12 @@ const SkillsSection = ({profile, isOwner}) => {
                         <Checkbox.Control />
                         <Checkbox.Label>Include experience</Checkbox.Label>
                     </Checkbox.Root>
-                    <Separator p={2} orientation="vertical" colorPalette="red" size="md" variant="solid" />
-                    {isOwner && <SkillsEditModal currentSkills={profile.skills} flexShrink="0" />}
+                    {isOwner &&
+                        <HStack gap={1} flexShrink="0">
+                            <Separator p={2} orientation="vertical" colorPalette="red" size="md" variant="solid" />
+                            <SkillsEditModal currentSkills={profile.skills} flexShrink="0" />
+                        </HStack>
+                    }
                 </HStack>
 
                 {visible.length > 0 ? (
