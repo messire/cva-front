@@ -5,6 +5,7 @@ import {
     FaCalendarDays,
     FaCalendarPlus,
     FaCheck,
+    FaCircle,
     FaCircleCheck,
     FaCircleInfo,
     FaDownload,
@@ -27,7 +28,7 @@ import {
     FaUsersSlash,
     FaWhatsapp,
     FaXTwitter,
-    FaXmark, FaArrowUpShortWide, FaArrowUpWideShort,
+    FaXmark, FaArrowUpShortWide, FaArrowUpWideShort, FaRegCircle,
 } from "react-icons/fa6";
 
 export const Icons = {
@@ -35,9 +36,11 @@ export const Icons = {
     AddProject: FaFolderPlus,
     Calendar: FaCalendarDays,
     Check: FaCheck,
+    Circle: FaCircle,
     Download: FaDownload,
     Edit: FaPencil,
     Email: FaAt,
+    Empty: FaRegCircle,
     Experience: FaBriefcase,
     Github: FaGithub,
     Info: FaCircleInfo,

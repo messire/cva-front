@@ -1,4 +1,5 @@
-﻿import {Combobox, Input, useFilter, useListCollection,} from "@chakra-ui/react";
+﻿import {Combobox, HStack, Icon, Input, useFilter, useListCollection,} from "@chakra-ui/react";
+import {Icons} from "../../../../shared/ui/icons.js";
 
 const options = [
     {value: "", label: "All"},
@@ -22,7 +23,7 @@ export function VerificationStatusComboBox({value, onChange}) {
         filter: contains,
     });
 
-    const selectedValue = value ?? ""; // "" == All
+    const selectedValue = value ?? "";
 
     return (
         <Combobox.Root
@@ -40,9 +41,8 @@ export function VerificationStatusComboBox({value, onChange}) {
             <Combobox.Control>
                 <Combobox.Input
                     as={Input}
-                    h="44px"
                     border="1px solid"
-                    colorPalette="brand"
+                    color="text.secondary"
                     placeholder="Verification status"
                     _focusVisible={{borderColor: "text.brand", boxShadow: "none"}}
                 />
@@ -56,12 +56,9 @@ export function VerificationStatusComboBox({value, onChange}) {
                 <Combobox.Content>
                     <Combobox.Empty>No results</Combobox.Empty>
                     {collection.items.map((item) => (
-                        <Combobox.Item
-                            key={item.value || "__all__"}
-                            item={item}
-                        >
+                        <Combobox.Item key={item.value || "__all__"} item={item}>
                             <Combobox.ItemText>{item.label}</Combobox.ItemText>
-                            <Combobox.ItemIndicator />
+                            <Combobox.ItemIndicator/>
                         </Combobox.Item>
                     ))}
                 </Combobox.Content>
