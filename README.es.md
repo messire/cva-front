@@ -1,44 +1,42 @@
-﻿#### Languages:  
+﻿#### Idiomas:
 [English](./README.md) | [Русский](./README.ru.md) | [Español](./README.es.md)
 
 ---
 
 # CV Frontend Service
 
-Aplicación frontend para el servicio CV (Curriculum Vitae), construida con React y Chakra UI.
-Diseñada para visualizar perfiles de usuario, gestionar experiencia profesional e interactuar con el CV Backend Service.
+Aplicación frontend para el servicio de CV (Curriculum Vitae), construida con React y Chakra UI.
+Diseñada para visualizar y editar perfiles, navegar por el catálogo público e interactuar con el Backend del servicio CV.
 
 ---
 
 ## 🛠 Stack Tecnológico
 
 - **Librería:** React 19
-- **Herramienta de Construcción:** Vite 7
-- **Marco de IU:** Chakra UI 3
-- **Gestión de Estado:** Zustand
-- **Enrutamiento:** React Router 7
+- **Build Tool:** Vite 7
+- **Framework UI:** Chakra UI 3
+- **Gestión de estado:** Zustand
+- **Routing:** React Router 7
 - **Iconos:** React Icons
-- **Cliente HTTP:** Fetch nativo (con envoltorio apiFetch personalizado)
+- **Cliente HTTP:** Native Fetch (con wrapper apiFetch)
 - **Linting:** ESLint
 
 ---
 
-## 🚀 Inicio Rápido
-
-Para ejecutar el proyecto localmente, siga estos pasos:
+## 🚀 Inicio rápido
 
 ### Instalar dependencias
 ```bash
 npm install
 ```
 
-### Ejecutar en modo de desarrollo
+### Ejecutar en modo desarrollo
 ```bash
 npm run dev
 ```
 La aplicación estará disponible en: `http://localhost:5173`
 
-### Construir para Producción
+### Build para producción
 ```bash
 npm run build
 ```
@@ -47,32 +45,29 @@ npm run build
 
 ## ⚙️ Configuración
 
-Los ajustes se gestionan a través de variables de entorno en el archivo `.env`.
+La configuración se gestiona mediante variables de entorno en el archivo `.env`.
 
-Parámetros principales:
-- `VITE_API_BASE_URL`: URL del servicio backend (por defecto `http://localhost:8080`). Se utiliza para el proxy de solicitudes `/api` durante el desarrollo.
+Parámetro principal:
+- `VITE_API_BASE_URL`: URL del backend (por defecto `http://localhost:8080`). Usado para proxear solicitudes `/api` en desarrollo.
 
 ---
 
-## 📈 Mejoras Potenciales (Backlog)
+## 📈 Posibles mejoras (Backlog)
 
-El proyecto está bajo desarrollo activo. A continuación se presentan posibles direcciones para futuras mejoras y crecimiento:
+El proyecto se encuentra en un estado activo orientado a portafolio.
 
-### 1. Mejoras de la IU
-- **Edición de Perfil:** Interfaz completa para crear y editar datos de usuario (actualmente en desarrollo).
-- **Exportación a PDF:** Capacidad para generar y descargar CV en formato PDF directamente desde el navegador.
-- **Animaciones:** Añadir transiciones suaves y micro-interacciones usando Framer Motion.
+### 1. Mejoras de UI
+- **Animaciones:** Transiciones y micro-interacciones opcionales (por ejemplo, Framer Motion).
 
 ### 2. Funcionalidad
-- **Búsqueda y Filtrado:** Filtros avanzados en el catálogo de perfiles por habilidades y experiencia.
-- **Localización (i18n):** Soporte para el cambio de idioma de la IU.
-- **Temas Oscuro/Claro:** Pulido adicional de componentes para una visualización perfecta en ambos modos (Chakra UI 3 Color Mode).
+- **Localización (i18n):** Cambio de idioma de la interfaz.
+- **Pulido de temas:** Mejora del comportamiento dark/light en Chakra UI 3.
 
-### 3. Calidad del Código y Pruebas
-- **Pruebas Unitarias:** Cobertura de pruebas de componentes usando Vitest y React Testing Library.
-- **Pruebas E2E:** Pruebas de integración usando Playwright o Cypress.
-- **TypeScript:** Migración a TypeScript para mayor confiabilidad y mejor DX.
+### 3. Calidad de código y testing
+- **Tests unitarios:** Tests de componentes con Vitest y React Testing Library.
+- **Tests E2E:** Escenarios end-to-end con Playwright o Cypress.
+- **TypeScript:** Migración gradual de JavaScript a TypeScript.
 
-### 4. Observabilidad y Analítica
-- **Seguimiento de Errores:** Integración con Sentry para el seguimiento de errores en el lado del cliente.
-- **Monitoreo del Rendimiento:** Monitoreo de Core Web Vitals.
+### 4. Observabilidad y analítica
+- **Seguimiento de errores:** Error tracking en el cliente (por ejemplo, Sentry).
+- **Rendimiento:** Monitorización de Core Web Vitals.

@@ -1,4 +1,4 @@
-#### Languages:  
+#### Languages:
 [English](./README.md) | [Русский](./README.ru.md) | [Español](./README.es.md)
 
 ---
@@ -6,7 +6,7 @@
 # CV Frontend Service
 
 Frontend application for the CV (Curriculum Vitae) service, built with React and Chakra UI.
-Designed for visualizing user profiles, managing professional experience, and interacting with the CV Backend Service.
+Designed for visualizing user profiles, editing profile data, browsing the public catalog, and interacting with the CV Backend Service.
 
 ---
 
@@ -24,8 +24,6 @@ Designed for visualizing user profiles, managing professional experience, and in
 ---
 
 ## 🚀 Quick Start
-
-To run the project locally, follow these steps:
 
 ### Install dependencies
 ```bash
@@ -56,23 +54,20 @@ Main parameters:
 
 ## 📈 Potential Improvements (Backlog)
 
-The project is under active development. Below are possible directions for further improvement and growth:
+The project is in an active, but portfolio-oriented state.
 
 ### 1. UI Enhancements
-- **Profile Editing:** Full interface for creating and editing user data (currently under development).
-- **PDF Export:** Ability to generate and download CVs in PDF format directly from the browser.
-- **Animations:** Adding smooth transitions and micro-interactions using Framer Motion.
+- **Animations:** Adding optional transitions and micro-interactions (e.g. Framer Motion).
 
 ### 2. Functionality
-- **Search and Filtering:** Advanced filters in the profile catalog by skills and experience.
-- **Localization (i18n):** Support for UI language switching.
-- **Dark/Light Themes:** Further polishing components for perfect display in both modes (Chakra UI 3 Color Mode).
+- **Localization (i18n):** UI language switching.
+- **Theme Polishing:** Further refinement of dark/light mode behavior in Chakra UI 3.
 
 ### 3. Code Quality and Testing
-- **Unit Tests:** Component test coverage using Vitest and React Testing Library.
-- **E2E Tests:** Integration tests using Playwright or Cypress.
-- **TypeScript:** Migration to TypeScript for increased reliability and better DX.
+- **Unit Tests:** Component-level tests using Vitest and React Testing Library.
+- **E2E Tests:** End-to-end scenarios using Playwright or Cypress.
+- **TypeScript:** Gradual migration from JavaScript to TypeScript.
 
 ### 4. Observability and Analytics
-- **Error Tracking:** Integration with Sentry for client-side error tracking.
+- **Error Tracking:** Client-side error tracking (e.g. Sentry).
 - **Performance Monitoring:** Monitoring Core Web Vitals.
