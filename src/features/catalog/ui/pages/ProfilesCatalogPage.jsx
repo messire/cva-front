@@ -52,21 +52,13 @@ const ProfilesCatalogPage = () => {
                     skills={query.skills ?? []}
                     onSkillsChange={(skills) => void updateQueryAndFetch({skills})}
                     openToWork={query.openToWork}
-                    onToggleOpenToWork={() =>
-                        void updateQueryAndFetch({
-                            openToWork: query.openToWork === true ? undefined : true,
-                        })
-                    }
+                    onToggleOpenToWork={() => void updateQueryAndFetch({openToWork: query.openToWork === true ? undefined : true,})}
                     verificationStatus={query.verificationStatus}
-                    onVerificationStatusChange={(verificationStatus) =>
-                        void updateQueryAndFetch({verificationStatus})
-                    }
+                    onVerificationStatusChange={(verificationStatus) => void updateQueryAndFetch({verificationStatus})}
                     sortField={query.sortField}
                     onSortFieldChange={(sortField) => void updateQueryAndFetch({sortField})}
                     sortOrder={query.sortOrder}
                     onSortOrderChange={(sortOrder) => void updateQueryAndFetch({sortOrder})}
-                    pageSize={query.pageSize}
-                    onPageSizeChange={(pageSize) => void updateQueryAndFetch({pageSize})}
                 />
 
                 {error && (
@@ -80,7 +72,7 @@ const ProfilesCatalogPage = () => {
 
                 {isLoading && (
                     <HStack justify="center" py={6}>
-                        <Spinner />
+                        <Spinner/>
                         <Text color="text.secondary">Loading…</Text>
                     </HStack>
                 )}
@@ -91,7 +83,7 @@ const ProfilesCatalogPage = () => {
                     w="full"
                 >
                     {items.map((profile) => (
-                        <ProfileCard key={profile.id} profile={profile} />
+                        <ProfileCard key={profile.id} profile={profile}/>
                     ))}
                 </SimpleGrid>
 
@@ -108,7 +100,7 @@ const ProfilesCatalogPage = () => {
                     >
                         No CV found
                         <span style={{color: "gray", display: "flex", alignItems: "center"}}>
-                            <Icons.UserNotFound />
+                            <Icons.UserNotFound/>
                         </span>
                     </Text>
                 )}

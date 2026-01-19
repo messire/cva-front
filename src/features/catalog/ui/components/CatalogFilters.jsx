@@ -52,9 +52,6 @@ export function CatalogFilters({
 
                                    sortOrder,
                                    onSortOrderChange,
-
-                                   pageSize,
-                                   onPageSizeChange,
                                }) {
     return (
         <VStack align="stretch" gap={4}>
@@ -126,16 +123,6 @@ export function CatalogFilters({
                 >
                     <option value="desc">Desc</option>
                     <option value="asc">Asc</option>
-                </SelectBox>
-
-                <SelectBox
-                    width={{base: "100%", md: "160px"}}
-                    value={String(pageSize ?? 10)}
-                    onChange={(v) => onPageSizeChange(Number(v))}
-                >
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
                 </SelectBox>
             </HStack>
 

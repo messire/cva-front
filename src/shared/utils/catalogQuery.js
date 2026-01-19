@@ -13,7 +13,6 @@ export function parseCatalogQuery(params) {
             : undefined,
         verificationStatus: params.get("verificationStatus") || undefined,
         page: params.has("page") ? Number(params.get("page")) : 1,
-        pageSize: params.has("pageSize") ? Number(params.get("pageSize")) : 10,
         sortField: params.get("sortField") || "updatedAt",
         sortOrder: params.get("sortOrder") || "desc"
     };
@@ -48,10 +47,6 @@ export function serializeCatalogQuery(query) {
 
     if (query.page && query.page !== 1) {
         params.set("page", String(query.page));
-    }
-
-    if (query.pageSize && query.pageSize !== 10) {
-        params.set("pageSize", String(query.pageSize));
     }
 
     if (query.sortField && query.sortField !== "updatedAt") {

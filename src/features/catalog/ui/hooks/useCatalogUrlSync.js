@@ -11,7 +11,6 @@ function normalizeForCompare(query) {
         openToWork: typeof query.openToWork === "boolean" ? query.openToWork : undefined,
         verificationStatus: query.verificationStatus ?? undefined,
         page: query.page ?? 1,
-        pageSize: query.pageSize ?? 10,
         sortField: query.sortField ?? "updatedAt",
         sortOrder: query.sortOrder ?? "desc",
     };
@@ -25,7 +24,6 @@ function areQueriesEqual(a, b) {
     if (x.openToWork !== y.openToWork) return false;
     if (x.verificationStatus !== y.verificationStatus) return false;
     if (x.page !== y.page) return false;
-    if (x.pageSize !== y.pageSize) return false;
     if (x.sortField !== y.sortField) return false;
     if (x.sortOrder !== y.sortOrder) return false;
 
@@ -52,7 +50,9 @@ export function useCatalogUrlSync() {
     useEffect(() => {
         if (didInitRef.current) return;
 
-        const parsed = parseCatalogQuery(searchParams);
+        const parsedRaw = parseCatalogQuery(searchParams);
+        const parsed = {...parsedRaw};
+        delete parsed.pageSize;
         replaceQuery(parsed);
         setSearchText(parsed.search ?? "");
         void fetchProfiles();
@@ -63,7 +63,10 @@ export function useCatalogUrlSync() {
     useEffect(() => {
         if (!didInitRef.current) return;
 
-        const parsed = parseCatalogQuery(searchParams);
+        const parsedRaw = parseCatalogQuery(searchParams);
+        const parsed = {...parsedRaw};
+        delete parsed.pageSize;
+
         if (!areQueriesEqual(parsed, query)) {
             replaceQuery(parsed);
             setSearchText(parsed.search ?? "");

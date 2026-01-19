@@ -4,6 +4,7 @@ import * as catalogApi from "../api/catalog.api.js";
 import {ApiResult} from "../../../shared/utils/ApiResult.js";
 import {DeveloperProfile, DeveloperProfileDetails} from "../../../entities/profile/model/profile.model.js";
 
+const PAGE_SIZE = 10;
 
 const defaultQuery = Object.freeze({
     search: "",
@@ -11,14 +12,13 @@ const defaultQuery = Object.freeze({
     openToWork: undefined,
     verificationStatus: undefined,
     page: 1,
-    pageSize: 10,
+    pageSize: PAGE_SIZE,
     sortField: "updatedAt",
     sortOrder: "desc",
 });
 
 function normalizeQuery(query) {
     const page = Number.isFinite(query.page) && query.page >= 1 ? query.page : 1;
-    const pageSize = Number.isFinite(query.pageSize) && query.pageSize >= 1 ? query.pageSize : 10;
 
     return {
         ...defaultQuery,
@@ -28,13 +28,11 @@ function normalizeQuery(query) {
         openToWork: typeof query.openToWork === "boolean" ? query.openToWork : undefined,
         verificationStatus: query.verificationStatus || undefined,
         page,
-        pageSize,
+        PAGE_SIZE,
         sortField: query.sortField || "updatedAt",
         sortOrder: query.sortOrder || "desc",
     };
 }
-
-export const createApiResult = ({ok, message, problem}) => ({ok, message, problem});
 
 export const useCatalogStore = create((set, get) => {
     return {
@@ -60,7 +58,6 @@ export const useCatalogStore = create((set, get) => {
                 partial.verificationStatus !== undefined ||
                 partial.sortField !== undefined ||
                 partial.sortOrder !== undefined ||
-                partial.pageSize !== undefined ||
                 partial.skills !== undefined;
 
             const next = normalizeQuery({
