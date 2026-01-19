@@ -27,7 +27,7 @@ import {
     FaUsersSlash,
     FaWhatsapp,
     FaXTwitter,
-    FaXmark,
+    FaXmark, FaArrowUpShortWide, FaArrowUpWideShort,
 } from "react-icons/fa6";
 
 export const Icons = {
@@ -49,6 +49,8 @@ export const Icons = {
     Premium: FaStar,
     Projects: FaLayerGroup,
     Search: FaMagnifyingGlass,
+    SortDown: FaArrowUpWideShort,
+    SortUp: FaArrowUpShortWide,
     Sun: FaRegSun,
     Telegram: FaTelegram,
     Trash: FaTrashCan,

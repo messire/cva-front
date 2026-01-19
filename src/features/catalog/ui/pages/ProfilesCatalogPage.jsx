@@ -36,7 +36,7 @@ const ProfilesCatalogPage = () => {
 
     return (
         <Container maxW="container.xl" py={{base: 6, md: 10}} px={{base: 2, md: 8}}>
-            <VStack gap={6} align="stretch">
+            <VStack gap={0} align="stretch">
                 <VStack align="flex-start" gap={1}>
                     <Text fontSize={{base: "32px", md: "40px"}} fontWeight="800" color="text.primary">
                         Developer profiles
@@ -70,22 +70,23 @@ const ProfilesCatalogPage = () => {
                     </Box>
                 )}
 
-                {isLoading && (
+                {isLoading ? (
                     <HStack justify="center" py={6}>
                         <Spinner/>
                         <Text color="text.secondary">Loading…</Text>
                     </HStack>
-                )}
+                ) : (
 
-                <SimpleGrid
-                    minChildWidth={{base: "260px", md: "300px", lg: "340px"}}
-                    gap={{base: 4, md: 6}}
-                    w="full"
-                >
-                    {items.map((profile) => (
-                        <ProfileCard key={profile.id} profile={profile}/>
-                    ))}
-                </SimpleGrid>
+                    <SimpleGrid
+                        minChildWidth={{base: "260px", md: "300px", lg: "340px"}}
+                        gap={{base: 4, md: 6}}
+                        w="full"
+                    >
+                        {items.map((profile) => (
+                            <ProfileCard key={profile.id} profile={profile}/>
+                        ))}
+                    </SimpleGrid>)
+                }
 
                 {!isLoading && items.length === 0 && (
                     <Text

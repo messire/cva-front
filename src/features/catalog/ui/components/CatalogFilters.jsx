@@ -1,36 +1,21 @@
-﻿import {Box, HStack, Input, Switch, Text, VStack} from "@chakra-ui/react";
+﻿import {Box, HStack, IconButton, Input, Switch, Text, VStack} from "@chakra-ui/react";
 import TagsField from "../../../../shared/ui/TagsField.jsx";
 import {Icons} from "../../../../shared/ui/icons.js";
+import {VerificationStatusComboBox} from "./VerificationStatusComboBox.jsx";
 
-const verificationOptions = [
-    {value: "", label: "All"},
-    {value: "NotVerified", label: "Not Verified"},
-    {value: "Fake", label: "Fake"},
-    {value: "Verified", label: "Verified"},
-    {value: "Premium", label: "Premium"},
-];
-
-function SelectBox({value, onChange, width, children}) {
+function SortButton({active, label, sortOrder, onClick}) {
+    const icon = sortOrder === "asc" ? <Icons.SortUp/> : <Icons.SortDown/>;
     return (
-        <Box
-            as="select"
-            height="44px"
-            width={width}
-            borderRadius="button"
-            bg="bg.card"
-            border="1px solid"
-            borderColor="border.subtle"
-            px={3}
-            value={value ?? ""}
-            onChange={(e) => onChange(e.target.value)}
-            _focusVisible={{
-                borderColor: "text.brand",
-                boxShadow: "none",
-                outline: "none",
-            }}
+        <IconButton
+            size="sm"
+            p={2}
+            fontWeight={active ? "bold" : "normal"}
+            variant="plain"
+            onClick={onClick}
         >
-            {children}
-        </Box>
+            <Text>{label}</Text>
+            {active && icon}
+        </IconButton>
     );
 }
 
@@ -53,79 +38,57 @@ export function CatalogFilters({
                                    sortOrder,
                                    onSortOrderChange,
                                }) {
+    const effectiveSortField = sortField ?? "updatedAt";
+    const effectiveSortOrder = sortOrder ?? "desc";
+
+    const toggleOrder = () => (effectiveSortOrder === "asc" ? "desc" : "asc");
+
+    const handleSortClick = (field) => {
+        if (field === effectiveSortField) {
+            onSortOrderChange(toggleOrder());
+            return;
+        }
+
+        onSortFieldChange(field);
+    };
+
     return (
         <VStack align="stretch" gap={4}>
-            <HStack gap={3} wrap="wrap" align="center">
-                <HStack flex="1" minW={{base: "100%", md: "320px"}} gap={2}>
-                    <Box color="text.brand" display="flex" alignItems="center">
-                        <Icons.Search />
-                    </Box>
+            <HStack flex="1" minW={{base: "100%", md: "320px"}} gap={2}>
+                <Box color="text.brand" display="flex" alignItems="center">
+                    <Icons.Search/>
+                </Box>
 
-                    <Input
-                        h="44px"
-                        placeholder="Search by name, role, or skills..."
-                        borderRadius="button"
-                        bg="bg.card"
-                        border="1px solid"
-                        borderColor="border.subtle"
-                        value={searchText}
-                        onChange={(e) => onSearchTextChange(e.target.value)}
-                        _focusVisible={{
-                            borderColor: "text.brand",
-                            boxShadow: "none",
-                        }}
-                    />
-                </HStack>
+                <Input
+                    h="44px"
+                    placeholder="Search by name, role, or skills..."
+                    borderRadius="button"
+                    bg="bg.card"
+                    border="1px solid"
+                    borderColor="border.subtle"
+                    value={searchText}
+                    onChange={(e) => onSearchTextChange(e.target.value)}
+                    _focusVisible={{
+                        borderColor: "text.brand",
+                        boxShadow: "none",
+                    }}
+                />
+            </HStack>
 
+            <HStack gap={2}>
                 <HStack gap={2}>
                     <Text fontSize="sm" color="text.secondary">
                         Open to work
                     </Text>
-
-                    <Switch.Root
-                        size="sm"
-                        checked={openToWork === true}
-                        onCheckedChange={() => onToggleOpenToWork()}
-                    >
-                        <Switch.HiddenInput />
+                    <Switch.Root size="sm" checked={openToWork === true} onCheckedChange={() => onToggleOpenToWork()}>
+                        <Switch.HiddenInput/>
                         <Switch.Control>
-                            <Switch.Thumb />
+                            <Switch.Thumb/>
                         </Switch.Control>
                     </Switch.Root>
                 </HStack>
-
-                <SelectBox
-                    width={{base: "100%", md: "220px"}}
-                    value={verificationStatus ?? ""}
-                    onChange={(v) => onVerificationStatusChange(v || undefined)}
-                >
-                    {verificationOptions.map((x) => (
-                        <option key={x.value} value={x.value}>
-                            {x.label}
-                        </option>
-                    ))}
-                </SelectBox>
-
-                <SelectBox
-                    width={{base: "100%", md: "220px"}}
-                    value={sortField ?? "updatedAt"}
-                    onChange={onSortFieldChange}
-                >
-                    <option value="updatedAt">Updated</option>
-                    <option value="name">Name</option>
-                    <option value="id">Id</option>
-                </SelectBox>
-
-                <SelectBox
-                    width={{base: "100%", md: "180px"}}
-                    value={sortOrder ?? "desc"}
-                    onChange={onSortOrderChange}
-                >
-                    <option value="desc">Desc</option>
-                    <option value="asc">Asc</option>
-                </SelectBox>
+                <VerificationStatusComboBox value={verificationStatus} onChange={onVerificationStatusChange}/>
             </HStack>
-
             <TagsField
                 label="Skills"
                 hint="Type and press Enter (multiple tags)."
@@ -133,6 +96,21 @@ export function CatalogFilters({
                 value={skills ?? []}
                 onChange={onSkillsChange}
             />
+            <HStack gap={2} align="end" justify="flex-end">
+                <SortButton
+                    active={effectiveSortField === "name"}
+                    label="By Name"
+                    sortOrder={effectiveSortOrder}
+                    onClick={() => handleSortClick("name")}
+                />
+
+                <SortButton
+                    active={effectiveSortField === "updatedAt"}
+                    label="By Activity"
+                    sortOrder={effectiveSortOrder}
+                    onClick={() => handleSortClick("updatedAt")}
+                />
+            </HStack>
         </VStack>
     );
 }
