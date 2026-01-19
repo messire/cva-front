@@ -39,7 +39,7 @@ export function SocialLinksEditModal({ profile }) {
 
     const trigger = (
         <Dialog.Trigger asChild>
-            <Button variant="ghost" size="xs" colorPalette="blue"><Icons.Edit/></Button>
+            <Button variant="ghost" size="xs"><Icons.Edit/></Button>
         </Dialog.Trigger>
     );
 

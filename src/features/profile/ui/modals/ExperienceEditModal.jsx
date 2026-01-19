@@ -89,7 +89,7 @@ export function ExperienceEditModal({experience, isOpen: externalOpen, onOpenCha
 
     const trigger = !isEditing ? (
         <Dialog.Trigger asChild>
-            <Button variant="ghost" size="xs" colorPalette="blue"><Icons.AddExperience/></Button>
+            <Button variant="ghost" size="xs"><Icons.AddExperience/></Button>
         </Dialog.Trigger>
     ) : null;
 

@@ -1,4 +1,4 @@
-import {Box, Flex, HStack, IconButton, Text, VStack} from "@chakra-ui/react";
+import {Box, Flex, HStack, IconButton, Separator, Text, VStack} from "@chakra-ui/react";
 import {useState} from "react";
 import {formatDate} from "../../../../shared/utils/dateFormatter.js";
 import {Icons} from "../../../../shared/ui/icons.js";
@@ -35,15 +35,15 @@ const ExperienceCard = ({workExperience, isOwner}) => {
             <Flex justify="space-between" align="start">
                 <VStack align='left' gap={1} w="full" pl={6}>
                     <HStack justify="space-between" w="full">
-                        <SubSectionHeading>{workExperience?.role}</SubSectionHeading>
+                        <SubSectionHeading color="text.brand" flexShrink={0}>{workExperience?.role}</SubSectionHeading>
                         {isOwner && (
-                            <HStack gap={1}>
+                            <HStack gap={1} flexShrink={0}>
                                 <IconButton size="xs" variant="ghost" onClick={() => setIsEditOpen(true)} aria-label="Edit experience"><Icons.Edit/></IconButton>
                                 <IconButton size="xs" variant="ghost" colorPalette="red" onClick={handleDelete} aria-label="Delete experience"><Icons.Trash/></IconButton>
                             </HStack>
                         )}
                     </HStack>
-                    <SubSectionHeading color="text.brand">{workExperience?.company}</SubSectionHeading>
+                    <SubSectionHeading>{workExperience?.company}</SubSectionHeading>
                     <HStack gap={4} color="text.secondary" fontSize="sm">
                         <HStack gap={1}>
                             <Icons.Calendar size={14}/>

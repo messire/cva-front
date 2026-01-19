@@ -32,7 +32,7 @@ const ProfileCardHeader = ({profile}) => {
                     )}
                 </HStack>
 
-                <Text size="lg" lineClamp={1}>{role}</Text>
+                <Text size="lg" lineClamp={1} color="text.brand" fontWeight="600">{role}</Text>
                 <HStack align="start" gap={4}>
                     <HStack gap={2}>
                         <Box color="text.brand"> <Icons.Experience/> </Box>

@@ -72,7 +72,7 @@ export function ProjectEditModal({project, isOpen: externalOpen, onOpenChange}) 
 
     const trigger = !isEditing ? (
         <Dialog.Trigger asChild>
-            <Button variant="ghost" size="xs" colorPalette="blue"><Icons.AddProject/></Button>
+            <Button variant="ghost" size="xs"><Icons.AddProject/></Button>
         </Dialog.Trigger>
     ) : null;
 

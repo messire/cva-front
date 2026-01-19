@@ -12,7 +12,7 @@ const ProfileCard = ({profile}) => {
         <Box
             bg="bg.card"
             border="1px solid"
-            borderColor="border.subtle"
+            borderColor="brand.200"
             borderRadius="card"
             boxShadow="soft"
             display="flex"
