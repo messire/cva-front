@@ -65,7 +65,7 @@ export function CatalogFilters({
                     borderRadius="button"
                     bg="bg.card"
                     border="1px solid"
-                    borderColor="border.subtle"
+                    borderColor="text.brand"
                     value={searchText}
                     onChange={(e) => onSearchTextChange(e.target.value)}
                     _focusVisible={{
@@ -75,27 +75,43 @@ export function CatalogFilters({
                 />
             </HStack>
 
-            <HStack gap={2}>
-                <HStack gap={2}>
+            <HStack gap={3} align="center" wrap="wrap" maxW="900px">
+                <HStack gap={2} whiteSpace="nowrap" flexShrink={0}>
                     <Text fontSize="sm" color="text.secondary">
                         Open to work
                     </Text>
-                    <Switch.Root size="sm" checked={openToWork === true} onCheckedChange={() => onToggleOpenToWork()}>
+                    <Switch.Root
+                        size="sm"
+                        checked={openToWork === true}
+                        onCheckedChange={onToggleOpenToWork}
+                    >
                         <Switch.HiddenInput/>
                         <Switch.Control>
                             <Switch.Thumb/>
                         </Switch.Control>
                     </Switch.Root>
                 </HStack>
-                <VerificationStatusComboBox value={verificationStatus} onChange={onVerificationStatusChange}/>
+
+                <Box minW="200px" maxW="220px" flexShrink={0}>
+                    <VerificationStatusComboBox
+                        value={verificationStatus}
+                        onChange={onVerificationStatusChange}
+                        size="sm"
+                        placeholder="Verification"
+                    />
+                </Box>
+
+                <Box flex="1" minW={{base: "100%", sm: "260px"}} maxW="420px">
+                    <TagsField
+                        compact
+                        placeholder="Skills"
+                        value={skills ?? []}
+                        onChange={onSkillsChange}
+                        size="sm"
+                    />
+                </Box>
             </HStack>
-            <TagsField
-                label="Skills"
-                hint="Type and press Enter (multiple tags)."
-                placeholder="e.g. react, .net, postgres"
-                value={skills ?? []}
-                onChange={onSkillsChange}
-            />
+
             <HStack gap={2} align="end" justify="flex-end">
                 <SortButton
                     active={effectiveSortField === "name"}

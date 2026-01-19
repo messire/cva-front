@@ -121,7 +121,7 @@ const customConfig = defineConfig({
                 border: {
                     subtle: {
                         value: {
-                            base: "rgba(226, 232, 240, 0.8)",
+                            base: "#E4E4E7",
                             _dark: "rgba(51, 65, 85, 0.8)",
                         },
                     },

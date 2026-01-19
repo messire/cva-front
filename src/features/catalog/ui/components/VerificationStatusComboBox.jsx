@@ -1,5 +1,4 @@
-﻿import {Combobox, HStack, Icon, Input, useFilter, useListCollection,} from "@chakra-ui/react";
-import {Icons} from "../../../../shared/ui/icons.js";
+﻿import {Combobox, Input, useFilter, useListCollection,} from "@chakra-ui/react";
 
 const options = [
     {value: "", label: "All"},
@@ -12,10 +11,12 @@ const options = [
 /**
  * @param {{
  *   value?: string,
- *   onChange: (value?: string) => void
+ *   onChange: (value?: string) => void,
+ *   placeholder?: string,
+ *   size?: string
  * }} props
  */
-export function VerificationStatusComboBox({value, onChange}) {
+export function VerificationStatusComboBox({value, onChange, placeholder = "Verification", size = "sm"}) {
     const {contains} = useFilter({sensitivity: "base"});
 
     const {collection, setInputValue} = useListCollection({
@@ -41,9 +42,12 @@ export function VerificationStatusComboBox({value, onChange}) {
             <Combobox.Control>
                 <Combobox.Input
                     as={Input}
+                    size={size}
+                    bg="bg.card"
                     border="1px solid"
+                    borderColor="border.subtle"
                     color="text.secondary"
-                    placeholder="Verification status"
+                    placeholder={placeholder}
                     _focusVisible={{borderColor: "text.brand", boxShadow: "none"}}
                 />
                 <Combobox.IndicatorGroup>
@@ -51,12 +55,11 @@ export function VerificationStatusComboBox({value, onChange}) {
                     <Combobox.Trigger/>
                 </Combobox.IndicatorGroup>
             </Combobox.Control>
-
             <Combobox.Positioner>
                 <Combobox.Content>
                     <Combobox.Empty>No results</Combobox.Empty>
                     {collection.items.map((item) => (
-                        <Combobox.Item key={item.value || "__all__"} item={item}>
+                        <Combobox.Item key={item.value} item={item}>
                             <Combobox.ItemText>{item.label}</Combobox.ItemText>
                             <Combobox.ItemIndicator/>
                         </Combobox.Item>

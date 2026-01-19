@@ -17,6 +17,7 @@ import {normalizeTags, mergeTagsFromText} from "../utils/tags";
  * @property {number} [maxTags]
  * @property {number} [maxTagLength]
  * @property {boolean} [caseInsensitiveDedupe]
+ * @property {boolean} [compact]
  */
 
 /**
@@ -36,6 +37,7 @@ export function TagsField(props) {
         maxTags = 50,
         maxTagLength = 64,
         caseInsensitiveDedupe = true,
+        compact = false,
     } = props;
 
     const normalizedValue = useMemo(() => {
@@ -74,8 +76,8 @@ export function TagsField(props) {
     };
 
     return (
-        <Box>
-            {label && (
+        <Box w="100%" minW={compact ? "240px" : undefined}>
+            {!compact && label && (
                 <Text mb={1} fontWeight="semibold">
                     {label}
                     {isRequired ? " *" : ""}
@@ -88,14 +90,19 @@ export function TagsField(props) {
                 size={size}
                 disabled={isDisabled}
                 readOnly={isReadOnly}
+                variant="subtle"
             >
-                <TagsInput.Control>
-                    <TagsInput.Items />
-                    <TagsInput.Input placeholder={placeholder} onPaste={handlePaste} />
+                <TagsInput.Control
+                    minH={compact ? "40px" : undefined}
+                    px={compact ? 2 : undefined}
+                    gap={compact ? 1 : undefined}
+                >
+                    <TagsInput.Items/>
+                    <TagsInput.Input placeholder={placeholder} onPaste={handlePaste}/>
                 </TagsInput.Control>
             </TagsInput.Root>
 
-            {hint && (
+            {!compact && hint && (
                 <Text mt={1} fontSize="sm" color="text.secondary">
                     {hint}
                 </Text>
