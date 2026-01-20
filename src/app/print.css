@@ -1,0 +1,29 @@
+﻿@media print {
+    html, body {
+        background: white !important;
+    }
+
+    body {
+        overflow: visible !important;
+    }
+
+    h1, h2, h3 {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .page-break {
+        break-before: page;
+        page-break-before: always;
+    }
+
+    .avoid-break {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+}
